@@ -4,7 +4,7 @@
   <title><![CDATA[{love to code}]]></title>
   <link href="http://navaneeth.github.com/atom.xml" rel="self"/>
   <link href="http://navaneeth.github.com/"/>
-  <updated>2013-02-16T00:04:39+05:30</updated>
+  <updated>2013-02-16T00:25:36+05:30</updated>
   <id>http://navaneeth.github.com/</id>
   <author>
     <name><![CDATA[nkn]]></name>
@@ -12,6 +12,19 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Funny GTK warning]]></title>
+    <link href="http://navaneeth.github.com/blog/2013/02/08/funny-gtk-warning/"/>
+    <updated>2013-02-08T00:23:00+05:30</updated>
+    <id>http://navaneeth.github.com/blog/2013/02/08/funny-gtk-warning</id>
+    <content type="html"><![CDATA[<p>I was working with a GTK application and got the below warning.</p>
+
+<blockquote><p> Trying to remove a child that doesn&#8217;t believe we&#8217;re it&#8217;s parent</p></blockquote>
+
+<p>:)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Simple, generic and dynamically allocated array in C]]></title>
