@@ -1,12 +1,42 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
+        <loc>
+            http://navaneeth.github.com/blog/2009/07/11/ado-dot-net-best-practices-reading-data-from-data-reader/
+        </loc>
+        <lastmod>2013-02-15T23:50:49+05:30</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://navaneeth.github.com/blog/2009/08/18/circular-linked-list-an-implementation-using-c-number/
+        </loc>
+        <lastmod>2013-02-15T23:30:26+05:30</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://navaneeth.github.com/blog/2009/09/15/disabling-a-custom-control-from-visual-studios-toolbox/
+        </loc>
+        <lastmod>2013-02-15T23:54:38+05:30</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://navaneeth.github.com/blog/2010/12/19/simple-egg-timer-on-linux-for-pomodoro-technique/
+        </loc>
+        <lastmod>2013-02-15T22:11:26+05:30</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://navaneeth.github.com/blog/2012/05/11/simple-generic-and-dynamically-allocated-array-in-c/
+        </loc>
+        <lastmod>2013-02-15T23:36:35+05:30</lastmod>
+    </url>
+    <url>
         <loc>http://navaneeth.github.com/blog/archives/</loc>
-        <lastmod>2013-01-19T21:00:22+05:30</lastmod>
+        <lastmod>2013-02-15T23:54:38+05:30</lastmod>
     </url>
     <url>
         <loc>http://navaneeth.github.com/</loc>
-        <lastmod>2013-01-19T21:00:22+05:30</lastmod>
+        <lastmod>2013-02-15T23:54:38+05:30</lastmod>
     </url>
     <url>
         <loc>http://navaneeth.github.com/robots.txt</loc>
