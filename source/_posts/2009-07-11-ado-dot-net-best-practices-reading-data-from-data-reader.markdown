@@ -3,7 +3,7 @@ layout: post
 title: "ADO.NET best practices – Reading data from data reader"
 date: 2009-07-11 23:38
 comments: true
-categories: .net, c#, ado.net, best practices 
+categories: .net, c#, ado.net 
 ---
 
 I have seen many people using DataReader incorrectly. In this post, I will try to explain some good practices that can be followed when reading from a data reader. Consider the following problematic code,

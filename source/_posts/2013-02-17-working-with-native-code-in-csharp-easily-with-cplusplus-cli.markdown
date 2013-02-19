@@ -3,7 +3,7 @@ layout: post
 title: "Working with native code easily in C# with the help of C++/CLI"
 date: 2013-02-17 12:18
 comments: true
-categories: c#, native code, c++/cli 
+categories: c#, c++/cli 
 ---
 .NET comes with pretty good interoperability options which would enable unmanaged code to be used from a managed environment. In C#, to call a function which is available in a DLL, `PInvoke` (Platform invocation service) can be used. Here is what MSDN says.
 
