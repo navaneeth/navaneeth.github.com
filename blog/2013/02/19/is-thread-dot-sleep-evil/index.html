@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Disabling a custom control from Visual Studio’s toolbox - {love to code}</title>
+  <title>Is Thread.Sleep() evil? - {love to code}</title>
   <meta name="author" content="nkn">
 
   
-  <meta name="description" content="When a custom control is created, Visual Studio will show it in the toolbox for dragging and dropping. This can be annoying when you create a &hellip;">
+  <meta name="description" content="If you search for this topic, you will find lots of information and many of them claiming Thread.Sleep() is evil. However, I think this evilness is &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://navaneeth.github.com/blog/2009/09/15/disabling-a-custom-control-from-visual-studios-toolbox/">
+  <link rel="canonical" href="http://navaneeth.github.com/blog/2013/02/19/is-thread-dot-sleep-evil/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -80,7 +80,7 @@
   
   <header>
     
-      <h1 class="entry-title">Disabling a Custom Control From Visual Studio’s Toolbox</h1>
+      <h1 class="entry-title">Is Thread.Sleep() Evil?</h1>
     
     
       <p class="meta">
@@ -96,29 +96,43 @@
   
 
 
-<time datetime="2009-09-15T23:52:00+05:30" pubdate data-updated="true">Sep 15<span>th</span>, 2009</time>
+<time datetime="2013-02-19T09:54:00+05:30" pubdate data-updated="true">Feb 19<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>When a custom control is created, Visual Studio will show it in the toolbox for dragging and dropping. This can be annoying when you create a composite control which is a combination of several other custom controls where VS will display all custom controls in the toolbox. <code>System.ComponentModel.ToolBoxItemAttribute</code> can be used with the controls that you want to hide from toolbox. Apply this attribute to all the controls that you want to hide from toolbox.</p>
+<div class="entry-content"><p>If you search for this topic, you will find lots of information and many of them claiming <code>Thread.Sleep()</code> is evil. However, I think this evilness is mostly dependent on which context <code>Thread.Sleep()</code> is used.</p>
 
-<p>Sample code</p>
+<p>You might have seen code like the below one.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="na">[System.ComponentModel.ToolboxItem(false)]</span>
-</span><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">MyCustomControl</span> <span class="p">:</span> <span class="n">Label</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">while</span> <span class="p">(!</span><span class="n">exit</span><span class="p">)</span>
 </span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">DoWork</span><span class="p">();</span>
+</span><span class='line'>    <span class="n">Thread</span><span class="p">.</span><span class="n">Sleep</span><span class="p">(</span><span class="m">10000</span><span class="p">);</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p><code>MyCustomControl</code> will not be displayed on the toolbox.</p>
+<p>This code example does some work and sleeps for 1 minute before does the job again. This simple example has some potential issues.</p>
+
+<p>Internally <code>Thread.Sleep()</code> calls WIN32&#8217;s <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms686298%28v=vs.85%29.aspx">Sleep</a> function. This is what MSDN says about Sleep function.</p>
+
+<blockquote><p>This function causes a thread to relinquish the remainder of its time slice and become unrunnable for an interval based on the value of dwMilliseconds. The system clock &#8220;ticks&#8221; at a constant rate. If dwMilliseconds is less than the resolution of the system clock, the thread may sleep for less than the specified length of time. If dwMilliseconds is greater than one tick but less than two, the wait can be anywhere between one and two ticks, and so on.</p></blockquote>
+
+<p>It is clear that <code>Sleep()</code> won&#8217;t sleep exactly for the interval specified. This can be problematic if your application needs to be accurate with the intervals. This is also dependent on how much load CPU has. If CPU is really overloaded, this time could be longer. This also makes it hard to tell when the job will run next time. If you have done some action which needs to be processed by the background job and not knowing when background job will kick in next time is bad.</p>
+
+<p>If your thread is running with a low priority, sleep duration could be more than the specified interval.</p>
+
+<p>If you are trying to implement something which runs periodically, use <code>System.Threading.Timer</code> class which provides better scheduling capabilities. It runs the callback at specified intervals on a thread pool thread.</p>
+
+<p>Is <code>Thread.Sleep()</code> really evil? NO, if you understand all the above problems and you are OK with the above behaviour. Yes otherwise.</p>
 </div>
 
 
@@ -141,12 +155,12 @@
   
 
 
-<time datetime="2009-09-15T23:52:00+05:30" pubdate data-updated="true">Sep 15<span>th</span>, 2009</time>
+<time datetime="2013-02-19T09:54:00+05:30" pubdate data-updated="true">Feb 19<span>th</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/-visual/'>"visual</a>, <a class='category' href='/blog/categories/-net-/'>.net,</a>, <a class='category' href='/blog/categories/c-/'>c#,</a>, <a class='category' href='/blog/categories/studio-/'>studio"</a>
+    <a class='category' href='/blog/categories/-net/'>.net</a>, <a class='category' href='/blog/categories/c-/'>c#,</a>, <a class='category' href='/blog/categories/threading-/'>threading,</a>
   
 </span>
 
@@ -155,7 +169,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://navaneeth.github.com/blog/2009/09/15/disabling-a-custom-control-from-visual-studios-toolbox/" data-via="" data-counturl="http://navaneeth.github.com/blog/2009/09/15/disabling-a-custom-control-from-visual-studios-toolbox/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://navaneeth.github.com/blog/2013/02/19/is-thread-dot-sleep-evil/" data-via="" data-counturl="http://navaneeth.github.com/blog/2013/02/19/is-thread-dot-sleep-evil/" >Tweet</a>
   
   
   
@@ -164,10 +178,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2009/08/18/circular-linked-list-an-implementation-using-c-number/" title="Previous Post: Circular linked list – An implementation using C#">&laquo; Circular linked list – An implementation using C#</a>
+        <a class="basic-alignment left" href="/blog/2013/02/17/working-with-native-code-in-csharp-easily-with-cplusplus-cli/" title="Previous Post: Working with native code easily in C# with the help of C++/CLI">&laquo; Working with native code easily in C# with the help of C++/CLI</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2010/12/19/simple-egg-timer-on-linux-for-pomodoro-technique/" title="Next Post: Simple egg timer on Linux for Pomodoro technique">Simple egg timer on Linux for Pomodoro technique &raquo;</a>
       
     </p>
   </footer>
@@ -234,8 +246,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://navaneeth.github.com/blog/2009/09/15/disabling-a-custom-control-from-visual-studios-toolbox/';
-        var disqus_url = 'http://navaneeth.github.com/blog/2009/09/15/disabling-a-custom-control-from-visual-studios-toolbox/';
+        var disqus_identifier = 'http://navaneeth.github.com/blog/2013/02/19/is-thread-dot-sleep-evil/';
+        var disqus_url = 'http://navaneeth.github.com/blog/2013/02/19/is-thread-dot-sleep-evil/';
         var disqus_script = 'embed.js';
       
     (function () {
