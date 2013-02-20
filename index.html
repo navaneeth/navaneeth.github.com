@@ -9,7 +9,9 @@
   <meta name="author" content="nkn">
 
   
-  <meta name="description" content="If you search for this topic, you will find lots of information and many of them claiming Thread.Sleep() is evil. However, I think this evilness is &hellip;">
+  <meta name="description" content="You can use the following code to set a file path to the file upload control. 1
+2
+WebElement file = driver.findElement(By.id(&quot;control_id&quot &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +79,51 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/20/how-to-upload-files-when-testing-using-selenium-webdriver/">How to Upload Files When Testing Using Selenium Webdriver</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-20T15:42:00+05:30" pubdate data-updated="true">Feb 20<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>You can use the following code to set a file path to the file upload control.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">WebElement</span> <span class="n">file</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="na">findElement</span><span class="o">(</span><span class="n">By</span><span class="o">.</span><span class="na">id</span><span class="o">(</span><span class="s">&quot;control_id&quot;</span><span class="o">));</span>
+</span><span class='line'><span class="n">file</span><span class="o">.</span><span class="na">sendKeys</span><span class="o">(</span><span class="s">&quot;/full/path/to/file&quot;</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You need to pass full path to the <code>sendKeys()</code> for it to work. Otherwise <code>sendKeys()</code> fails silently.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1980,6 +2027,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/02/20/how-to-upload-files-when-testing-using-selenium-webdriver/">How to upload files when testing using Selenium Webdriver</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/02/19/is-thread-dot-sleep-evil/">Is Thread.Sleep() evil?</a>
       </li>
     
@@ -1993,10 +2044,6 @@
     
       <li class="post">
         <a href="/blog/2012/05/11/simple-generic-and-dynamically-allocated-array-in-c/">Simple, generic and dynamically allocated array in C</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2010/12/19/simple-egg-timer-on-linux-for-pomodoro-technique/">Simple egg timer on Linux for Pomodoro technique</a>
       </li>
     
   </ul>

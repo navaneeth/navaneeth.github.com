@@ -5,11 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: studio" - {love to code}</title>
+  <title>How to upload files when testing using Selenium Webdriver - {love to code}</title>
   <meta name="author" content="nkn">
 
   
-  <meta name="description" content="Category: studio"">
+  <meta name="description" content="You can use the following code to set a file path to the file upload control. 1
+2
+WebElement file = driver.findElement(By.id(&quot;control_id&quot &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://navaneeth.github.comblog/categories/studio-/">
+  <link rel="canonical" href="http://navaneeth.github.com/blog/2013/02/20/how-to-upload-files-when-testing-using-selenium-webdriver/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -76,36 +78,100 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Studio"</h1>
+    
+      <h1 class="entry-title">How to Upload Files When Testing Using Selenium Webdriver</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-20T15:42:00+05:30" pubdate data-updated="true">Feb 20<span>th</span>, 2013</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>You can use the following code to set a file path to the file upload control.</p>
 
-  
-  <h2>2009</h2>
-
-<article>
-  
-<h1><a href="/blog/2009/09/15/disabling-a-custom-control-from-visual-studios-toolbox/">Disabling a custom control from Visual Studio’s toolbox</a></h1>
-<time datetime="2009-09-15T23:52:00+05:30" pubdate><span class='month'>Sep</span> <span class='day'>15</span> <span class='year'>2009</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/-visual/'>"visual</a>, <a class='category' href='/blog/categories/-net-/'>.net,</a>, <a class='category' href='/blog/categories/c-/'>c#,</a>, <a class='category' href='/blog/categories/studio-/'>studio"</a></span>
-</footer>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">WebElement</span> <span class="n">file</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="na">findElement</span><span class="o">(</span><span class="n">By</span><span class="o">.</span><span class="na">id</span><span class="o">(</span><span class="s">&quot;control_id&quot;</span><span class="o">));</span>
+</span><span class='line'><span class="n">file</span><span class="o">.</span><span class="na">sendKeys</span><span class="o">(</span><span class="s">&quot;/full/path/to/file&quot;</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-</article>
-
+<p>You need to pass full path to the <code>sendKeys()</code> for it to work. Otherwise <code>sendKeys()</code> fails silently.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">nkn</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-20T15:42:00+05:30" pubdate data-updated="true">Feb 20<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/automated-testing/'>automated-testing</a>, <a class='category' href='/blog/categories/java-/'>java,</a>, <a class='category' href='/blog/categories/selenium-/'>selenium,</a>, <a class='category' href='/blog/categories/testing-/'>testing,</a>, <a class='category' href='/blog/categories/webdriver-/'>webdriver,</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://navaneeth.github.com/blog/2013/02/20/how-to-upload-files-when-testing-using-selenium-webdriver/" data-via="" data-counturl="http://navaneeth.github.com/blog/2013/02/20/how-to-upload-files-when-testing-using-selenium-webdriver/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/02/19/is-thread-dot-sleep-evil/" title="Previous Post: Is Thread.Sleep() evil?">&laquo; Is Thread.Sleep() evil?</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -161,7 +227,10 @@
       var disqus_shortname = 'lovetocode';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://navaneeth.github.com/blog/2013/02/20/how-to-upload-files-when-testing-using-selenium-webdriver/';
+        var disqus_url = 'http://navaneeth.github.com/blog/2013/02/20/how-to-upload-files-when-testing-using-selenium-webdriver/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

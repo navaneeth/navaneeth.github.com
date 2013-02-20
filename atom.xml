@@ -4,7 +4,7 @@
   <title><![CDATA[{love to code}]]></title>
   <link href="http://navaneeth.github.com/atom.xml" rel="self"/>
   <link href="http://navaneeth.github.com/"/>
-  <updated>2013-02-19T10:56:24+05:30</updated>
+  <updated>2013-02-20T16:01:37+05:30</updated>
   <id>http://navaneeth.github.com/</id>
   <author>
     <name><![CDATA[nkn]]></name>
@@ -12,6 +12,24 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to upload files when testing using Selenium Webdriver]]></title>
+    <link href="http://navaneeth.github.com/blog/2013/02/20/how-to-upload-files-when-testing-using-selenium-webdriver/"/>
+    <updated>2013-02-20T15:42:00+05:30</updated>
+    <id>http://navaneeth.github.com/blog/2013/02/20/how-to-upload-files-when-testing-using-selenium-webdriver</id>
+    <content type="html"><![CDATA[<p>You can use the following code to set a file path to the file upload control.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">WebElement</span> <span class="n">file</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="na">findElement</span><span class="o">(</span><span class="n">By</span><span class="o">.</span><span class="na">id</span><span class="o">(</span><span class="s">&quot;control_id&quot;</span><span class="o">));</span>
+</span><span class='line'><span class="n">file</span><span class="o">.</span><span class="na">sendKeys</span><span class="o">(</span><span class="s">&quot;/full/path/to/file&quot;</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You need to pass full path to the <code>sendKeys()</code> for it to work. Otherwise <code>sendKeys()</code> fails silently.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Is Thread.Sleep() evil?]]></title>
