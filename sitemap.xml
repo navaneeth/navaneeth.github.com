@@ -51,16 +51,22 @@
         <lastmod>2013-02-20T15:59:57+05:30</lastmod>
     </url>
     <url>
+        <loc>
+            http://navaneeth.github.com/blog/2013/02/28/how-to-use-individual-lines-pulled-from-stdin-in-the-middle-of-a-command-when-using-xargs/
+        </loc>
+        <lastmod>2013-02-28T11:09:52+05:30</lastmod>
+    </url>
+    <url>
         <loc>http://navaneeth.github.com/about/</loc>
         <lastmod>2013-02-19T15:06:08+05:30</lastmod>
     </url>
     <url>
         <loc>http://navaneeth.github.com/blog/archives/</loc>
-        <lastmod>2013-02-20T15:59:57+05:30</lastmod>
+        <lastmod>2013-02-28T11:09:52+05:30</lastmod>
     </url>
     <url>
         <loc>http://navaneeth.github.com/</loc>
-        <lastmod>2013-02-20T15:59:57+05:30</lastmod>
+        <lastmod>2013-02-28T11:09:52+05:30</lastmod>
     </url>
     <url>
         <loc>http://navaneeth.github.com/robots.txt</loc>

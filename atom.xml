@@ -4,7 +4,7 @@
   <title><![CDATA[{love to code}]]></title>
   <link href="http://navaneeth.github.com/atom.xml" rel="self"/>
   <link href="http://navaneeth.github.com/"/>
-  <updated>2013-02-20T16:01:37+05:30</updated>
+  <updated>2013-03-06T17:26:12+05:30</updated>
   <id>http://navaneeth.github.com/</id>
   <author>
     <name><![CDATA[nkn]]></name>
@@ -12,6 +12,44 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to use individual lines pulled from stdin in the middle of a command when using xargs]]></title>
+    <link href="http://navaneeth.github.com/blog/2013/02/28/how-to-use-individual-lines-pulled-from-stdin-in-the-middle-of-a-command-when-using-xargs/"/>
+    <updated>2013-02-28T10:57:00+05:30</updated>
+    <id>http://navaneeth.github.com/blog/2013/02/28/how-to-use-individual-lines-pulled-from-stdin-in-the-middle-of-a-command-when-using-xargs</id>
+    <content type="html"><![CDATA[<p><code>xargs</code> is very powerful commandline utility. Here is what Wikipedia says about <code>xargs</code></p>
+
+<blockquote><p>xargs is a command on Unix and most Unix-like operating systems used to build and execute command lines from standard input</p></blockquote>
+
+<p>Most common use of <code>xargs</code> would be to do something like,</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>find . -type f -print0 | xargs -0 rm
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let us assume that you have a file with list of files to be downloaded from a website. Something like,</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>one.zip
+</span><span class='line'>two.zip
+</span><span class='line'>three.zip
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With <code>wget</code> and <code>xargs</code> all these files can be downloaded easily with just one command.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>cat filenames.txt | xargs -I filename wget http://download.com/filename
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>-I</code> flag takes a replacement string and <code>xargs</code> will then replace <code>filename</code> with the value obtained from <code>stdin</code>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to upload files when testing using Selenium Webdriver]]></title>

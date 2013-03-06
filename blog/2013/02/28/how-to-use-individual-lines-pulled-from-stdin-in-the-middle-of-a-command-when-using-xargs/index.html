@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: automated-testing - {love to code}</title>
+  <title>How to use individual lines pulled from stdin in the middle of a command when using xargs - {love to code}</title>
   <meta name="author" content="nkn">
 
   
-  <meta name="description" content="Category: automated-testing">
+  <meta name="description" content="xargs is very powerful commandline utility. Here is what Wikipedia says about xargs xargs is a command on Unix and most Unix-like operating systems &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://navaneeth.github.comblog/categories/automated-testing/">
+  <link rel="canonical" href="http://navaneeth.github.com/blog/2013/02/28/how-to-use-individual-lines-pulled-from-stdin-in-the-middle-of-a-command-when-using-xargs/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -76,36 +76,120 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Automated-testing</h1>
+    
+      <h1 class="entry-title">How to Use Individual Lines Pulled From Stdin in the Middle of a Command When Using Xargs</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-28T10:57:00+05:30" pubdate data-updated="true">Feb 28<span>th</span>, 2013</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p><code>xargs</code> is very powerful commandline utility. Here is what Wikipedia says about <code>xargs</code></p>
 
-  
-  <h2>2013</h2>
+<blockquote><p>xargs is a command on Unix and most Unix-like operating systems used to build and execute command lines from standard input</p></blockquote>
 
-<article>
-  
-<h1><a href="/blog/2013/02/20/how-to-upload-files-when-testing-using-selenium-webdriver/">How to upload files when testing using Selenium Webdriver</a></h1>
-<time datetime="2013-02-20T15:42:00+05:30" pubdate><span class='month'>Feb</span> <span class='day'>20</span> <span class='year'>2013</span></time>
+<p>Most common use of <code>xargs</code> would be to do something like,</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/automated-testing/'>automated-testing</a>, <a class='category' href='/blog/categories/java-/'>java,</a>, <a class='category' href='/blog/categories/selenium-/'>selenium,</a>, <a class='category' href='/blog/categories/testing-/'>testing,</a>, <a class='category' href='/blog/categories/webdriver-/'>webdriver,</a></span>
-</footer>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>find . -type f -print0 | xargs -0 rm
+</span></code></pre></td></tr></table></div></figure>
 
 
-</article>
+<p>Let us assume that you have a file with list of files to be downloaded from a website. Something like,</p>
 
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>one.zip
+</span><span class='line'>two.zip
+</span><span class='line'>three.zip
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With <code>wget</code> and <code>xargs</code> all these files can be downloaded easily with just one command.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>cat filenames.txt | xargs -I filename wget http://download.com/filename
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>-I</code> flag takes a replacement string and <code>xargs</code> will then replace <code>filename</code> with the value obtained from <code>stdin</code>.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">nkn</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-28T10:57:00+05:30" pubdate data-updated="true">Feb 28<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/command-line/'>command-line</a>, <a class='category' href='/blog/categories/linux-/'>linux,</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://navaneeth.github.com/blog/2013/02/28/how-to-use-individual-lines-pulled-from-stdin-in-the-middle-of-a-command-when-using-xargs/" data-via="" data-counturl="http://navaneeth.github.com/blog/2013/02/28/how-to-use-individual-lines-pulled-from-stdin-in-the-middle-of-a-command-when-using-xargs/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/02/20/how-to-upload-files-when-testing-using-selenium-webdriver/" title="Previous Post: How to upload files when testing using Selenium Webdriver">&laquo; How to upload files when testing using Selenium Webdriver</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -161,7 +245,10 @@
       var disqus_shortname = 'lovetocode';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://navaneeth.github.com/blog/2013/02/28/how-to-use-individual-lines-pulled-from-stdin-in-the-middle-of-a-command-when-using-xargs/';
+        var disqus_url = 'http://navaneeth.github.com/blog/2013/02/28/how-to-use-individual-lines-pulled-from-stdin-in-the-middle-of-a-command-when-using-xargs/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
