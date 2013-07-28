@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: "visual - {love to code}</title>
+  <title>Building static and shared libraries using CMake - {love to code}</title>
   <meta name="author" content="nkn">
 
   
-  <meta name="description" content="Category: "visual">
+  <meta name="description" content="Recently in libvarnam, I had to build a static and shared library from the same source files. This was much harder before CMake 2.8. From CMake 2.8.8 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://navaneeth.github.comblog/categories/-visual/">
+  <link rel="canonical" href="http://navaneeth.github.com/blog/2013/07/28/building-static-and-shared-libraries-using-cmake/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -76,36 +76,104 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: "Visual</h1>
+    
+      <h1 class="entry-title">Building Static and Shared Libraries Using CMake</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-28T19:46:00+05:30" pubdate data-updated="true">Jul 28<span>th</span>, 2013</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>Recently in <a href="https://github.com/navaneeth/libvarnam">libvarnam</a>, I had to build a static and shared library from the same source files. This was much harder before CMake 2.8. From CMake 2.8.8, CMake has support for <code>Object library</code> which made it very simple.</p>
 
-  
-  <h2>2009</h2>
+<p>Basic idea is to use <code>add_library</code> with <code>OBJECT</code> type. CMake will compile all the source files provided in this target and makes the object files for it. It won&#8217;t create a temporary static library with all these object files. These object files can later be referred in the target which builds the library. In my CMakeLists.txt, I have the following.</p>
 
-<article>
-  
-<h1><a href="/blog/2009/09/15/disabling-a-custom-control-from-visual-studios-toolbox/">Disabling a custom control from Visual Studio’s toolbox</a></h1>
-<time datetime="2009-09-15T23:52:00+05:30" pubdate><span class='month'>Sep</span> <span class='day'>15</span> <span class='year'>2009</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/-visual/'>"visual</a>, <a class='category' href='/blog/categories/-net-/'>.net,</a>, <a class='category' href='/blog/categories/c-/'>c#,</a>, <a class='category' href='/blog/categories/studio-/'>studio"</a></span>
-</footer>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">add_library</span> <span class="p">(</span><span class="n">core</span> <span class="n">OBJECT</span> <span class="err">$</span><span class="p">{</span><span class="n">SOURCES</span><span class="p">})</span>
+</span><span class='line'><span class="n">add_library</span> <span class="p">(</span><span class="k">static</span> <span class="n">STATIC</span> <span class="err">$</span><span class="o">&lt;</span><span class="n">TARGET_OBJECTS</span><span class="o">:</span><span class="n">core</span><span class="o">&gt;</span><span class="p">)</span>
+</span><span class='line'><span class="n">add_library</span> <span class="p">(</span><span class="n">shared</span> <span class="n">SHARED</span> <span class="err">$</span><span class="o">&lt;</span><span class="n">TARGET_OBJECTS</span><span class="o">:</span><span class="n">core</span><span class="o">&gt;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-</article>
-
+<p>The above will build static and shared library from the same set of object files. This improves compilation time considerably as source files will be compiled only once and used in multiple targets.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">nkn</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-28T19:46:00+05:30" pubdate data-updated="true">Jul 28<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/build-/'>build,</a>, <a class='category' href='/blog/categories/cmake/'>cmake</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://navaneeth.github.com/blog/2013/07/28/building-static-and-shared-libraries-using-cmake/" data-via="" data-counturl="http://navaneeth.github.com/blog/2013/07/28/building-static-and-shared-libraries-using-cmake/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/02/28/how-to-use-individual-lines-pulled-from-stdin-in-the-middle-of-a-command-when-using-xargs/" title="Previous Post: How to use individual lines pulled from stdin in the middle of a command when using xargs">&laquo; How to use individual lines pulled from stdin in the middle of a command when using xargs</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -161,7 +229,10 @@
       var disqus_shortname = 'lovetocode';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://navaneeth.github.com/blog/2013/07/28/building-static-and-shared-libraries-using-cmake/';
+        var disqus_url = 'http://navaneeth.github.com/blog/2013/07/28/building-static-and-shared-libraries-using-cmake/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
