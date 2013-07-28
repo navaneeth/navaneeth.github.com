@@ -4,7 +4,7 @@
   <title><![CDATA[{love to code}]]></title>
   <link href="http://navaneeth.github.com/atom.xml" rel="self"/>
   <link href="http://navaneeth.github.com/"/>
-  <updated>2013-07-28T19:59:19+05:30</updated>
+  <updated>2013-07-28T20:12:35+05:30</updated>
   <id>http://navaneeth.github.com/</id>
   <author>
     <name><![CDATA[nkn]]></name>
@@ -32,6 +32,36 @@
 
 
 <p>The above will build static and shared library from the same set of object files. This improves compilation time considerably as source files will be compiled only once and used in multiple targets.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[nodejs0.10.2 is not backward compatible]]></title>
+    <link href="http://navaneeth.github.com/blog/2013/04/02/nodejs0-dot-10-dot-2-is-not-backward-compatible/"/>
+    <updated>2013-04-02T08:56:00+05:30</updated>
+    <id>http://navaneeth.github.com/blog/2013/04/02/nodejs0-dot-10-dot-2-is-not-backward-compatible</id>
+    <content type="html"><![CDATA[<p>I have a node module which failed to compile on node0.10.2. I have the following code.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">uv_queue_work</span> <span class="p">(</span><span class="nx">uv_default_loop</span><span class="p">(),</span> <span class="o">&amp;</span><span class="nx">data</span><span class="o">-&gt;</span><span class="nx">request</span><span class="p">,</span> <span class="nx">perform_learn_async</span><span class="p">,</span> <span class="nx">after_learn</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Running</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>node-gyp build
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>will fail with error saying the 4th argument to <code>uv_queue_work</code> is incorrect. Node version 0.10.2 onwards, you have to explicitly cast the function reference to <code>uv_after_work_cb</code> to get it working. Something like,</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">uv_queue_work</span> <span class="p">(</span><span class="nx">uv_default_loop</span><span class="p">(),</span> <span class="o">&amp;</span><span class="nx">data</span><span class="o">-&gt;</span><span class="nx">request</span><span class="p">,</span> <span class="nx">perform_learn_async</span><span class="p">,</span> <span class="p">(</span><span class="nx">uv_after_work_cb</span><span class="p">)</span> <span class="nx">after_learn</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I also find nodejs version numbers are not very informative. They always increase the minor and patch version and not the major version. I&#8217;d expect major version to be incremented if it has breaking changes.</p>
 ]]></content>
   </entry>
   
