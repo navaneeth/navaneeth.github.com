@@ -105,7 +105,7 @@
 	<h2 class="title">Building Static and Shared Libraries Using CMake</h2>
 	<div class="entry-content"><p>Recently in <a href="https://github.com/navaneeth/libvarnam">libvarnam</a>, I had to build a static and shared library from the same source files. This was much harder before CMake 2.8. From CMake 2.8.8, CMake has support for <code>Object library</code> which made it very simple.</p>
 
-<p>Basic idea is to use <code>add_library</code> with <code>OBJECT</code> type. CMake will compile all the source files provided in this target and makes the object files for it. It won&#8217;t create a temporary static library with all these object files. These object files can later be referred in the target which builds the library. In my CMakeLists.txt, I have the following.</p>
+<p>Basic idea is to use <code>add_library</code> with <code>OBJECT</code> type. CMake will compile all the source files provided in this target and makes the object files for it. It won&rsquo;t create a temporary static library with all these object files. These object files can later be referred in the target which builds the library. In my CMakeLists.txt, I have the following.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

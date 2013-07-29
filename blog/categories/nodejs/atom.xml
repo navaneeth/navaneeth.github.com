@@ -4,7 +4,7 @@
   <title><![CDATA[Category: nodejs | {love to code}]]></title>
   <link href="http://navaneeth.github.com/blog/categories/nodejs/atom.xml" rel="self"/>
   <link href="http://navaneeth.github.com/"/>
-  <updated>2013-07-29T08:40:33+05:30</updated>
+  <updated>2013-07-29T08:50:24+05:30</updated>
   <id>http://navaneeth.github.com/</id>
   <author>
     <name><![CDATA[nkn]]></name>
@@ -36,7 +36,7 @@ $ node-gyp build
 uv_queue_work (uv_default_loop(), &amp;data-&gt;request, perform_learn_async, (uv_after_work_cb) after_learn);
 </code></p>
 
-<p>I also find nodejs version numbers are not very informative. They always increase the minor and patch version and not the major version. I'd expect major version to be incremented if it has breaking changes.</p>
+<p>I also find nodejs version numbers are not very informative. They always increase the minor and patch version and not the major version. I&rsquo;d expect major version to be incremented if it has breaking changes.</p>
 ]]></content>
   </entry>
   

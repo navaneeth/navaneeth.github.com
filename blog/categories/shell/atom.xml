@@ -4,7 +4,7 @@
   <title><![CDATA[Category: shell | {love to code}]]></title>
   <link href="http://navaneeth.github.com/blog/categories/shell/atom.xml" rel="self"/>
   <link href="http://navaneeth.github.com/"/>
-  <updated>2013-07-29T08:40:33+05:30</updated>
+  <updated>2013-07-29T08:50:24+05:30</updated>
   <id>http://navaneeth.github.com/</id>
   <author>
     <name><![CDATA[nkn]]></name>
@@ -30,7 +30,7 @@
 </ul>
 
 
-<p>The shell script is actually a modified version of the one published here (http://mostlylinux.wordpress.com/commandline/eggtimer/).</p>
+<p>The shell script is actually a modified version of the one published here (<a href="http://mostlylinux.wordpress.com/commandline/eggtimer/">http://mostlylinux.wordpress.com/commandline/eggtimer/</a>).</p>
 
 <p>```sh</p>
 
@@ -41,17 +41,17 @@ limit=$1
 summary=$2
 startmessage=$3
 endmessage=$4
-notify-send -u critical -i appointment -t 600 "$summary" "$startmessage"
+notify-send -u critical -i appointment -t 600 &ldquo;$summary&rdquo; &ldquo;$startmessage&rdquo;
 echo
 while [ $counter != $limit ]; do
-   echo "$counter minutes so far...";
+   echo &ldquo;$counter minutes so far&hellip;&rdquo;;
    sleep 60
-   let "counter = $counter + 1"
+   let &ldquo;counter = $counter + 1&rdquo;
 done
 if [ $counter = $limit ]; then
    echo
-   notify-send -u critical -i appointment "$summary" "$endmessage"
-   echo -e '\a' &gt;&amp;2
+   notify-send -u critical -i appointment &ldquo;$summary&rdquo; &ldquo;$endmessage&rdquo;
+   echo -e &lsquo;\a&rsquo; &gt;&amp;2
    exit 0
 fi
 ```</p>

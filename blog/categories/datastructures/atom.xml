@@ -4,7 +4,7 @@
   <title><![CDATA[Category: datastructures | {love to code}]]></title>
   <link href="http://navaneeth.github.com/blog/categories/datastructures/atom.xml" rel="self"/>
   <link href="http://navaneeth.github.com/"/>
-  <updated>2013-07-29T08:40:33+05:30</updated>
+  <updated>2013-07-29T08:50:24+05:30</updated>
   <id>http://navaneeth.github.com/</id>
   <author>
     <name><![CDATA[nkn]]></name>
@@ -36,10 +36,10 @@
 varray_init(varray <em><em>array)
 {
    </em>array = (varray</em>) malloc (sizeof(varray));
-   (<em>array)->memory = NULL;
-   (</em>array)->allocated = 0;
-   (<em>array)->used = 0;
-   (</em>array)->index = -1;
+   (<em>array)&ndash;>memory = NULL;
+   (</em>array)&ndash;>allocated = 0;
+   (<em>array)&ndash;>used = 0;
+   (</em>array)&ndash;>index = -1;
 }</p>
 
 <p>void
@@ -47,7 +47,7 @@ varray_push(varray <em>array, void </em>data)
 {
    size_t toallocate;
    size_t size = sizeof(void*);
-   if ((array->allocated - array->used) &lt; size) {</p>
+   if ((array->allocated &ndash; array->used) &lt; size) {</p>
 
 <pre><code>  toallocate = array-&gt;allocated == 0 ? size : (array-&gt;allocated * 2);
   array-&gt;memory = realloc(array-&gt;memory, toallocate);

@@ -129,14 +129,14 @@
       <div class="tags">Tags: 
 
 
-	<a class='category' href='/blog/categories/build-/'>build,</a>, <a class='category' href='/blog/categories/cmake/'>cmake</a>
+	<a class='category' href='/blog/categories/build/'>build,</a>, <a class='category' href='/blog/categories/cmake/'>cmake</a>
 
 
 </div>
     </div>
 		<p>Recently in <a href="https://github.com/navaneeth/libvarnam">libvarnam</a>, I had to build a static and shared library from the same source files. This was much harder before CMake 2.8. From CMake 2.8.8, CMake has support for <code>Object library</code> which made it very simple.</p>
 
-<p>Basic idea is to use <code>add_library</code> with <code>OBJECT</code> type. CMake will compile all the source files provided in this target and makes the object files for it. It won&#8217;t create a temporary static library with all these object files. These object files can later be referred in the target which builds the library. In my CMakeLists.txt, I have the following.</p>
+<p>Basic idea is to use <code>add_library</code> with <code>OBJECT</code> type. CMake will compile all the source files provided in this target and makes the object files for it. It won&rsquo;t create a temporary static library with all these object files. These object files can later be referred in the target which builds the library. In my CMakeLists.txt, I have the following.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -184,7 +184,7 @@
       <div class="tags">Tags: 
 
 
-	<a class='category' href='/blog/categories/javascript-/'>javascript,</a>, <a class='category' href='/blog/categories/nodejs/'>nodejs</a>
+	<a class='category' href='/blog/categories/javascript/'>javascript,</a>, <a class='category' href='/blog/categories/nodejs/'>nodejs</a>
 
 
 </div>
@@ -210,7 +210,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>I also find nodejs version numbers are not very informative. They always increase the minor and patch version and not the major version. I&#8217;d expect major version to be incremented if it has breaking changes.</p>
+<p>I also find nodejs version numbers are not very informative. They always increase the minor and patch version and not the major version. I&rsquo;d expect major version to be incremented if it has breaking changes.</p>
 
 		
 		
@@ -247,7 +247,7 @@
       <div class="tags">Tags: 
 
 
-	<a class='category' href='/blog/categories/command-line/'>command-line</a>, <a class='category' href='/blog/categories/linux-/'>linux,</a>
+	<a class='category' href='/blog/categories/command-line/'>command-line</a>, <a class='category' href='/blog/categories/linux/'>linux,</a>
 
 
 </div>
@@ -318,7 +318,7 @@
       <div class="tags">Tags: 
 
 
-	<a class='category' href='/blog/categories/automated-testing/'>automated-testing</a>, <a class='category' href='/blog/categories/java-/'>java,</a>, <a class='category' href='/blog/categories/selenium-/'>selenium,</a>, <a class='category' href='/blog/categories/testing-/'>testing,</a>, <a class='category' href='/blog/categories/webdriver-/'>webdriver,</a>
+	<a class='category' href='/blog/categories/automated-testing/'>automated-testing</a>, <a class='category' href='/blog/categories/java/'>java,</a>, <a class='category' href='/blog/categories/selenium/'>selenium,</a>, <a class='category' href='/blog/categories/testing/'>testing,</a>, <a class='category' href='/blog/categories/webdriver/'>webdriver,</a>
 
 
 </div>
@@ -369,7 +369,7 @@
       <div class="tags">Tags: 
 
 
-	<a class='category' href='/blog/categories/-net/'>.net</a>, <a class='category' href='/blog/categories/c-/'>c#,</a>, <a class='category' href='/blog/categories/threading-/'>threading,</a>
+	<a class='category' href='/blog/categories/dot-net/'>.net</a>, <a class='category' href='/blog/categories/c-number/'>c#,</a>, <a class='category' href='/blog/categories/threading/'>threading,</a>
 
 
 </div>
@@ -393,11 +393,11 @@
 
 <p>This code example does some work and sleeps for 1 minute before does the job again. This simple example has some potential issues.</p>
 
-<p>Internally <code>Thread.Sleep()</code> calls WIN32&#8217;s <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms686298%28v=vs.85%29.aspx">Sleep</a> function. This is what MSDN says about Sleep function.</p>
+<p>Internally <code>Thread.Sleep()</code> calls WIN32&rsquo;s <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms686298%28v=vs.85%29.aspx">Sleep</a> function. This is what MSDN says about Sleep function.</p>
 
-<blockquote><p>This function causes a thread to relinquish the remainder of its time slice and become unrunnable for an interval based on the value of dwMilliseconds. The system clock &#8220;ticks&#8221; at a constant rate. If dwMilliseconds is less than the resolution of the system clock, the thread may sleep for less than the specified length of time. If dwMilliseconds is greater than one tick but less than two, the wait can be anywhere between one and two ticks, and so on.</p></blockquote>
+<blockquote><p>This function causes a thread to relinquish the remainder of its time slice and become unrunnable for an interval based on the value of dwMilliseconds. The system clock &ldquo;ticks&rdquo; at a constant rate. If dwMilliseconds is less than the resolution of the system clock, the thread may sleep for less than the specified length of time. If dwMilliseconds is greater than one tick but less than two, the wait can be anywhere between one and two ticks, and so on.</p></blockquote>
 
-<p>It is clear that <code>Sleep()</code> won&#8217;t sleep exactly for the interval specified. This can be problematic if your application needs to be accurate with the intervals. This is also dependent on how much load CPU has. If CPU is really overloaded, this time could be longer. This also makes it hard to tell when the job will run next time. If you have done some action which needs to be processed by the background job and not knowing when background job will kick in next time is bad.</p>
+<p>It is clear that <code>Sleep()</code> won&rsquo;t sleep exactly for the interval specified. This can be problematic if your application needs to be accurate with the intervals. This is also dependent on how much load CPU has. If CPU is really overloaded, this time could be longer. This also makes it hard to tell when the job will run next time. If you have done some action which needs to be processed by the background job and not knowing when background job will kick in next time is bad.</p>
 
 <p>If your thread is running with a low priority, sleep duration could be more than the specified interval.</p>
 
@@ -440,7 +440,7 @@
       <div class="tags">Tags: 
 
 
-	<a class='category' href='/blog/categories/c-/'>c#,</a>, <a class='category' href='/blog/categories/c-cli/'>c++/cli</a>
+	<a class='category' href='/blog/categories/c-number/'>c#,</a>, <a class='category' href='/blog/categories/c-plus-plus-slash-cli/'>c++/cli</a>
 
 
 </div>
@@ -449,7 +449,7 @@
 
 <blockquote><p>Platform Invocation Services (PInvoke) allows managed code to call unmanaged functions that are implemented in a DLL.</p></blockquote>
 
-<p>This is very helpful when you need to call some system functions from your C# application. Now let us assume that you have lot of code which is written in C or C++. You are writing a brand new application in C# which internally uses the C/C++ code available. Since C/C++ code is categorised as unmanaged code, you can&#8217;t directly use them in C#. At C# side, wrapper classes and functions has to be written to interop properly with the native code. As I said earlier, if you just need to use a single function, it is easy to do directly from C# using <code>PInvoke</code>. But when you need almost all the functionalities/API to be available as a managed object, <code>PInvoke</code> would be a pain to use. Let us take an example from <a href="http://msdn.microsoft.com/en-us/library/aa288468%28v=vs.71%29.aspx">MSDN</a></p>
+<p>This is very helpful when you need to call some system functions from your C# application. Now let us assume that you have lot of code which is written in C or C++. You are writing a brand new application in C# which internally uses the C/C++ code available. Since C/C++ code is categorised as unmanaged code, you can&rsquo;t directly use them in C#. At C# side, wrapper classes and functions has to be written to interop properly with the native code. As I said earlier, if you just need to use a single function, it is easy to do directly from C# using <code>PInvoke</code>. But when you need almost all the functionalities/API to be available as a managed object, <code>PInvoke</code> would be a pain to use. Let us take an example from <a href="http://msdn.microsoft.com/en-us/library/aa288468%28v=vs.71%29.aspx">MSDN</a></p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -547,9 +547,9 @@
 
 <p>Look at the C# example. It is not as clean as the structure definition at the C side. It contains attributes which specify the structure alignment, then marshaling etc. When the structure contains references to other structures, things gets complicated.</p>
 
-<p>For C or C++ programmers, it is always convenient to declare the struct as they normally do. That&#8217;s the beauty of <code>C++/CLI</code> which allows you to combine managed and unmanaged code together and makes interoperability very straightforward.</p>
+<p>For C or C++ programmers, it is always convenient to declare the struct as they normally do. That&rsquo;s the beauty of <code>C++/CLI</code> which allows you to combine managed and unmanaged code together and makes interoperability very straightforward.</p>
 
-<p>In this post, we will take <code>SQLite</code> as an example and write a managed class which can be consumed from C#. We will wrap SQLite code using <code>C++/CLI</code> and consume from C#. SQLite has a huge API and we won&#8217;t be covering all of them. We will cover APIs which will allow to open a DB connection and execute a simple query.</p>
+<p>In this post, we will take <code>SQLite</code> as an example and write a managed class which can be consumed from C#. We will wrap SQLite code using <code>C++/CLI</code> and consume from C#. SQLite has a huge API and we won&rsquo;t be covering all of them. We will cover APIs which will allow to open a DB connection and execute a simple query.</p>
 
 <p>Note: SQLite is chosen as an example. The correct way to wrap SQLite is adhering to ADO.NET standards and providing a API by extending IDBConnection. But for this post, we will ignore this and provide a custom simple API.</p>
 
@@ -1000,14 +1000,14 @@
       <div class="tags">Tags: 
 
 
-	<a class='category' href='/blog/categories/gtk-/'>gtk,</a>, <a class='category' href='/blog/categories/linux/'>linux</a>, <a class='category' href='/blog/categories/warnings-/'>warnings,</a>
+	<a class='category' href='/blog/categories/gtk/'>gtk,</a>, <a class='category' href='/blog/categories/linux/'>linux</a>, <a class='category' href='/blog/categories/warnings/'>warnings,</a>
 
 
 </div>
     </div>
 		<p>I was working with a GTK application and got the below warning.</p>
 
-<blockquote><p> Trying to remove a child that doesn&#8217;t believe we&#8217;re it&#8217;s parent</p></blockquote>
+<blockquote><p> Trying to remove a child that doesn&rsquo;t believe we&rsquo;re it&rsquo;s parent</p></blockquote>
 
 <p>:)</p>
 
@@ -1046,7 +1046,7 @@
       <div class="tags">Tags: 
 
 
-	<a class='category' href='/blog/categories/c-/'>c,</a>, <a class='category' href='/blog/categories/datastructures/'>datastructures</a>
+	<a class='category' href='/blog/categories/c/'>c,</a>, <a class='category' href='/blog/categories/datastructures/'>datastructures</a>
 
 
 </div>
@@ -1247,7 +1247,7 @@
       <div class="tags">Tags: 
 
 
-	<a class='category' href='/blog/categories/linux-/'>linux,</a>, <a class='category' href='/blog/categories/pomodoro-/'>pomodoro,</a>, <a class='category' href='/blog/categories/productivity-/'>productivity,</a>, <a class='category' href='/blog/categories/shell/'>shell</a>
+	<a class='category' href='/blog/categories/linux/'>linux,</a>, <a class='category' href='/blog/categories/pomodoro/'>pomodoro,</a>, <a class='category' href='/blog/categories/productivity/'>productivity,</a>, <a class='category' href='/blog/categories/shell/'>shell</a>
 
 
 </div>
@@ -1264,7 +1264,7 @@
 </ul>
 
 
-<p>The shell script is actually a modified version of the one published here (http://mostlylinux.wordpress.com/commandline/eggtimer/).</p>
+<p>The shell script is actually a modified version of the one published here (<a href="http://mostlylinux.wordpress.com/commandline/eggtimer/">http://mostlylinux.wordpress.com/commandline/eggtimer/</a>).</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1362,7 +1362,7 @@
       <div class="tags">Tags: 
 
 
-	<a class='category' href='/blog/categories/-visual/'>&#8220;visual</a>, <a class='category' href='/blog/categories/-net-/'>.net,</a>, <a class='category' href='/blog/categories/c-/'>c#,</a>, <a class='category' href='/blog/categories/studio-/'>studio&#8221;</a>
+	<a class='category' href='/blog/categories/visual/'>&#8220;visual</a>, <a class='category' href='/blog/categories/dot-net/'>.net,</a>, <a class='category' href='/blog/categories/c-number/'>c#,</a>, <a class='category' href='/blog/categories/studio/'>studio&#8221;</a>
 
 
 </div>

@@ -107,7 +107,7 @@
 
 <blockquote><p>Platform Invocation Services (PInvoke) allows managed code to call unmanaged functions that are implemented in a DLL.</p></blockquote>
 
-<p>This is very helpful when you need to call some system functions from your C# application. Now let us assume that you have lot of code which is written in C or C++. You are writing a brand new application in C# which internally uses the C/C++ code available. Since C/C++ code is categorised as unmanaged code, you can&#8217;t directly use them in C#. At C# side, wrapper classes and functions has to be written to interop properly with the native code. As I said earlier, if you just need to use a single function, it is easy to do directly from C# using <code>PInvoke</code>. But when you need almost all the functionalities/API to be available as a managed object, <code>PInvoke</code> would be a pain to use. Let us take an example from <a href="http://msdn.microsoft.com/en-us/library/aa288468%28v=vs.71%29.aspx">MSDN</a></p>
+<p>This is very helpful when you need to call some system functions from your C# application. Now let us assume that you have lot of code which is written in C or C++. You are writing a brand new application in C# which internally uses the C/C++ code available. Since C/C++ code is categorised as unmanaged code, you can&rsquo;t directly use them in C#. At C# side, wrapper classes and functions has to be written to interop properly with the native code. As I said earlier, if you just need to use a single function, it is easy to do directly from C# using <code>PInvoke</code>. But when you need almost all the functionalities/API to be available as a managed object, <code>PInvoke</code> would be a pain to use. Let us take an example from <a href="http://msdn.microsoft.com/en-us/library/aa288468%28v=vs.71%29.aspx">MSDN</a></p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -205,9 +205,9 @@
 
 <p>Look at the C# example. It is not as clean as the structure definition at the C side. It contains attributes which specify the structure alignment, then marshaling etc. When the structure contains references to other structures, things gets complicated.</p>
 
-<p>For C or C++ programmers, it is always convenient to declare the struct as they normally do. That&#8217;s the beauty of <code>C++/CLI</code> which allows you to combine managed and unmanaged code together and makes interoperability very straightforward.</p>
+<p>For C or C++ programmers, it is always convenient to declare the struct as they normally do. That&rsquo;s the beauty of <code>C++/CLI</code> which allows you to combine managed and unmanaged code together and makes interoperability very straightforward.</p>
 
-<p>In this post, we will take <code>SQLite</code> as an example and write a managed class which can be consumed from C#. We will wrap SQLite code using <code>C++/CLI</code> and consume from C#. SQLite has a huge API and we won&#8217;t be covering all of them. We will cover APIs which will allow to open a DB connection and execute a simple query.</p>
+<p>In this post, we will take <code>SQLite</code> as an example and write a managed class which can be consumed from C#. We will wrap SQLite code using <code>C++/CLI</code> and consume from C#. SQLite has a huge API and we won&rsquo;t be covering all of them. We will cover APIs which will allow to open a DB connection and execute a simple query.</p>
 
 <p>Note: SQLite is chosen as an example. The correct way to wrap SQLite is adhering to ADO.NET standards and providing a API by extending IDBConnection. But for this post, we will ignore this and provide a custom simple API.</p>
 

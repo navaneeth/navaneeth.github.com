@@ -4,7 +4,7 @@
   <title><![CDATA[Category: cmake | {love to code}]]></title>
   <link href="http://navaneeth.github.com/blog/categories/cmake/atom.xml" rel="self"/>
   <link href="http://navaneeth.github.com/"/>
-  <updated>2013-07-29T08:40:33+05:30</updated>
+  <updated>2013-07-29T08:50:24+05:30</updated>
   <id>http://navaneeth.github.com/</id>
   <author>
     <name><![CDATA[nkn]]></name>
@@ -20,7 +20,7 @@
     <id>http://navaneeth.github.com/blog/2013/07/28/building-static-and-shared-libraries-using-cmake</id>
     <content type="html"><![CDATA[<p>Recently in <a href="https://github.com/navaneeth/libvarnam">libvarnam</a>, I had to build a static and shared library from the same source files. This was much harder before CMake 2.8. From CMake 2.8.8, CMake has support for <code>Object library</code> which made it very simple.</p>
 
-<p>Basic idea is to use <code>add_library</code> with <code>OBJECT</code> type. CMake will compile all the source files provided in this target and makes the object files for it. It won't create a temporary static library with all these object files. These object files can later be referred in the target which builds the library. In my CMakeLists.txt, I have the following.</p>
+<p>Basic idea is to use <code>add_library</code> with <code>OBJECT</code> type. CMake will compile all the source files provided in this target and makes the object files for it. It won&rsquo;t create a temporary static library with all these object files. These object files can later be referred in the target which builds the library. In my CMakeLists.txt, I have the following.</p>
 
 <p><code>c
 add_library (core OBJECT ${SOURCES})
