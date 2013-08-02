@@ -6,7 +6,7 @@
 	<title>{love to code}</title>
     <meta name="author" content="nkn">
     
-	<meta name="description" content="Published on: Aug 18th, 2009 Tags: .net,, c#, datastructures, In this post, I will explain about creating a circular doubly linked list using C#. . &hellip;">
+	<meta name="description" content="Published on: Sep 15th, 2009 Tags: &#8220;visual, .net,, c#,, studio&#8221; When a custom control is created, Visual Studio will show it in the &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -102,6 +102,63 @@
 <!-- begin toload --> 
     <div id="content" class="inner">
         
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2009/09/15/disabling-a-custom-control-from-visual-studios-toolbox/">
+		
+			Disabling a Custom Control From Visual Studio’s Toolbox</a>
+	</h2>
+    <div class="entry-content">
+    <div class="meta">
+      <div class="date">Published on: 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-09-15T23:52:00+05:30" pubdate data-updated="true">Sep 15<span>th</span>, 2009</time></div>
+      <div class="tags">Tags: 
+
+
+	<a class='category' href='/blog/categories/visual/'>&#8220;visual</a>, <a class='category' href='/blog/categories/dot-net/'>.net,</a>, <a class='category' href='/blog/categories/c-number/'>c#,</a>, <a class='category' href='/blog/categories/studio/'>studio&#8221;</a>
+
+
+</div>
+    </div>
+		<p>When a custom control is created, Visual Studio will show it in the toolbox for dragging and dropping. This can be annoying when you create a composite control which is a combination of several other custom controls where VS will display all custom controls in the toolbox. <code>System.ComponentModel.ToolBoxItemAttribute</code> can be used with the controls that you want to hide from toolbox. Apply this attribute to all the controls that you want to hide from toolbox.</p>
+
+<p>Sample code</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="na">[System.ComponentModel.ToolboxItem(false)]</span>
+</span><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">MyCustomControl</span> <span class="p">:</span> <span class="n">Label</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>MyCustomControl</code> will not be displayed on the toolbox.</p>
+
+		
+		
+	</div>
+
+<div class="meta">
+	
+</div>
+</article>
 
 
     <article class="post">

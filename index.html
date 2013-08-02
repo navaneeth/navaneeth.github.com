@@ -6,7 +6,7 @@
 	<title>{love to code}</title>
     <meta name="author" content="nkn">
     
-	<meta name="description" content="Published on: Jul 28th, 2013 Tags: build,, cmake Recently in libvarnam, I had to build a static and shared library from the same source files. This &hellip;">
+	<meta name="description" content="Published on: Aug 2nd, 2013 Tags: c,, programming go programming language provides a very powerful synchronization mechanism called channels. &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -102,6 +102,291 @@
 <!-- begin toload --> 
     <div id="content" class="inner">
         
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/08/02/channels-in-libuv/">
+		
+			Channels in Libuv</a>
+	</h2>
+    <div class="entry-content">
+    <div class="meta">
+      <div class="date">Published on: 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-02T13:18:00+05:30" pubdate data-updated="true">Aug 2<span>nd</span>, 2013</time></div>
+      <div class="tags">Tags: 
+
+
+	<a class='category' href='/blog/categories/c/'>c,</a>, <a class='category' href='/blog/categories/programming/'>programming</a>
+
+
+</div>
+    </div>
+		<p><code>go</code> programming language provides a very powerful synchronization mechanism called <a href="http://golang.org/doc/effective_go.html#channels">channels</a>. Channels simplifies communication between threads and makes it very easy to send and receive data from go routines.</p>
+
+<p>I always missed such functionalities when using <code>libuv</code>. <code>libuv</code> has <code>uv async_send</code>, but it can be used only to wakeup the event loop. In this post, we will implement channels in <code>C</code> using <code>libuv</code>. The idea is to implement a channel so that user can use it without worrying about manually doing the synchronization.</p>
+
+<h1>Implementation</h1>
+
+<p>A channel will have a queue, a mutex to synchronize the sending and receiving and a condition variable to signal receivers when data is available. When <code>uv_chan_send</code> is called, it takes the data and puts it into a internal queue and signal all receivers about the data. <code>uv_chan_receive</code> will acquire a lock, dequeue the data and unlock the lock.</p>
+
+<p><em>uv-channel.h</em>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">uv_chan_s</span> <span class="n">uv_chan_t</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="n">uv_chan_s</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">uv_mutex_t</span> <span class="n">mutex</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">uv_cond_t</span> <span class="n">cond</span><span class="p">;</span>
+</span><span class='line'>  <span class="kt">void</span><span class="o">*</span> <span class="n">q</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="nf">uv_chan_init</span><span class="p">(</span><span class="n">uv_chan_t</span><span class="o">*</span> <span class="n">chan</span><span class="p">);</span>
+</span><span class='line'><span class="kt">void</span> <span class="nf">uv_chan_send</span><span class="p">(</span><span class="n">uv_chan_t</span><span class="o">*</span> <span class="n">chan</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">data</span><span class="p">);</span>
+</span><span class='line'><span class="kt">void</span><span class="o">*</span> <span class="nf">uv_chan_receive</span><span class="p">(</span><span class="n">uv_chan_t</span><span class="o">*</span> <span class="n">chan</span><span class="p">);</span>
+</span><span class='line'><span class="kt">void</span> <span class="nf">uv_chan_destroy</span><span class="p">(</span><span class="n">uv_chan_t</span><span class="o">*</span> <span class="n">chan</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><em>uv-channel.c</em>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kt">void</span><span class="o">*</span> <span class="n">data</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">uv_req_type</span> <span class="n">type</span><span class="p">;</span>
+</span><span class='line'>  <span class="kt">void</span><span class="o">*</span> <span class="n">active_queue</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span> <span class="n">uv__chan_item_t</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="nf">uv_chan_init</span><span class="p">(</span><span class="n">uv_chan_t</span><span class="o">*</span> <span class="n">chan</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">r</span> <span class="o">=</span> <span class="n">uv_mutex_init</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">chan</span><span class="o">-&gt;</span><span class="n">mutex</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">r</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">r</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">QUEUE_INIT</span><span class="p">(</span><span class="o">&amp;</span><span class="n">chan</span><span class="o">-&gt;</span><span class="n">q</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="n">uv_cond_init</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">chan</span><span class="o">-&gt;</span><span class="n">cond</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">void</span> <span class="nf">uv_chan_send</span><span class="p">(</span><span class="n">uv_chan_t</span><span class="o">*</span> <span class="n">chan</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">uv__chan_item_t</span><span class="o">*</span> <span class="n">item</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">uv__chan_item_t</span><span class="p">));</span>
+</span><span class='line'>  <span class="n">item</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">uv_mutex_lock</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">chan</span><span class="o">-&gt;</span><span class="n">mutex</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">QUEUE_INSERT_TAIL</span><span class="p">(</span><span class="o">&amp;</span><span class="n">chan</span><span class="o">-&gt;</span><span class="n">q</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">item</span><span class="o">-&gt;</span><span class="n">active_queue</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">uv_cond_signal</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">chan</span><span class="o">-&gt;</span><span class="n">cond</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">uv_mutex_unlock</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">chan</span><span class="o">-&gt;</span><span class="n">mutex</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">void</span><span class="o">*</span> <span class="nf">uv_chan_receive</span><span class="p">(</span><span class="n">uv_chan_t</span><span class="o">*</span> <span class="n">chan</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">uv__chan_item_t</span><span class="o">*</span> <span class="n">item</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">QUEUE</span><span class="o">*</span> <span class="n">head</span><span class="p">;</span>
+</span><span class='line'>  <span class="kt">void</span><span class="o">*</span> <span class="n">data</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">uv_mutex_lock</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">chan</span><span class="o">-&gt;</span><span class="n">mutex</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">while</span> <span class="p">(</span><span class="n">QUEUE_EMPTY</span><span class="p">(</span><span class="o">&amp;</span><span class="n">chan</span><span class="o">-&gt;</span><span class="n">q</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">uv_cond_wait</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">chan</span><span class="o">-&gt;</span><span class="n">cond</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">chan</span><span class="o">-&gt;</span><span class="n">mutex</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">head</span> <span class="o">=</span> <span class="n">QUEUE_HEAD</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">chan</span><span class="o">-&gt;</span><span class="n">q</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">item</span> <span class="o">=</span> <span class="n">QUEUE_DATA</span> <span class="p">(</span><span class="n">head</span><span class="p">,</span> <span class="n">uv__chan_item_t</span><span class="p">,</span> <span class="n">active_queue</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">data</span> <span class="o">=</span> <span class="n">item</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">QUEUE_REMOVE</span> <span class="p">(</span><span class="n">head</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">free</span> <span class="p">(</span><span class="n">item</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">uv_mutex_unlock</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">chan</span><span class="o">-&gt;</span><span class="n">mutex</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">data</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">void</span> <span class="nf">uv_chan_destroy</span><span class="p">(</span><span class="n">uv_chan_t</span><span class="o">*</span> <span class="n">chan</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">uv_cond_destroy</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">chan</span><span class="o">-&gt;</span><span class="n">cond</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">uv_mutex_destroy</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">chan</span><span class="o">-&gt;</span><span class="n">mutex</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Example</h1>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#include &quot;uv.h&quot;</span>
+</span><span class='line'><span class="cp">#include &lt;stdio.h&gt;</span>
+</span><span class='line'><span class="cp">#include &lt;stdlib.h&gt;</span>
+</span><span class='line'><span class="cp">#include &lt;string.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">static</span> <span class="kt">void</span> <span class="nf">worker</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">arg</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+</span><span class='line'>  <span class="kt">char</span><span class="o">*</span> <span class="n">string</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">uv_chan_t</span><span class="o">*</span> <span class="n">chan</span> <span class="o">=</span> <span class="n">arg</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">string</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">sprintf</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s">&quot;%d&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">uv_chan_send</span> <span class="p">(</span><span class="n">chan</span><span class="p">,</span> <span class="n">string</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">uv_sleep</span> <span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="n">uv_chan_send</span> <span class="p">(</span><span class="n">chan</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">threads_exited</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>  <span class="kt">char</span><span class="o">*</span> <span class="n">message</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">uv_chan_t</span> <span class="n">chan</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">uv_thread_t</span> <span class="n">thread1</span><span class="p">,</span> <span class="n">thread2</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">uv_chan_init</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">chan</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">uv_thread_create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">thread1</span><span class="p">,</span> <span class="n">worker</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">chan</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">uv_thread_create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">thread2</span><span class="p">,</span> <span class="n">worker</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">chan</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">while</span> <span class="p">(</span><span class="n">threads_exited</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">message</span> <span class="o">=</span> <span class="n">uv_chan_receive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">chan</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">message</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+</span><span class='line'>      <span class="o">++</span><span class="n">threads_exited</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Message : %</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">message</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">free</span><span class="p">(</span><span class="n">message</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">uv_chan_destroy</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">chan</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In this example, I am executing two threads and each will execute the <code>worker</code> function. <code>worker</code> function will get an instance of the channel. Each worker will push some data into the channel and main thread receives all the data. Worker thread signals end of messages by passing a <code>NULL</code> value to the channel. <code>uv_chan_receive</code> blocks until the channel gets some data.</p>
+
+<p>Note: you need to allocate/deep copy the data before sending to the channel. Otherwise, worker would have overwritten the data before receiver gets it.</p>
+
+<h1>Future work</h1>
+
+<p>Some ideas which would be nice to have:</p>
+
+<ul>
+<li>Implement a timeout on <code>uv_chan_receive</code>.</li>
+<li>Provide a deep copy callback on the channel, so that data can be send to the channel without copying and channel will take care of deep copying by invoking the specified callback.</li>
+</ul>
+
+
+<p>Happy programming!</p>
+
+		
+		
+	</div>
+
+<div class="meta">
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1326,63 +1611,6 @@
 <p>This post is written on one pomodoro!</p>
 
 <p>Happy programming!</p>
-
-		
-		
-	</div>
-
-<div class="meta">
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2009/09/15/disabling-a-custom-control-from-visual-studios-toolbox/">
-		
-			Disabling a Custom Control From Visual Studio’s Toolbox</a>
-	</h2>
-    <div class="entry-content">
-    <div class="meta">
-      <div class="date">Published on: 
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-09-15T23:52:00+05:30" pubdate data-updated="true">Sep 15<span>th</span>, 2009</time></div>
-      <div class="tags">Tags: 
-
-
-	<a class='category' href='/blog/categories/visual/'>&#8220;visual</a>, <a class='category' href='/blog/categories/dot-net/'>.net,</a>, <a class='category' href='/blog/categories/c-number/'>c#,</a>, <a class='category' href='/blog/categories/studio/'>studio&#8221;</a>
-
-
-</div>
-    </div>
-		<p>When a custom control is created, Visual Studio will show it in the toolbox for dragging and dropping. This can be annoying when you create a composite control which is a combination of several other custom controls where VS will display all custom controls in the toolbox. <code>System.ComponentModel.ToolBoxItemAttribute</code> can be used with the controls that you want to hide from toolbox. Apply this attribute to all the controls that you want to hide from toolbox.</p>
-
-<p>Sample code</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="na">[System.ComponentModel.ToolboxItem(false)]</span>
-</span><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">MyCustomControl</span> <span class="p">:</span> <span class="n">Label</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>MyCustomControl</code> will not be displayed on the toolbox.</p>
 
 		
 		
