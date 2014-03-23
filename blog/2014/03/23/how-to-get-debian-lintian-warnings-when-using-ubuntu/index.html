@@ -3,10 +3,10 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>{love to code}</title>
+	<title>How to get debian lintian warnings when using ubuntu - {love to code}</title>
     <meta name="author" content="nkn">
     
-	<meta name="description" content="Search Results $('#search_results').tapir({ 'token': '', 'complete' : function() { document.getElementById('search_loading').style.display="none &hellip;">
+	<meta name="description" content="Recently, I started to package libvarnam for Debian. I followed the debian packaging guidelines and successfully created a package. I am using Ubuntu &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -101,22 +101,57 @@
 <div id="toload">
 <!-- begin toload --> 
     <div id="content" class="inner">
-        <h1 class="entry-title"><center>Search Results</center></h1>
-<div id="search_loading" style="margin: 40px 0">
-    <center><img src="/images/loading.gif"></center>
+        <article class="post">
+	<h2 class="title">How to Get Debian Lintian Warnings When Using Ubuntu</h2>
+	<div class="entry-content"><p>Recently, I started to package <a href="https://gitorious.org/varnamproject/libvarnam">libvarnam</a> for Debian. I followed the debian packaging guidelines and successfully created a package. I am using Ubuntu instead of Debian to do the packaging. Since Ubuntu is based on Debian, packaging also has the same procedure.</p>
+
+<p>Debian requires all the packages to be <code>lintian</code> clean. Lintian is a command line utility which checks for errors and standards violations in the package files. My package was lintian clean and I have uploaded it into the debian mentors page seeking for sponsors. Then I noticed several lintian errors showing up in the mentors page. This was not coming up in my local lintian run.</p>
+
+<p>The main reason why lintian errors was showing differently on my local machine was because my local lintian uses Ubuntu&rsquo;s profile settings and Debian has more strict rules than Ubuntu.</p>
+
+<p>When lintian is installed, it installs the files in to the following directory.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>&gt; ls /usr/share/lintian/profiles
+</span><span class='line'>debian  ubuntu
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To get the warnings which lintian emits on a Debian machine, use the following command.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>&gt; lintial --pedantic --profile debian yourpackage.changes
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will show the exact warnings which mentors.debian.net is showing. This way you can do the debian packaging within ubuntu and make sure all the debian linitan checks are passing before uploading the package.</p>
 </div>
 
-<script type="text/javascript" src="/javascripts/jquery-tapir.js"></script>
-<div id="search_results" style="display:none">
-<br>
+<div class="meta">
+	
 </div>
-<script>
-         $('#search_results').tapir({
-             'token': '',
-             'complete' : function() { document.getElementById('search_loading').style.display="none"; }
-         });
-</script>
+</article>
 
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
 
     </div>
     <footer id="footer">
@@ -143,7 +178,10 @@
       var disqus_shortname = 'lovetocode';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://navaneeth.github.com/blog/2014/03/23/how-to-get-debian-lintian-warnings-when-using-ubuntu/';
+        var disqus_url = 'http://navaneeth.github.com/blog/2014/03/23/how-to-get-debian-lintian-warnings-when-using-ubuntu/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

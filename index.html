@@ -6,7 +6,7 @@
 	<title>{love to code}</title>
     <meta name="author" content="nkn">
     
-	<meta name="description" content="Published on: Aug 2nd, 2013 Tags: c,, programming go programming language provides a very powerful synchronization mechanism called channels. &hellip;">
+	<meta name="description" content="Published on: Mar 23rd, 2014 Tags: linux,, packaging Recently, I started to package libvarnam for Debian. I followed the debian packaging guidelines &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -102,6 +102,70 @@
 <!-- begin toload --> 
     <div id="content" class="inner">
         
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/03/23/how-to-get-debian-lintian-warnings-when-using-ubuntu/">
+		
+			How to Get Debian Lintian Warnings When Using Ubuntu</a>
+	</h2>
+    <div class="entry-content">
+    <div class="meta">
+      <div class="date">Published on: 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-23T13:00:00+05:30" pubdate data-updated="true">Mar 23<span>rd</span>, 2014</time></div>
+      <div class="tags">Tags: 
+
+
+	<a class='category' href='/blog/categories/linux/'>linux,</a>, <a class='category' href='/blog/categories/packaging/'>packaging</a>
+
+
+</div>
+    </div>
+		<p>Recently, I started to package <a href="https://gitorious.org/varnamproject/libvarnam">libvarnam</a> for Debian. I followed the debian packaging guidelines and successfully created a package. I am using Ubuntu instead of Debian to do the packaging. Since Ubuntu is based on Debian, packaging also has the same procedure.</p>
+
+<p>Debian requires all the packages to be <code>lintian</code> clean. Lintian is a command line utility which checks for errors and standards violations in the package files. My package was lintian clean and I have uploaded it into the debian mentors page seeking for sponsors. Then I noticed several lintian errors showing up in the mentors page. This was not coming up in my local lintian run.</p>
+
+<p>The main reason why lintian errors was showing differently on my local machine was because my local lintian uses Ubuntu&rsquo;s profile settings and Debian has more strict rules than Ubuntu.</p>
+
+<p>When lintian is installed, it installs the files in to the following directory.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>&gt; ls /usr/share/lintian/profiles
+</span><span class='line'>debian  ubuntu
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To get the warnings which lintian emits on a Debian machine, use the following command.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>&gt; lintial --pedantic --profile debian yourpackage.changes
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will show the exact warnings which mentors.debian.net is showing. This way you can do the debian packaging within ubuntu and make sure all the debian linitan checks are passing before uploading the package.</p>
+
+		
+		
+	</div>
+
+<div class="meta">
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1506,121 +1570,6 @@
 </div>
 </article>
 
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2010/12/19/simple-egg-timer-on-linux-for-pomodoro-technique/">
-		
-			Simple Egg Timer on Linux for Pomodoro Technique</a>
-	</h2>
-    <div class="entry-content">
-    <div class="meta">
-      <div class="date">Published on: 
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-12-19T21:19:00+05:30" pubdate data-updated="true">Dec 19<span>th</span>, 2010</time></div>
-      <div class="tags">Tags: 
-
-
-	<a class='category' href='/blog/categories/linux/'>linux,</a>, <a class='category' href='/blog/categories/pomodoro/'>pomodoro,</a>, <a class='category' href='/blog/categories/productivity/'>productivity,</a>, <a class='category' href='/blog/categories/shell/'>shell</a>
-
-
-</div>
-    </div>
-		<p>Recently I have started evaluating the Pomodoro Technique which I found quite interesting. I am still evaluating the technique and not yet concluded on whether I should continue using it.</p>
-
-<p>To implement pomodoro technique, you need a kitchen timer or egg timer. Since I use pomodoro for my programming work, I obviously don’t want to use a physical timer. I couldn’t find a decent timer for linux especially one that works well with Xfce. In this blog post, I will explain building a kitchen timer with basic linux programming techniques. This also gives an idea about how simple linux tools can be combined to do useful stuff.</p>
-
-<p>Things that are used</p>
-
-<ul>
-<li>Shell scripting</li>
-<li>Notification mechanisms on popular desktops like Gnome and Xfce. (I use Xfce in this example)</li>
-</ul>
-
-
-<p>The shell script is actually a modified version of the one published here (<a href="http://mostlylinux.wordpress.com/commandline/eggtimer/">http://mostlylinux.wordpress.com/commandline/eggtimer/</a>).</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/bash</span>
-</span><span class='line'><span class="nv">counter</span><span class="o">=</span>0
-</span><span class='line'><span class="nv">limit</span><span class="o">=</span><span class="nv">$1</span>
-</span><span class='line'><span class="nv">summary</span><span class="o">=</span><span class="nv">$2</span>
-</span><span class='line'><span class="nv">startmessage</span><span class="o">=</span><span class="nv">$3</span>
-</span><span class='line'><span class="nv">endmessage</span><span class="o">=</span><span class="nv">$4</span>
-</span><span class='line'>notify-send -u critical -i appointment -t 600 <span class="s2">&quot;$summary&quot;</span> <span class="s2">&quot;$startmessage&quot;</span>
-</span><span class='line'><span class="nb">echo</span>
-</span><span class='line'><span class="k">while</span> <span class="o">[</span> <span class="nv">$counter</span> !<span class="o">=</span> <span class="nv">$limit</span> <span class="o">]</span>; <span class="k">do</span>
-</span><span class='line'><span class="k">   </span><span class="nb">echo</span> <span class="s2">&quot;$counter minutes so far...&quot;</span>;
-</span><span class='line'>   sleep 60
-</span><span class='line'>   <span class="nb">let</span> <span class="s2">&quot;counter = $counter + 1&quot;</span>
-</span><span class='line'><span class="k">done</span>
-</span><span class='line'><span class="k">if</span> <span class="o">[</span> <span class="nv">$counter</span> <span class="o">=</span> <span class="nv">$limit</span> <span class="o">]</span>; <span class="k">then</span>
-</span><span class='line'><span class="k">   </span><span class="nb">echo</span>
-</span><span class='line'><span class="nb">   </span>notify-send -u critical -i appointment <span class="s2">&quot;$summary&quot;</span> <span class="s2">&quot;$endmessage&quot;</span>
-</span><span class='line'>   <span class="nb">echo</span> -e <span class="s1">&#39;\a&#39;</span> &amp;gt;&amp;amp;2
-</span><span class='line'>   <span class="nb">exit </span>0
-</span><span class='line'><span class="k">fi</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>All it does is wait until the limit reaches. It uses the sleep(1) command to sleep for a minute. notify-send is used for sending notifications to the desktop environment.</p>
-
-<p>This script can be invoked using,</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>./p-timer.sh
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you use bash, you can add an alias for convenience.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">alias </span>begin-pomodoro<span class="o">=</span><span class="s1">&#39;sh ~/utils/p-timer.sh 25 &quot;Pomodoro&quot; &quot;Pomodoro started, you have 25 minutes left&quot; &quot;Pomodoro ended. Please stop the work and take short break&quot;&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This post is written on one pomodoro!</p>
-
-<p>Happy programming!</p>
-
-		
-		
-	</div>
-
-<div class="meta">
-	
-</div>
-</article>
-
 <nav id="pagenavi">
     
     
@@ -1632,7 +1581,7 @@
     </div>
     <footer id="footer">
     <div style="display:inline">
-    Copyright &copy; 2013
+    Copyright &copy; 2014
 
     nkn
 . Powered by <a href="http://octopress.org">Octopress</a> | 
