@@ -22,9 +22,9 @@ debian  ubuntu
 To get the warnings which lintian emits on a Debian machine, use the following command.
 
 ```bash
-> lintial --pedantic --profile debian yourpackage.changes
+> lintian --pedantic --profile debian yourpackage.changes
 ```
 
-This will show the exact warnings which mentors.debian.net is showing. This way you can do the debian packaging within ubuntu and make sure all the debian linitan checks are passing before uploading the package.
+This will show the exact warnings which mentors.debian.net is showing. This way you can do the debian packaging within ubuntu and make sure all the debian lintian checks are passing before uploading the package.
 
 
