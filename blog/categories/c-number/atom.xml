@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: c# | {love to code}]]></title>
+  <title><![CDATA[Category: c#, | {love to code}]]></title>
   <link href="http://navaneeth.github.io/blog/categories/c-number/atom.xml" rel="self"/>
   <link href="http://navaneeth.github.io/"/>
-  <updated>2014-06-14T18:44:25+05:30</updated>
+  <updated>2014-06-14T20:54:27+05:30</updated>
   <id>http://navaneeth.github.io/</id>
   <author>
     <name><![CDATA[nkn]]></name>
@@ -14,269 +14,359 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Circular linked list – An implementation using C#]]></title>
-    <link href="http://navaneeth.github.io/blog/2009/08/18/circular-linked-list-an-implementation-using-c-number/"/>
-    <updated>2009-08-18T22:12:00+05:30</updated>
-    <id>http://navaneeth.github.io/blog/2009/08/18/circular-linked-list-an-implementation-using-c-number</id>
-    <content type="html"><![CDATA[<p>In this post, I will explain about creating a circular doubly linked list using C#. .NET framework provides a doubly linked list implementation in System.Collections.Generic.LinkedList<T> class . But this class is not providing the behavior of a circular linked list and it is very tough to extend for supporting circular linked list requirements.</p>
+    <title type="html"><![CDATA[Is Thread.Sleep() evil?]]></title>
+    <link href="http://navaneeth.github.io/blog/2013/02/19/is-thread-dot-sleep-evil/"/>
+    <updated>2013-02-19T09:54:00+05:30</updated>
+    <id>http://navaneeth.github.io/blog/2013/02/19/is-thread-dot-sleep-evil</id>
+    <content type="html"><![CDATA[<p>If you search for this topic, you will find lots of information and many of them claiming <code>Thread.Sleep()</code> is evil. However, I think this evilness is mostly dependent on which context <code>Thread.Sleep()</code> is used.</p>
 
-<p>In a normal doubly linked list, each node will have a link to its previous and next nodes. In a circular doubly linked list, tail node’s next node will be head and head node’s previous node will be tail. Here is an image taken from wikipedia which visualizes circular linked list.</p>
+<p>You might have seen code like the below one.</p>
 
-<p><img src="images/posts/circular_linked_list.png" title="Circular linked list" alt="Alt text" /></p>
+<p>```csharp
+while (!exit)
+{</p>
 
-<p> Here is our requirements for the circular linked list</p>
+<pre><code>DoWork();
+Thread.Sleep(10000);
+</code></pre>
+
+<p>}
+```</p>
+
+<p>This code example does some work and sleeps for 1 minute before does the job again. This simple example has some potential issues.</p>
+
+<p>Internally <code>Thread.Sleep()</code> calls WIN32&rsquo;s <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms686298%28v=vs.85%29.aspx">Sleep</a> function. This is what MSDN says about Sleep function.</p>
+
+<blockquote><p>This function causes a thread to relinquish the remainder of its time slice and become unrunnable for an interval based on the value of dwMilliseconds. The system clock &ldquo;ticks&rdquo; at a constant rate. If dwMilliseconds is less than the resolution of the system clock, the thread may sleep for less than the specified length of time. If dwMilliseconds is greater than one tick but less than two, the wait can be anywhere between one and two ticks, and so on.</p></blockquote>
+
+<p>It is clear that <code>Sleep()</code> won&rsquo;t sleep exactly for the interval specified. This can be problematic if your application needs to be accurate with the intervals. This is also dependent on how much load CPU has. If CPU is really overloaded, this time could be longer. This also makes it hard to tell when the job will run next time. If you have done some action which needs to be processed by the background job and not knowing when background job will kick in next time is bad.</p>
+
+<p>If your thread is running with a low priority, sleep duration could be more than the specified interval.</p>
+
+<p>If you are trying to implement something which runs periodically, use <code>System.Threading.Timer</code> class which provides better scheduling capabilities. It runs the callback at specified intervals on a thread pool thread.</p>
+
+<p>Is <code>Thread.Sleep()</code> really evil? NO, if you understand all the above problems and you are OK with the above behaviour. Yes otherwise.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Working with native code easily in C# with the help of C++/CLI]]></title>
+    <link href="http://navaneeth.github.io/blog/2013/02/17/working-with-native-code-in-csharp-easily-with-cplusplus-cli/"/>
+    <updated>2013-02-17T12:18:00+05:30</updated>
+    <id>http://navaneeth.github.io/blog/2013/02/17/working-with-native-code-in-csharp-easily-with-cplusplus-cli</id>
+    <content type="html"><![CDATA[<p>.NET comes with pretty good interoperability options which would enable unmanaged code to be used from a managed environment. In C#, to call a function which is available in a DLL, <code>PInvoke</code> (Platform invocation service) can be used. Here is what MSDN says.</p>
+
+<blockquote><p>Platform Invocation Services (PInvoke) allows managed code to call unmanaged functions that are implemented in a DLL.</p></blockquote>
+
+<p>This is very helpful when you need to call some system functions from your C# application. Now let us assume that you have lot of code which is written in C or C++. You are writing a brand new application in C# which internally uses the C/C++ code available. Since C/C++ code is categorised as unmanaged code, you can&rsquo;t directly use them in C#. At C# side, wrapper classes and functions has to be written to interop properly with the native code. As I said earlier, if you just need to use a single function, it is easy to do directly from C# using <code>PInvoke</code>. But when you need almost all the functionalities/API to be available as a managed object, <code>PInvoke</code> would be a pain to use. Let us take an example from <a href="http://msdn.microsoft.com/en-us/library/aa288468%28v=vs.71%29.aspx">MSDN</a></p>
+
+<p><code>c
+typedef struct tagLOGFONT
+{
+   LONG lfHeight;
+   LONG lfWidth;
+   LONG lfEscapement;
+   LONG lfOrientation;
+   LONG lfWeight;
+   BYTE lfItalic;
+   BYTE lfUnderline;
+   BYTE lfStrikeOut;
+   BYTE lfCharSet;
+   BYTE lfOutPrecision;
+   BYTE lfClipPrecision;
+   BYTE lfQuality;
+   BYTE lfPitchAndFamily;
+   TCHAR lfFaceName[LF_FACESIZE];
+} LOGFONT;
+</code></p>
+
+<p>In C#, this can be represented as</p>
+
+<p>```csharp
+// logfont.cs
+// compile with: /target:module
+using System;
+using System.Runtime.InteropServices;</p>
+
+<p>[StructLayout(LayoutKind.Sequential)]
+public class LOGFONT
+{</p>
+
+<pre><code>public const int LF_FACESIZE = 32;
+public int lfHeight; 
+public int lfWidth; 
+public int lfEscapement; 
+public int lfOrientation; 
+public int lfWeight; 
+public byte lfItalic; 
+public byte lfUnderline; 
+public byte lfStrikeOut; 
+public byte lfCharSet; 
+public byte lfOutPrecision; 
+public byte lfClipPrecision; 
+public byte lfQuality; 
+public byte lfPitchAndFamily;
+
+[MarshalAs(UnmanagedType.ByValTStr, SizeConst=LF_FACESIZE)]
+public string lfFaceName; 
+</code></pre>
+
+<p>}
+```</p>
+
+<p>Look at the C# example. It is not as clean as the structure definition at the C side. It contains attributes which specify the structure alignment, then marshaling etc. When the structure contains references to other structures, things gets complicated.</p>
+
+<p>For C or C++ programmers, it is always convenient to declare the struct as they normally do. That&rsquo;s the beauty of <code>C++/CLI</code> which allows you to combine managed and unmanaged code together and makes interoperability very straightforward.</p>
+
+<p>In this post, we will take <code>SQLite</code> as an example and write a managed class which can be consumed from C#. We will wrap SQLite code using <code>C++/CLI</code> and consume from C#. SQLite has a huge API and we won&rsquo;t be covering all of them. We will cover APIs which will allow to open a DB connection and execute a simple query.</p>
+
+<p>Note: SQLite is chosen as an example. The correct way to wrap SQLite is adhering to ADO.NET standards and providing a API by extending IDBConnection. But for this post, we will ignore this and provide a custom simple API.</p>
+
+<h2>SQLite API</h2>
+
+<p>We will wrap the following functions</p>
+
+<p><code>c
+int sqlite3_open(const char *filename, sqlite3 **ppDb);
+int sqlite3_exec(
+  sqlite3*,                                  /* An open database */
+  const char *sql,                           /* SQL to be evaluated */
+  int (*callback)(void*,int,char**,char**),  /* Callback function */
+  void *,                                    /* 1st argument to callback */
+  char **errmsg                              /* Error msg written here */
+);
+</code></p>
+
+<p>Our managed API will look like,</p>
+
+<p><code>csharp
+SQLite db = new SQLite(filePath);
+db.Execute(sql, callback);
+</code></p>
+
+<p><code>callback</code> can be assigned to a function which takes 2 parameters of type <code>List&lt;String&gt;</code>. It will contain column names and values respectively.</p>
+
+<h2>Wrapper class in C++/CLI</h2>
+
+<p>We will have a Visual studio solution with 3 projects.</p>
 
 <ul>
-<li>Adding items to the list should be O(1).</li>
-<li>Provide similar interface like the standard LinkedList<T> class.</li>
-<li>Keep items in a type-safe way.</li>
-<li>Avoid using collections like List or array internally for keeping items.</li>
-<li>Should provide access to Head and Tail</li>
-<li>Option to enumerate all items</li>
-<li>Reverse enumeration</li>
-<li>Access items with an index.</li>
-<li>Maintain collection semantics.</li>
+<li>Static library which contains SQLite source code. This will be compiled as C and produces a static library.</li>
+<li>C++/CLI library project which adds the first project as a reference.</li>
+<li>A C# console application for testing. This project will have a reference to the assembly generated by C++/CLI project.</li>
 </ul>
 
 
-<p>Here is the class diagram.</p>
+<p><img src="/images/posts/20130217/solution_explorer.png" alt="Solution explorer" /></p>
 
-<p><img src="images/posts/classdiagram1.png" title="Class diagram" alt="Alt text" /></p>
+<p>In C++/CLI, we start off by creating the following class.</p>
 
-<h2>Node&lt;T&gt; class</h2>
+<p>```c++
+// SQLiteWrapper.h</p>
 
-<blockquote><p>Every problem can be solved by adding another layer of indirection.</p></blockquote>
+<h1>pragma once</h1>
 
-<p>Node class is a layer of indirection added to hold the linked list value. It manages the next and previous items and provides an option to get the current value. This class is immutable. Here is Node class looks like,</p>
+<h1>include &ldquo;sqlite3.h&rdquo;</h1>
 
-<p>```csharp
-/// <summary>
-/// Represents a node
-/// </summary>
-/// <typeparam name="T"></typeparam>
-[DebuggerDisplay(&ldquo;Value = {Value}&rdquo;)]
-public sealed class Node<T>
-{</p>
+<p>using namespace System;
+using namespace System::Collections::Generic;</p>
 
-<pre><code>/// &lt;summary&gt;
-/// Gets the Value
-/// &lt;/summary&gt;
-public T Value { get; private set; }
+<p>namespace SQLiteWrapper {</p>
 
-/// &lt;summary&gt;
-/// Gets next node
-/// &lt;/summary&gt;
-public Node&lt;T&gt; Next { get; internal set; }
-
-/// &lt;summary&gt;
-/// Gets previous node
-/// &lt;/summary&gt;
-public Node&lt;T&gt; Previous { get; internal set; }
-
-/// &lt;summary&gt;
-/// Initializes a new &lt;see cref="Node"/&gt; instance
-/// &lt;/summary&gt;
-/// &lt;param name="item"&gt;Value to be assigned&lt;/param&gt;
-internal Node(T item)
+<pre><code>// Main class that wraps the native API
+public ref class SQLite : IDisposable
 {
-    this.Value = item;
-}
-</code></pre>
+public:
+    SQLite(String^ filePath);
+    void Execute(String^ sql, Action&lt;List&lt;String^&gt;^, List&lt;String^&gt;^&gt;^ callback);
+    ~SQLite();
 
-<p>}
-```</p>
+private:
+    sqlite3* db;
+};
 
-<h2>CircularLinkedList&lt;T&gt; class</h2>
-
-<p>Keeping the requirements in mind, let us start writing the generic CircularLinkedList<T>. Some linked list implementations maintains only a link to the head node and when adding a new item to the list, each node in the list has to be traveled till tail node is found and this gives O(n) complexity for the algorithm.</p>
-
-<p>Maintaining link to head and tail helps us to do insertions with a O(1) complexity. In such cases, list traversal is not required. All we need is to change the pointer in the tail node. Head and tail node are member variables of CircularLinkedList class.</p>
-
-<p>```csharp
-public sealed class CircularLinkedList<T>
-{</p>
-
-<pre><code>[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-Node head = null;
-
-[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-Node tail = null;
-</code></pre>
-
-<p>}
-```</p>
-
-<p>To add an item to the last, we need to create a new node from the supplied item. Set the new node’s next pointer pointing to the list’s head and previous pointing to the tail. Finally, tail will be replaced with the new node. Here is the <code>AddLast()</code> method implementation.</p>
-
-<p>```csharp
-public void AddLast(T item)
-{</p>
-
-<pre><code>// if head is null, then this will be the first item
-if (head == null)
-    this.AddFirstItem(item);
-else
+public ref class SQLiteError : Exception
 {
-    Node&lt;T&gt; newNode = new Node&lt;T&gt;(item);
-    tail.Next = newNode;
-    newNode.Next = head;
-    newNode.Previous = tail;
-    tail = newNode;
-    head.Previous = tail;
-}
-++count;
-</code></pre>
+public:
+    SQLiteError(String^ errorMessage);
+};
 
-<p>}</p>
-
-<p>void AddFirstItem(T item)
-{</p>
-
-<pre><code>head = new Node&lt;T&gt;(item);
-tail = head;
-head.Next = tail;
-head.Previous = tail;
-</code></pre>
-
-<p>}
-```</p>
-
-<p>We can easily add another method that will add item to the first position in the list. Implementation looks similar like <code>AddLast()</code>. Unlike <code>AddLast()</code>, head node’s previous pointer will be re-pointed to the new node. The new node’s previous and next pointer will be pointed to tail and head respectively. Finally head will be replaced with the new node.</p>
-
-<p>```csharp
-public void AddFirst(T item)
-{</p>
-
-<pre><code>if (head == null)
-    this.AddFirstItem(item);
-else
+private ref class SQLiteDataCarrier
 {
-    Node&lt;T&gt; newNode = new Node&lt;T&gt;(item);
-    head.Previous = newNode;
-    newNode.Previous = tail;
-    newNode.Next = head;
-    tail.Next = newNode;
-    head = newNode;
-}
-++count;
-</code></pre>
-
-<p>}
-```</p>
-
-<p>Finding an item from the list will have a <code>O(n)</code> complexity as it needs to traverse through all items in the list until we get a matching item. Here is a recursive implementation.</p>
-
-<p>```csharp
-public Node<T> Find(T item)
-{</p>
-
-<pre><code>Node&lt;T&gt; node = FindNode(head, item);
-return node;
-</code></pre>
-
-<p>}</p>
-
-<p>Node<T> FindNode(Node<T> node, T valueToCompare)
-{</p>
-
-<pre><code>Node&lt;T&gt; result = null;
-if (comparer.Equals(node.Value, valueToCompare))
-    result = node;
-else if (result == null &amp;&amp; node.Next != head)
-    result = FindNode(node.Next, valueToCompare);
-return result;
-</code></pre>
-
-<p>}
-```</p>
-
-<p>Providing an iterator to iterate the items in the list will be useful. Since this is a circular linked list, a reverse iterator also makes sense. <code>yield</code> keyword makes iterator implementations almost trivial.</p>
-
-<p>```csharp
-public IEnumerator<T> GetEnumerator()
-{</p>
-
-<pre><code>Node&lt;T&gt; current = head;
-if (current != null)
-{
-    do
+public:
+    SQLiteDataCarrier(List&lt;String^&gt;^ columnNames, List&lt;String^&gt;^ columnValues)
     {
-        yield return current.Value;
-        current = current.Next;
-    } while (current != head);
-}
+        this-&gt;columnNames = columnNames;
+        this-&gt;columnValues = columnValues;
+    }
+
+    property List&lt;String^&gt;^ ColumnNames
+    {
+        List&lt;String^&gt;^ get()
+        {
+            return columnNames;
+        }
+    }
+
+    property List&lt;String^&gt;^ ColumnValues
+    {
+        List&lt;String^&gt;^ get()
+        {
+            return columnValues;
+        }
+    }
+
+private:
+    List&lt;String^&gt;^ columnNames;
+    List&lt;String^&gt;^ columnValues;
+};
 </code></pre>
 
-<p>}</p>
+<p>}
+```</p>
 
-<p>public IEnumerator<T> GetReverseEnumerator()
+<p>This class holds an instance to <code>sqlite3</code> structure which is the core of SQLite library. Even though the class is a managed class, C++/CLI allows you to hold a pointer which points to <code>sqlite3</code>.</p>
+
+<p>Our constructor can be implemented like,</p>
+
+<p>```c++
+// Constructor for managed class SQLite
+SQLite::SQLite(String^ filePath)
 {</p>
 
-<pre><code>Node&lt;T&gt; current = tail;
-if (current != null)
+<pre><code>IntPtr p = Marshal::StringToHGlobalAnsi(filePath);
+const char* _filePath = static_cast&lt;const char*&gt;(p.ToPointer());
+
+try
 {
-    do
-    {
-        yield return current.Value;
-        current = current.Previous;
-    } while (current != tail);
+    sqlite3* d;
+    int status = sqlite3_open(_filePath, &amp;d);
+    if (status)
+        throw gcnew SQLiteError("Unable to open database");
+
+
+    // Holding the DB pointer as a field
+    // This is a pointer to native struct, but it can be stored in managed class!
+    db = d;
+}
+finally
+{
+    Marshal::FreeHGlobal(p);
+
 }
 </code></pre>
 
 <p>}
 ```</p>
 
-<p>Removing items from list is also just re-pointing the previous and next pointers of the node’s previous.</p>
+<p>This code shows how well C++/CLI allows you to mix types from both managed and unmanaged world. It is beautiful!</p>
 
-<p>```csharp
-public bool Remove(T item)
+<p>All this constructor does is to initialize <code>sqlite3</code> instance and update the <code>db</code> pointer with correct reference.</p>
+
+<p>Here is how <code>Execute()</code> method is implemented.</p>
+
+<p>```c++
+// Callback function called by SQLite.
+// This function shows how native and managed objects can work together!
+static int _callback(void *userData, int argc, char <strong>argv, char </strong>azColName)
 {</p>
 
-<pre><code>// finding the first occurance of this item
-Node&lt;T&gt; nodeToRemove = this.Find(item);
-if (nodeToRemove != null)
-    return this.RemoveNode(nodeToRemove);
-return false;
+<pre><code>IntPtr pointer(userData);
+GCHandle handle = GCHandle::FromIntPtr(pointer);
+SQLiteDataCarrier^ carrier = (SQLiteDataCarrier^) handle.Target;
+
+for(int i = 0; i &lt; argc; i++)
+{
+    const char* columnName = azColName[i];
+    const char* columnValue = argv[i];
+
+    carrier-&gt;ColumnNames-&gt;Add(gcnew String(columnName));
+    carrier-&gt;ColumnValues-&gt;Add(gcnew String(columnValue));
+}
+
+return 0;
 </code></pre>
 
 <p>}</p>
 
-<p>bool RemoveNode(Node<T> nodeToRemove)
+<p>void SQLite::Execute(String^ sql, Action&lt;List&lt;String^>^, List&lt;String^>^>^ callback)
 {</p>
 
-<pre><code>Node&lt;T&gt; previous = nodeToRemove.Previous;
-previous.Next = nodeToRemove.Next;
-nodeToRemove.Next.Previous = nodeToRemove.Previous;
+<pre><code>IntPtr p = Marshal::StringToHGlobalAnsi(sql);
+const char* _sql = static_cast&lt;const char*&gt;(p.ToPointer());
 
-// if this is head, we need to update the head reference
-if (head == nodeToRemove)
-    head = nodeToRemove.Next;
-else if (tail == nodeToRemove)
-    tail = tail.Previous;
+// Output will be stored in these lists
+List&lt;String^&gt;^ columnNames = gcnew List&lt;String^&gt;();
+List&lt;String^&gt;^ columnValues = gcnew List&lt;String^&gt;();
 
---count;
-return true;
+// A simple class to aggregate columnNames and columnValues so that it can be passed to SQLite and SQLite will give it back in the callback function
+SQLiteDataCarrier^ carrier = gcnew SQLiteDataCarrier(columnNames, columnValues);
+
+// Converting carrier to void*
+GCHandle handle = GCHandle::Alloc(carrier);
+IntPtr pointer = GCHandle::ToIntPtr(handle);
+
+char *zErrMsg = 0;
+int status = sqlite3_exec(db, _sql, _callback, pointer.ToPointer(), &amp;zErrMsg);
+if (status != SQLITE_OK)
+{
+    String^ message = gcnew String(sqlite3_errmsg(db));
+    throw gcnew SQLiteError(message);
+}
+
+callback-&gt;Invoke(columnNames, columnValues);
+
+handle.Free();
+Marshal::FreeHGlobal(p);
 </code></pre>
 
 <p>}
 ```</p>
 
-<p>Finally, an indexer is provided so that list items can be accessed using an index. Like <code>Find()</code> method, this also has a <code>O(n)</code> complexity.</p>
+<p>To add results into the list, we are passing both lists to the <code>sqlite3_exec()</code> function so that SQLite will pass that back to the <code>_callback</code> function. This is very powerful because we just passed a managed object into a native function call. Then in a native function, we obtained the managed instance and modified properties on it.</p>
 
-<p>```csharp
-public Node<T> this[int index]
+<p>Once the querying is done, database has to be closed. We do that in the destructor.</p>
+
+<p>```c++
+// In C++/CLI destructor will be implemented using Dispose() pattern
+SQLite::~SQLite()
 {</p>
 
-<pre><code>get
+<pre><code>sqlite3_close(db);
+</code></pre>
+
+<p>}
+```</p>
+
+<h2>Using from C#</h2>
+
+<p>Usage from C# now becomes pretty straightforward.</p>
+
+<p>```csharp
+namespace ConsoleApplication1
+{</p>
+
+<pre><code>class Program
 {
-    if (index &gt;= count || index &lt; 0)
-        throw new ArgumentOutOfRangeException("index");
-    else
+    static void Main(string[] args)
     {
-        Node&lt;T&gt; node = this.head;
-        for (int i = 0; i &lt; index; i++)
-            node = node.Next;
-        return node;
+        SQLite db = new SQLite("C:\\Users\\navaneeth\\Desktop\\test\\example.db");
+        string sql = "create table if not exists foos (name text);\n" +
+            "insert into foos values ('sample1');" +
+            "insert into foos values ('sample2');" +
+            "select * from foos;";
+        db.Execute(sql, (columnNames, columnValues) =&gt; {
+            foreach (var name in columnNames)
+            {
+                Console.WriteLine(name);
+            }
+            foreach (var value in columnValues)
+            {
+                Console.WriteLine(value);
+            }
+        });
+        db.Dispose();
+        Console.Read();
     }
 }
 </code></pre>
@@ -284,76 +374,256 @@ public Node<T> this[int index]
 <p>}
 ```</p>
 
-<p>To get a collection semantics and maintain similar interface like the standard LinkedList, we implement <code>ICollection&lt;T&gt;</code> and <code>IEnumerable&lt;T&gt;</code> interfaces.</p>
+<p>You can download the code <a href="https://dl.dropbox.com/u/52296034/blog/SQLiteWrapper.zip">here</a>. Happy programming!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Disabling a custom control from Visual Studio’s toolbox]]></title>
+    <link href="http://navaneeth.github.io/blog/2009/09/15/disabling-a-custom-control-from-visual-studios-toolbox/"/>
+    <updated>2009-09-15T23:52:00+05:30</updated>
+    <id>http://navaneeth.github.io/blog/2009/09/15/disabling-a-custom-control-from-visual-studios-toolbox</id>
+    <content type="html"><![CDATA[<p>When a custom control is created, Visual Studio will show it in the toolbox for dragging and dropping. This can be annoying when you create a composite control which is a combination of several other custom controls where VS will display all custom controls in the toolbox. <code>System.ComponentModel.ToolBoxItemAttribute</code> can be used with the controls that you want to hide from toolbox. Apply this attribute to all the controls that you want to hide from toolbox.</p>
+
+<p>Sample code</p>
+
+<p><code>csharp
+[System.ComponentModel.ToolboxItem(false)]
+public class MyCustomControl : Label
+{
+}
+</code></p>
+
+<p><code>MyCustomControl</code> will not be displayed on the toolbox.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ADO.NET best practices – Reading data from data reader]]></title>
+    <link href="http://navaneeth.github.io/blog/2009/07/11/ado-dot-net-best-practices-reading-data-from-data-reader/"/>
+    <updated>2009-07-11T23:38:00+05:30</updated>
+    <id>http://navaneeth.github.io/blog/2009/07/11/ado-dot-net-best-practices-reading-data-from-data-reader</id>
+    <content type="html"><![CDATA[<p>I have seen many people using DataReader incorrectly. In this post, I will try to explain some good practices that can be followed when reading from a data reader. Consider the following problematic code,</p>
 
 <p>```csharp
-public sealed class CircularLinkedList<T> : ICollection<T>, IEnumerable<T>
+SqlDataReader reader = /<em> &hellip; </em>/;
+while (reader.Read())
 {</p>
 
-<pre><code>// code
+<pre><code>string userName = reader["user_name"].ToString();
+int age = int.Parse( reader["age"].ToString() );
+/* ... */
 </code></pre>
 
 <p>}
+reader.Close();
 ```</p>
 
-<h2>Test harness</h2>
-
-<p>Following code shows how this class can be used,</p>
-
-<p>```csharp
-static void Main(string[] args)
-{</p>
-
-<pre><code>CircularLinkedList&lt;int&gt; list = new CircularLinkedList&lt;int&gt;();
-list.AddLast(1);
-list.AddLast(2);
-list.AddLast(3);
-Console.WriteLine("List count = {0}", list.Count);
-Console.WriteLine("Head  = {0}", list.Head.Value);
-Console.WriteLine("Tail  = {0}", list.Tail.Value);
-Console.WriteLine("Head's Previous  = {0}", list.Head.Previous.Value);
-Console.WriteLine("Tail's Next  = {0}", list.Tail.Next.Value);
-Console.WriteLine("************List Items***********");
-foreach (int i in list)
-    Console.WriteLine(i);
-
-Console.WriteLine("************List Items in reverse***********");
-for (IEnumerator&lt;int&gt; r = list.GetReverseEnumerator(); r.MoveNext(); )
-    Console.WriteLine(r.Current);
-
-Console.WriteLine("************Adding a new item at first***********");
-list.AddFirst(0);
-foreach (int i in list)
-    Console.WriteLine(i);
-
-Console.WriteLine("************Adding item before***********");
-list.AddBefore(2,11);
-foreach (int i in list)
-    Console.WriteLine(i);
-
-Console.WriteLine("************Adding item after***********");
-list.AddAfter(3, 4);
-foreach (int i in list)
-    Console.WriteLine(i);
-
-Console.ReadKey();
-</code></pre>
-
-<p>}
-```</p>
-
-<h2>Possible expansions</h2>
-
-<p>There are good and complex features that can be added to this list. Here are few that will be useful,</p>
+<p>How many problems can you figure out from the above code? There are many problems with this code,</p>
 
 <ul>
-<li>Remove duplicate nodes.</li>
-<li>Move nodes around.</li>
-<li>Sorting.</li>
+<li>The columns “user_name” and “age” may or may not exist. If the column does not exist in the reader, it will throw error.</li>
+<li>You may be calling <code>ToString()</code> on an object which may be pointing to <code>NULL</code>. This will lead to a null reference exception.</li>
+<li><code>SqlDataReader</code> implements <code>IDisposable</code> and user code has to call <code>Dispose()</code> each time to release the resources deterministically. This is not happening here.</li>
+<li><code>reader["age"]</code> may contain values that are not compatible with integer. In such case, <code>int.Parse()</code> will throw a <code>FormatException</code>.</li>
 </ul>
 
 
-<p>Probably we will see these features in another post.</p>
+<p>Following sections will show a safe method to read data from DataReader.</p>
+
+<h2>Understanding ordinals</h2>
+
+<p>Ordinal is the index of a column in the reader. <code>GetOrdinal()</code> method will give you the ordinal for the column name supplied. So the first step in reading data from reader should be to find the ordinal of the columns which we want to read. Before getting the ordinal values, you have to ensure that the reader can read. SqlDataReader provides a HasRows property which can be useful here. Here is how you read the ordinals</p>
+
+<p>```csharp
+SqlDataReader reader = /<em> &hellip; </em>/;
+int userNameOrdinal;
+int ageOrdinal;
+if (reader.HasRows)
+{</p>
+
+<pre><code> try
+ {
+       userNameOrdinal = reader.GetOrdinal("user_name");
+ }
+ catch (IndexOutOfRangeException)
+ {
+       throw new YourCustomException("Expected column 'user_name' not found");
+ }
+ try
+ {
+       ageOrdinal = reader.GetOrdinal("age");
+ }
+ catch (IndexOutOfRangeException)
+ {
+       throw new YourCustomException("Expected column 'age' not found");
+ }
+</code></pre>
+
+<p>}
+```</p>
+
+<p>If you have support to “Extension methods”, this code can be simplified further.</p>
+
+<p>```csharp
+public static class SqlDataReaderExtensions
+{</p>
+
+<pre><code>public static int GetOrdinalOrThrow(this SqlDataReader reader, string columnName)
+{
+    try
+    {
+        return reader.GetOrdinal(columnName);
+    }
+    catch (IndexOutOfRangeException)
+    {
+        throw new YourCustomException(string.Format("Expected column '{0}' not found",columnName));
+    }
+}
+</code></pre>
+
+<p>}</p>
+
+<p>SqlDataReader reader = /<em> &hellip; </em>/;
+int userNameOrdinal;
+int ageOrdinal;
+if (reader.HasRows)
+{</p>
+
+<pre><code>  userNameOrdinal = reader.GetOrdinalOrThrow("user_name");
+  ageOrdinal = reader.GetOrdinalOrThrow("age");
+</code></pre>
+
+<p>}
+```</p>
+
+<p>This makes the code more clean. However, I really wish to see a <code>TryGetOrdinal()</code> method on <code>IDataReader</code> so that we can save the cost of exception handling.</p>
+
+<p>GetOrdinal() method first does a case-sensitive lookup for the column name. If it fails, case-insensitive search is performed. Thus, using the column name in correct case with GetOrdinal() will be more efficient.</p>
+
+<h2>Respecting type safety</h2>
+
+<p>C# is a strongly typed language and each programmer should take full advantage of this. Reading data like, <code>reader["user_name"]</code> is not a type safe way as it returns a object. Data reader provides methods to read data in a type safe way.</p>
+
+<p>Here is what MSDN says about it</p>
+
+<blockquote><pre><code>When accessing column data use the typed accessors like GetString, GetInt32, and so on. This saves you the processing required to cast the Object returned from GetValue as a particular type. 
+</code></pre></blockquote>
+
+<p>Now let us follow the above suggestion and rewrite our code like,</p>
+
+<p>```csharp
+while (reader.Read())
+{
+   string userName = reader.GetString(userNameOrdinal);
+   int age = -1;
+   try
+   {</p>
+
+<pre><code>     age = reader.GetInt32(ageOrdinal);
+</code></pre>
+
+<p>   }
+   catch (InvalidCastException)
+   {</p>
+
+<pre><code>     throw new YourCustomException("Unable to read age. Expecting integer value");
+</code></pre>
+
+<p>   }
+   /<em> &hellip; </em>/
+}
+```</p>
+
+<h2>Releasing resources</h2>
+
+<p>If any type implements IDisposable, it is like saying “I have something to release explicitly rather than garbage collector to release it“. So it is programmers duty to ensure the calls to Dispose() when using disposable types. C# has “using” statement (stack semantics can be used in C++/CLI) which will ensure calls to Dispose(). Since DataReader is a disposable object, we can write like</p>
+
+<p>```csharp
+using(SqlDataReader reader = command.ExecuteReader())
+{</p>
+
+<pre><code>  while (reader.Read())
+  {
+      string userName = reader.GetString(userNameOrdinal);
+      int age = -1;
+      try
+      {
+          age = reader.GetInt32(ageOrdinal);
+      }
+      catch (InvalidCastException)
+      {
+          throw new YourCustomException("Unable to read age. Expecting integer value");
+      }
+      /* ... */
+  }
+</code></pre>
+
+<p>}
+```</p>
+
+<p>This ensures that the reader is disposed properly even in exceptional situations.</p>
+
+<h2>Putting everything together</h2>
+
+<p>If you put everything together, code will be like</p>
+
+<p>```csharp
+public static class SqlDataReaderExtensions
+{</p>
+
+<pre><code>public static int GetOrdinalOrThrow(this SqlDataReader reader, string columnName)
+{
+    try
+    {
+        return reader.GetOrdinal(columnName);
+    }
+    catch (IndexOutOfRangeException)
+    {
+        throw new YourCustomException(string.Format("Expected column '{0}' not found",columnName));
+    }
+}
+</code></pre>
+
+<p>}</p>
+
+<p>int userNameOrdinal = -1;
+int ageOrdinal = -1;
+if (reader.HasRows)
+{</p>
+
+<pre><code>userNameOrdinal = reader.GetOrdinalOrThrow("user_name");
+ageOrdinal = reader.GetOrdinalOrThrow("age");
+</code></pre>
+
+<p>}
+using (SqlDataReader reader = GetReader())
+{</p>
+
+<pre><code>while (reader.Read())
+{
+    string userName = reader.GetString(userNameOrdinal);
+    int age = -1;
+    try
+    {
+        age = reader.GetInt32(ageOrdinal);
+    }
+    catch (InvalidCastException)
+    {
+        throw new YourCustomException("Unable to read age. Expecting integer value");
+    }
+    /* ... */
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>We have got clean code now. It handles the exceptions and throws informative exceptions to the caller rather than throwing Boneheaded exceptions, we have avoided explicit casting and DataReader is disposed properly.</p>
+
+<p>These are applicable for all types which implements <code>IDataReader</code>. <code>SqlDataReader</code> is used in this post just for explanation.</p>
+
+<p>Happy programming!</p>
 ]]></content>
   </entry>
   
