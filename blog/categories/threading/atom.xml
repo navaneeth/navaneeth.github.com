@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: threading, | {love to code}]]></title>
-  <link href="http://navaneeth.github.com/blog/categories/threading/atom.xml" rel="self"/>
-  <link href="http://navaneeth.github.com/"/>
-  <updated>2014-03-23T13:12:11+05:30</updated>
-  <id>http://navaneeth.github.com/</id>
+  <link href="http://navaneeth.github.io/blog/categories/threading/atom.xml" rel="self"/>
+  <link href="http://navaneeth.github.io/"/>
+  <updated>2014-06-14T18:44:25+05:30</updated>
+  <id>http://navaneeth.github.io/</id>
   <author>
     <name><![CDATA[nkn]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Is Thread.Sleep() evil?]]></title>
-    <link href="http://navaneeth.github.com/blog/2013/02/19/is-thread-dot-sleep-evil/"/>
+    <link href="http://navaneeth.github.io/blog/2013/02/19/is-thread-dot-sleep-evil/"/>
     <updated>2013-02-19T09:54:00+05:30</updated>
-    <id>http://navaneeth.github.com/blog/2013/02/19/is-thread-dot-sleep-evil</id>
+    <id>http://navaneeth.github.io/blog/2013/02/19/is-thread-dot-sleep-evil</id>
     <content type="html"><![CDATA[<p>If you search for this topic, you will find lots of information and many of them claiming <code>Thread.Sleep()</code> is evil. However, I think this evilness is mostly dependent on which context <code>Thread.Sleep()</code> is used.</p>
 
 <p>You might have seen code like the below one.</p>

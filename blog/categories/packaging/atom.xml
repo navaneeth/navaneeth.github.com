@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: packaging | {love to code}]]></title>
-  <link href="http://navaneeth.github.com/blog/categories/packaging/atom.xml" rel="self"/>
-  <link href="http://navaneeth.github.com/"/>
-  <updated>2014-03-23T13:12:11+05:30</updated>
-  <id>http://navaneeth.github.com/</id>
+  <link href="http://navaneeth.github.io/blog/categories/packaging/atom.xml" rel="self"/>
+  <link href="http://navaneeth.github.io/"/>
+  <updated>2014-06-14T18:44:25+05:30</updated>
+  <id>http://navaneeth.github.io/</id>
   <author>
     <name><![CDATA[nkn]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[How to get debian lintian warnings when using ubuntu]]></title>
-    <link href="http://navaneeth.github.com/blog/2014/03/23/how-to-get-debian-lintian-warnings-when-using-ubuntu/"/>
+    <link href="http://navaneeth.github.io/blog/2014/03/23/how-to-get-debian-lintian-warnings-when-using-ubuntu/"/>
     <updated>2014-03-23T13:00:00+05:30</updated>
-    <id>http://navaneeth.github.com/blog/2014/03/23/how-to-get-debian-lintian-warnings-when-using-ubuntu</id>
+    <id>http://navaneeth.github.io/blog/2014/03/23/how-to-get-debian-lintian-warnings-when-using-ubuntu</id>
     <content type="html"><![CDATA[<p>Recently, I started to package <a href="https://gitorious.org/varnamproject/libvarnam">libvarnam</a> for Debian. I followed the debian packaging guidelines and successfully created a package. I am using Ubuntu instead of Debian to do the packaging. Since Ubuntu is based on Debian, packaging also has the same procedure.</p>
 
 <p>Debian requires all the packages to be <code>lintian</code> clean. Lintian is a command line utility which checks for errors and standards violations in the package files. My package was lintian clean and I have uploaded it into the debian mentors page seeking for sponsors. Then I noticed several lintian errors showing up in the mentors page. This was not coming up in my local lintian run.</p>
@@ -36,10 +36,10 @@ debian  ubuntu
 
 <p>```bash</p>
 
-<blockquote><p>lintial &mdash;pedantic &mdash;profile debian yourpackage.changes
+<blockquote><p>lintian &mdash;pedantic &mdash;profile debian yourpackage.changes
 ```</p></blockquote>
 
-<p>This will show the exact warnings which mentors.debian.net is showing. This way you can do the debian packaging within ubuntu and make sure all the debian linitan checks are passing before uploading the package.</p>
+<p>This will show the exact warnings which mentors.debian.net is showing. This way you can do the debian packaging within ubuntu and make sure all the debian lintian checks are passing before uploading the package.</p>
 ]]></content>
   </entry>
   

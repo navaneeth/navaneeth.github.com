@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: warnings, | {love to code}]]></title>
-  <link href="http://navaneeth.github.com/blog/categories/warnings/atom.xml" rel="self"/>
-  <link href="http://navaneeth.github.com/"/>
-  <updated>2014-03-23T13:12:11+05:30</updated>
-  <id>http://navaneeth.github.com/</id>
+  <link href="http://navaneeth.github.io/blog/categories/warnings/atom.xml" rel="self"/>
+  <link href="http://navaneeth.github.io/"/>
+  <updated>2014-06-14T18:44:25+05:30</updated>
+  <id>http://navaneeth.github.io/</id>
   <author>
     <name><![CDATA[nkn]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Funny GTK warning]]></title>
-    <link href="http://navaneeth.github.com/blog/2013/02/08/funny-gtk-warning/"/>
+    <link href="http://navaneeth.github.io/blog/2013/02/08/funny-gtk-warning/"/>
     <updated>2013-02-08T00:23:00+05:30</updated>
-    <id>http://navaneeth.github.com/blog/2013/02/08/funny-gtk-warning</id>
+    <id>http://navaneeth.github.io/blog/2013/02/08/funny-gtk-warning</id>
     <content type="html"><![CDATA[<p>I was working with a GTK application and got the below warning.</p>
 
 <blockquote><p> Trying to remove a child that doesn&rsquo;t believe we&rsquo;re it&rsquo;s parent</p></blockquote>

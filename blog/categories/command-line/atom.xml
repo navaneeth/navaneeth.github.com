@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: command-line | {love to code}]]></title>
-  <link href="http://navaneeth.github.com/blog/categories/command-line/atom.xml" rel="self"/>
-  <link href="http://navaneeth.github.com/"/>
-  <updated>2014-03-23T13:12:11+05:30</updated>
-  <id>http://navaneeth.github.com/</id>
+  <link href="http://navaneeth.github.io/blog/categories/command-line/atom.xml" rel="self"/>
+  <link href="http://navaneeth.github.io/"/>
+  <updated>2014-06-14T18:44:25+05:30</updated>
+  <id>http://navaneeth.github.io/</id>
   <author>
     <name><![CDATA[nkn]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[How to use individual lines pulled from stdin in the middle of a command when using xargs]]></title>
-    <link href="http://navaneeth.github.com/blog/2013/02/28/how-to-use-individual-lines-pulled-from-stdin-in-the-middle-of-a-command-when-using-xargs/"/>
+    <link href="http://navaneeth.github.io/blog/2013/02/28/how-to-use-individual-lines-pulled-from-stdin-in-the-middle-of-a-command-when-using-xargs/"/>
     <updated>2013-02-28T10:57:00+05:30</updated>
-    <id>http://navaneeth.github.com/blog/2013/02/28/how-to-use-individual-lines-pulled-from-stdin-in-the-middle-of-a-command-when-using-xargs</id>
+    <id>http://navaneeth.github.io/blog/2013/02/28/how-to-use-individual-lines-pulled-from-stdin-in-the-middle-of-a-command-when-using-xargs</id>
     <content type="html"><![CDATA[<p><code>xargs</code> is very powerful commandline utility. Here is what Wikipedia says about <code>xargs</code></p>
 
 <blockquote><p>xargs is a command on Unix and most Unix-like operating systems used to build and execute command lines from standard input</p></blockquote>

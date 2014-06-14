@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: nodejs | {love to code}]]></title>
-  <link href="http://navaneeth.github.com/blog/categories/nodejs/atom.xml" rel="self"/>
-  <link href="http://navaneeth.github.com/"/>
-  <updated>2014-03-23T13:12:11+05:30</updated>
-  <id>http://navaneeth.github.com/</id>
+  <link href="http://navaneeth.github.io/blog/categories/nodejs/atom.xml" rel="self"/>
+  <link href="http://navaneeth.github.io/"/>
+  <updated>2014-06-14T18:44:25+05:30</updated>
+  <id>http://navaneeth.github.io/</id>
   <author>
     <name><![CDATA[nkn]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[nodejs0.10.2 is not backward compatible]]></title>
-    <link href="http://navaneeth.github.com/blog/2013/04/02/nodejs0-dot-10-dot-2-is-not-backward-compatible/"/>
+    <link href="http://navaneeth.github.io/blog/2013/04/02/nodejs0-dot-10-dot-2-is-not-backward-compatible/"/>
     <updated>2013-04-02T08:56:00+05:30</updated>
-    <id>http://navaneeth.github.com/blog/2013/04/02/nodejs0-dot-10-dot-2-is-not-backward-compatible</id>
+    <id>http://navaneeth.github.io/blog/2013/04/02/nodejs0-dot-10-dot-2-is-not-backward-compatible</id>
     <content type="html"><![CDATA[<p>I have a node module which failed to compile on node0.10.2. I have the following code.</p>
 
 <p><code>javascript

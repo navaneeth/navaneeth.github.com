@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: datastructures, | {love to code}]]></title>
-  <link href="http://navaneeth.github.com/blog/categories/datastructures/atom.xml" rel="self"/>
-  <link href="http://navaneeth.github.com/"/>
-  <updated>2014-03-23T13:12:11+05:30</updated>
-  <id>http://navaneeth.github.com/</id>
+  <link href="http://navaneeth.github.io/blog/categories/datastructures/atom.xml" rel="self"/>
+  <link href="http://navaneeth.github.io/"/>
+  <updated>2014-06-14T18:44:25+05:30</updated>
+  <id>http://navaneeth.github.io/</id>
   <author>
     <name><![CDATA[nkn]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Circular linked list – An implementation using C#]]></title>
-    <link href="http://navaneeth.github.com/blog/2009/08/18/circular-linked-list-an-implementation-using-c-number/"/>
+    <link href="http://navaneeth.github.io/blog/2009/08/18/circular-linked-list-an-implementation-using-c-number/"/>
     <updated>2009-08-18T22:12:00+05:30</updated>
-    <id>http://navaneeth.github.com/blog/2009/08/18/circular-linked-list-an-implementation-using-c-number</id>
+    <id>http://navaneeth.github.io/blog/2009/08/18/circular-linked-list-an-implementation-using-c-number</id>
     <content type="html"><![CDATA[<p>In this post, I will explain about creating a circular doubly linked list using C#. .NET framework provides a doubly linked list implementation in System.Collections.Generic.LinkedList<T> class . But this class is not providing the behavior of a circular linked list and it is very tough to extend for supporting circular linked list requirements.</p>
 
 <p>In a normal doubly linked list, each node will have a link to its previous and next nodes. In a circular doubly linked list, tail node’s next node will be head and head node’s previous node will be tail. Here is an image taken from wikipedia which visualizes circular linked list.</p>

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: build, | {love to code}]]></title>
-  <link href="http://navaneeth.github.com/blog/categories/build/atom.xml" rel="self"/>
-  <link href="http://navaneeth.github.com/"/>
-  <updated>2014-03-23T13:12:11+05:30</updated>
-  <id>http://navaneeth.github.com/</id>
+  <link href="http://navaneeth.github.io/blog/categories/build/atom.xml" rel="self"/>
+  <link href="http://navaneeth.github.io/"/>
+  <updated>2014-06-14T18:44:25+05:30</updated>
+  <id>http://navaneeth.github.io/</id>
   <author>
     <name><![CDATA[nkn]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Building static and shared libraries using CMake]]></title>
-    <link href="http://navaneeth.github.com/blog/2013/07/28/building-static-and-shared-libraries-using-cmake/"/>
+    <link href="http://navaneeth.github.io/blog/2013/07/28/building-static-and-shared-libraries-using-cmake/"/>
     <updated>2013-07-28T19:46:00+05:30</updated>
-    <id>http://navaneeth.github.com/blog/2013/07/28/building-static-and-shared-libraries-using-cmake</id>
+    <id>http://navaneeth.github.io/blog/2013/07/28/building-static-and-shared-libraries-using-cmake</id>
     <content type="html"><![CDATA[<p>Recently in <a href="https://github.com/navaneeth/libvarnam">libvarnam</a>, I had to build a static and shared library from the same source files. This was much harder before CMake 2.8. From CMake 2.8.8, CMake has support for <code>Object library</code> which made it very simple.</p>
 
 <p>Basic idea is to use <code>add_library</code> with <code>OBJECT</code> type. CMake will compile all the source files provided in this target and makes the object files for it. It won&rsquo;t create a temporary static library with all these object files. These object files can later be referred in the target which builds the library. In my CMakeLists.txt, I have the following.</p>

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: c, | {love to code}]]></title>
-  <link href="http://navaneeth.github.com/blog/categories/c/atom.xml" rel="self"/>
-  <link href="http://navaneeth.github.com/"/>
-  <updated>2014-03-23T13:12:11+05:30</updated>
-  <id>http://navaneeth.github.com/</id>
+  <link href="http://navaneeth.github.io/blog/categories/c/atom.xml" rel="self"/>
+  <link href="http://navaneeth.github.io/"/>
+  <updated>2014-06-14T18:44:25+05:30</updated>
+  <id>http://navaneeth.github.io/</id>
   <author>
     <name><![CDATA[nkn]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Channels in libuv]]></title>
-    <link href="http://navaneeth.github.com/blog/2013/08/02/channels-in-libuv/"/>
+    <link href="http://navaneeth.github.io/blog/2013/08/02/channels-in-libuv/"/>
     <updated>2013-08-02T13:18:00+05:30</updated>
-    <id>http://navaneeth.github.com/blog/2013/08/02/channels-in-libuv</id>
+    <id>http://navaneeth.github.io/blog/2013/08/02/channels-in-libuv</id>
     <content type="html"><![CDATA[<p><code>go</code> programming language provides a very powerful synchronization mechanism called <a href="http://golang.org/doc/effective_go.html#channels">channels</a>. Channels simplifies communication between threads and makes it very easy to send and receive data from go routines.</p>
 
 <p>I always missed such functionalities when using <code>libuv</code>. <code>libuv</code> has <code>uv async_send</code>, but it can be used only to wakeup the event loop. In this post, we will implement channels in <code>C</code> using <code>libuv</code>. The idea is to implement a channel so that user can use it without worrying about manually doing the synchronization.</p>
@@ -177,9 +177,9 @@ else {
   
   <entry>
     <title type="html"><![CDATA[Simple, generic and dynamically allocated array in C]]></title>
-    <link href="http://navaneeth.github.com/blog/2012/05/11/simple-generic-and-dynamically-allocated-array-in-c/"/>
+    <link href="http://navaneeth.github.io/blog/2012/05/11/simple-generic-and-dynamically-allocated-array-in-c/"/>
     <updated>2012-05-11T23:31:00+05:30</updated>
-    <id>http://navaneeth.github.com/blog/2012/05/11/simple-generic-and-dynamically-allocated-array-in-c</id>
+    <id>http://navaneeth.github.io/blog/2012/05/11/simple-generic-and-dynamically-allocated-array-in-c</id>
     <content type="html"><![CDATA[<p>C is a very good language. I have been using for quite some time for my opensource project. The flexibility C offers is really good. But sometimes, lack of simple datastructures like a dynamically growing array will slow down the programmer. There are tons of implementation available online, but most of them are overcomplicated, got lot of dependencies or tough to understand and incorporate with your application. In this post, I present a simple array which grows dynamically, reuses the memory, supports any pointer type and easy to copy to your code base.</p>
 
 <p>Here is the code.</p>

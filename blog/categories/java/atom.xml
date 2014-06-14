@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: java, | {love to code}]]></title>
-  <link href="http://navaneeth.github.com/blog/categories/java/atom.xml" rel="self"/>
-  <link href="http://navaneeth.github.com/"/>
-  <updated>2014-03-23T13:12:11+05:30</updated>
-  <id>http://navaneeth.github.com/</id>
+  <link href="http://navaneeth.github.io/blog/categories/java/atom.xml" rel="self"/>
+  <link href="http://navaneeth.github.io/"/>
+  <updated>2014-06-14T18:44:25+05:30</updated>
+  <id>http://navaneeth.github.io/</id>
   <author>
     <name><![CDATA[nkn]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[How to upload files when testing using Selenium Webdriver]]></title>
-    <link href="http://navaneeth.github.com/blog/2013/02/20/how-to-upload-files-when-testing-using-selenium-webdriver/"/>
+    <link href="http://navaneeth.github.io/blog/2013/02/20/how-to-upload-files-when-testing-using-selenium-webdriver/"/>
     <updated>2013-02-20T15:42:00+05:30</updated>
-    <id>http://navaneeth.github.com/blog/2013/02/20/how-to-upload-files-when-testing-using-selenium-webdriver</id>
+    <id>http://navaneeth.github.io/blog/2013/02/20/how-to-upload-files-when-testing-using-selenium-webdriver</id>
     <content type="html"><![CDATA[<p>You can use the following code to set a file path to the file upload control.</p>
 
 <p><code>java

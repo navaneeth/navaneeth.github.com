@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: c++/cli | {love to code}]]></title>
-  <link href="http://navaneeth.github.com/blog/categories/c-plus-plus-slash-cli/atom.xml" rel="self"/>
-  <link href="http://navaneeth.github.com/"/>
-  <updated>2014-03-23T13:12:11+05:30</updated>
-  <id>http://navaneeth.github.com/</id>
+  <link href="http://navaneeth.github.io/blog/categories/c-plus-plus-slash-cli/atom.xml" rel="self"/>
+  <link href="http://navaneeth.github.io/"/>
+  <updated>2014-06-14T18:44:25+05:30</updated>
+  <id>http://navaneeth.github.io/</id>
   <author>
     <name><![CDATA[nkn]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Working with native code easily in C# with the help of C++/CLI]]></title>
-    <link href="http://navaneeth.github.com/blog/2013/02/17/working-with-native-code-in-csharp-easily-with-cplusplus-cli/"/>
+    <link href="http://navaneeth.github.io/blog/2013/02/17/working-with-native-code-in-csharp-easily-with-cplusplus-cli/"/>
     <updated>2013-02-17T12:18:00+05:30</updated>
-    <id>http://navaneeth.github.com/blog/2013/02/17/working-with-native-code-in-csharp-easily-with-cplusplus-cli</id>
+    <id>http://navaneeth.github.io/blog/2013/02/17/working-with-native-code-in-csharp-easily-with-cplusplus-cli</id>
     <content type="html"><![CDATA[<p>.NET comes with pretty good interoperability options which would enable unmanaged code to be used from a managed environment. In C#, to call a function which is available in a DLL, <code>PInvoke</code> (Platform invocation service) can be used. Here is what MSDN says.</p>
 
 <blockquote><p>Platform Invocation Services (PInvoke) allows managed code to call unmanaged functions that are implemented in a DLL.</p></blockquote>
