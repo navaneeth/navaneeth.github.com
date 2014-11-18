@@ -6,7 +6,7 @@ comments: false
 sharing: false
 footer: true
 ---
-My name is Navaneeth. I live in Bangalore, India. I am a software developer at [ThoughtWorks](http://www.thoughtworks.com/) and working on [Twist](http://www.thoughtworks-studios.com/twist-agile-testing), a tool to write functional tests. I am a Free Software enthusiast, and in love with the GNOME Project. 
+My name is Navaneeth. I live in Bangalore, India. I am a software developer at [Sahaj](http://www.sahajsoft.com/). I am a Free Software enthusiast, and in love with the GNOME Project. 
 
 ## Some stuff
 
