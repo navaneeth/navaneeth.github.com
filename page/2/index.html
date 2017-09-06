@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.24.1" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -89,7 +88,7 @@
     
     <div class="post">
       <h1 class="post-title">
-        <a href="https://navaneeth.github.io/post/channels-in-libuv/">Channels in libuv</a>
+        <a href="https://navaneeth.github.io/post/Channels%20in%20libuv/">Channels in libuv</a>
       </h1>
       <span class="post-date">Aug 2, 2013 &middot; 3 minute read
       
@@ -97,15 +96,14 @@
       <a class="label" href="https://navaneeth.github.io/categories/programming">programming</a><a class="label" href="https://navaneeth.github.io/categories/c">c</a><a class="label" href="https://navaneeth.github.io/categories/golang">golang</a>
       </span>
       
-      go programming language provides a very powerful synchronization mechanism called channels. Channels simplifies communication between threads and makes it very easy to send and receive data from go routines.
-I always missed such functionalities when using libuv. libuv has uv async_send, but it can be used only to wakeup the event loop. In this post, we will implement channels in C using libuv. The idea is to implement a channel so that user can use it without worrying about manually doing the synchronization.
-      <a href="https://navaneeth.github.io/post/channels-in-libuv/">Read On &rarr;</a>
+      go programming language provides a very powerful synchronization mechanism called channels. Channels simplifies communication between threads and makes it very easy to send and receive data from go routines. I always missed such functionalities when using libuv. libuv has uv async_send, but it can be used only to wakeup the event loop. In this post, we will implement channels in C using libuv. The idea is to implement a channel so that user can use it without worrying about manually doing the synchronization.
+      <a href="https://navaneeth.github.io/post/Channels%20in%20libuv/">Read On &rarr;</a>
       
     </div>
     
     <div class="post">
       <h1 class="post-title">
-        <a href="https://navaneeth.github.io/post/building-static-and-shared-libraries-using-cmake/">Building static and shared libraries using CMake</a>
+        <a href="https://navaneeth.github.io/post/Building%20static%20and%20shared%20libraries%20using%20CMake/">Building static and shared libraries using CMake</a>
       </h1>
       <span class="post-date">Jul 28, 2013 &middot; 1 minute read
       
@@ -113,9 +111,8 @@ I always missed such functionalities when using libuv. libuv has uv async_send, 
       <a class="label" href="https://navaneeth.github.io/categories/programming">programming</a><a class="label" href="https://navaneeth.github.io/categories/cmake">cmake</a>
       </span>
       
-      Recently in libvarnam, I had to build a static and shared library from the same source files. This was much harder before CMake 2.8. From CMake 2.8.8, CMake has support for Object library which made it very simple.
-Basic idea is to use add_library with OBJECT type. CMake will compile all the source files provided in this target and makes the object files for it. It won&rsquo;t create a temporary static library with all these object files.
-      <a href="https://navaneeth.github.io/post/building-static-and-shared-libraries-using-cmake/">Read On &rarr;</a>
+      Recently in libvarnam, I had to build a static and shared library from the same source files. This was much harder before CMake 2.8. From CMake 2.8.8, CMake has support for Object library which made it very simple. Basic idea is to use add_library with OBJECT type. CMake will compile all the source files provided in this target and makes the object files for it. It won&rsquo;t create a temporary static library with all these object files.
+      <a href="https://navaneeth.github.io/post/Building%20static%20and%20shared%20libraries%20using%20CMake/">Read On &rarr;</a>
       
     </div>
     
@@ -129,10 +126,7 @@ Basic idea is to use add_library with OBJECT type. CMake will compile all the so
       <a class="label" href="https://navaneeth.github.io/categories/programming">programming</a><a class="label" href="https://navaneeth.github.io/categories/linux">linux</a>
       </span>
       
-      xargs is very powerful commandline utility. Here is what Wikipedia says about xargs
- xargs is a command on Unix and most Unix-like operating systems used to build and execute command lines from standard input
- Most common use of xargs would be to do something like,
-find . -type f -print0 | xargs -0 rm  Let us assume that you have a file with list of files to be downloaded from a website.
+      xargs is very powerful commandline utility. Here is what Wikipedia says about xargs xargs is a command on Unix and most Unix-like operating systems used to build and execute command lines from standard input Most common use of xargs would be to do something like, find . -type f -print0 | xargs -0 rm Let us assume that you have a file with list of files to be downloaded from a website.
       <a href="https://navaneeth.github.io/post/how-to-use-individual-lines-pulled-from-stdin-in-the-middle-of-a-command-when-using-xargs/">Read On &rarr;</a>
       
     </div>
@@ -147,8 +141,7 @@ find . -type f -print0 | xargs -0 rm  Let us assume that you have a file with li
       <a class="label" href="https://navaneeth.github.io/categories/programming">programming</a><a class="label" href="https://navaneeth.github.io/categories/java">java</a><a class="label" href="https://navaneeth.github.io/categories/selenium">selenium</a>
       </span>
       
-      You can use the following code to set a file path to the file upload control.
-WebElement file = driver.findElement(By.id(&quot;control_id&quot;)); file.sendKeys(&quot;/full/path/to/file&quot;);  You need to pass full path to the sendKeys() for it to work. Otherwise sendKeys() fails silently.
+      You can use the following code to set a file path to the file upload control. WebElement file = driver.findElement(By.id(&quot;control_id&quot;)); file.sendKeys(&quot;/full/path/to/file&quot;); You need to pass full path to the sendKeys() for it to work. Otherwise sendKeys() fails silently.
       
       
     </div>
@@ -163,9 +156,7 @@ WebElement file = driver.findElement(By.id(&quot;control_id&quot;)); file.sendKe
       <a class="label" href="https://navaneeth.github.io/categories/programming">programming</a><a class="label" href="https://navaneeth.github.io/categories/c">c#</a><a class="label" href="https://navaneeth.github.io/categories/threading">threading</a>
       </span>
       
-      If you search for this topic, you will find lots of information and many of them claiming Thread.Sleep() is evil. However, I think this evilness is mostly dependent on which context Thread.Sleep() is used.
-You might have seen code like the below one.
-while (!exit) { DoWork(); Thread.Sleep(10000); }  This code example does some work and sleeps for 1 minute before does the job again. This simple example has some potential issues.
+      If you search for this topic, you will find lots of information and many of them claiming Thread.Sleep() is evil. However, I think this evilness is mostly dependent on which context Thread.Sleep() is used. You might have seen code like the below one. while (!exit) { DoWork(); Thread.Sleep(10000); } This code example does some work and sleeps for 1 minute before does the job again. This simple example has some potential issues.
       <a href="https://navaneeth.github.io/post/is-thread-dot-sleep-evil/">Read On &rarr;</a>
       
     </div>
@@ -177,12 +168,10 @@ while (!exit) { DoWork(); Thread.Sleep(10000); }  This code example does some wo
       <span class="post-date">Feb 17, 2013 &middot; 6 minute read
       
       <br/>
-      <a class="label" href="https://navaneeth.github.io/categories/programming">programming</a><a class="label" href="https://navaneeth.github.io/categories/.net">.net</a><a class="label" href="https://navaneeth.github.io/categories/c&#43;&#43;/cli">c&#43;&#43;/cli</a>
+      <a class="label" href="https://navaneeth.github.io/categories/programming">programming</a><a class="label" href="https://navaneeth.github.io/categories/.net">.net</a><a class="label" href="https://navaneeth.github.io/categories/c/cli">c&#43;&#43;/cli</a>
       </span>
       
-      .NET comes with pretty good interoperability options which would enable unmanaged code to be used from a managed environment. In C#, to call a function which is available in a DLL, PInvoke (Platform invocation service) can be used. Here is what MSDN says.
- Platform Invocation Services (PInvoke) allows managed code to call unmanaged functions that are implemented in a DLL.
- This is very helpful when you need to call some system functions from your C# application.
+      .NET comes with pretty good interoperability options which would enable unmanaged code to be used from a managed environment. In C#, to call a function which is available in a DLL, PInvoke (Platform invocation service) can be used. Here is what MSDN says. Platform Invocation Services (PInvoke) allows managed code to call unmanaged functions that are implemented in a DLL. This is very helpful when you need to call some system functions from your C# application.
       <a href="https://navaneeth.github.io/post/working-with-native-code-in-csharp-easily-with-cplusplus-cli/">Read On &rarr;</a>
       
     </div>
@@ -212,8 +201,7 @@ while (!exit) { DoWork(); Thread.Sleep(10000); }  This code example does some wo
       <a class="label" href="https://navaneeth.github.io/categories/programming">programming</a><a class="label" href="https://navaneeth.github.io/categories/linux">linux</a><a class="label" href="https://navaneeth.github.io/categories/pomodoro">pomodoro</a><a class="label" href="https://navaneeth.github.io/categories/shell">shell</a>
       </span>
       
-      Recently I have started evaluating the Pomodoro Technique which I found quite interesting. I am still evaluating the technique and not yet concluded on whether I should continue using it.
-To implement pomodoro technique, you need a kitchen timer or egg timer. Since I use pomodoro for my programming work, I obviously don’t want to use a physical timer. I couldn’t find a decent timer for linux especially one that works well with Xfce.
+      Recently I have started evaluating the Pomodoro Technique which I found quite interesting. I am still evaluating the technique and not yet concluded on whether I should continue using it. To implement pomodoro technique, you need a kitchen timer or egg timer. Since I use pomodoro for my programming work, I obviously don’t want to use a physical timer. I couldn’t find a decent timer for linux especially one that works well with Xfce.
       <a href="https://navaneeth.github.io/post/simple-egg-timer-on-linux-for-pomodoro-technique/">Read On &rarr;</a>
       
     </div>
@@ -228,8 +216,7 @@ To implement pomodoro technique, you need a kitchen timer or egg timer. Since I 
       <a class="label" href="https://navaneeth.github.io/categories/programming">programming</a><a class="label" href="https://navaneeth.github.io/categories/datastructures">datastructures</a><a class="label" href="https://navaneeth.github.io/categories/c">c#</a>
       </span>
       
-      In this post, I will explain about creating a circular doubly linked list using C#. .NET framework provides a doubly linked list implementation in System.Collections.Generic.LinkedList class . But this class is not providing the behavior of a circular linked list and it is very tough to extend for supporting circular linked list requirements.
-In a normal doubly linked list, each node will have a link to its previous and next nodes.
+      In this post, I will explain about creating a circular doubly linked list using C#. .NET framework provides a doubly linked list implementation in System.Collections.Generic.LinkedList class . But this class is not providing the behavior of a circular linked list and it is very tough to extend for supporting circular linked list requirements. In a normal doubly linked list, each node will have a link to its previous and next nodes.
       <a href="https://navaneeth.github.io/post/circular-linked-list-an-implementation-using-c-number/">Read On &rarr;</a>
       
     </div>
@@ -244,74 +231,44 @@ In a normal doubly linked list, each node will have a link to its previous and n
       <a class="label" href="https://navaneeth.github.io/categories/programming">programming</a><a class="label" href="https://navaneeth.github.io/categories/.net">.net</a><a class="label" href="https://navaneeth.github.io/categories/c">c#</a>
       </span>
       
-      In this series of posts, I will try to answer the questions posted by Scott Hanselman here. This part we will be seeing the first set of questions he has given under Everyone who writes code heading.
-Q) Describe the difference between a Thread and a Process?
-A Thread is a small unit of code in execution. A process is an instance of program which will have multiple threads running. A process can host multiple threads.
+      In this series of posts, I will try to answer the questions posted by Scott Hanselman here. This part we will be seeing the first set of questions he has given under Everyone who writes code heading. Q) Describe the difference between a Thread and a Process? A Thread is a small unit of code in execution. A process is an instance of program which will have multiple threads running. A process can host multiple threads.
       <a href="https://navaneeth.github.io/post/what-great-net-developers-ought-to-know-net-interview-questions-and-answers-part1/">Read On &rarr;</a>
       
     </div>
     
     
-
-<ul class="pagination">
     
-    <li>
-        <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
-    </li>
-    
-    <li
-    >
-    <a href="/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-    </li>
-    
-    
-    
-    
-    
-     
+    <ul class="pagination">
         
+        <li>
+            <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+        </li>
         
-    
-    
-    <li
-    ><a href="/">1</a></li>
-    
-    
-    
-    
-    
-     
+        <li
+        >
+        <a href="/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+        </li>
         
+        <li
+        ><a href="/">1</a></li>
         
-    
-    
-    <li
-    class="active"><a href="/page/2/">2</a></li>
-    
-    
-    
-    
-    
-     
+        <li
+        class="active"><a href="/page/2/">2</a></li>
         
+        <li
+        ><a href="/page/3/">3</a></li>
         
+        <li
+        >
+        <a href="/page/3/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+        </li>
+        
+        <li>
+            <a href="/page/3/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+        </li>
+        
+    </ul>
     
-    
-    <li
-    ><a href="/page/3/">3</a></li>
-    
-    
-    <li
-    >
-    <a href="/page/3/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-    </li>
-    
-    <li>
-        <a href="/page/3/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
-    </li>
-    
-</ul>
-
   </div>
 </div>
 
