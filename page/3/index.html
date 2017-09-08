@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
+	<meta name="generator" content="Hugo 0.24.1" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -61,7 +62,6 @@
 
     <ul class="sidebar-nav">
       <li class="sidebar-nav-item">
-      <a href="https://www.flickr.com/photos/navaneethkn"><i class="fa fa-flickr fa-3x"></i></a>
       <a href="https://github.com/navaneeth/"><i class="fa fa-github-square fa-3x"></i></a>
       
       
@@ -88,6 +88,23 @@
     
     <div class="post">
       <h1 class="post-title">
+        <a href="https://navaneeth.github.io/post/what-great-net-developers-ought-to-know-net-interview-questions-and-answers-part1/">What Great .NET Developers Ought To Know (More .NET Interview Questions and Answers) – Part1</a>
+      </h1>
+      <span class="post-date">Aug 13, 2009 &middot; 3 minute read
+      
+      <br/>
+      <a class="label" href="https://navaneeth.github.io/categories/programming">programming</a><a class="label" href="https://navaneeth.github.io/categories/.net">.net</a><a class="label" href="https://navaneeth.github.io/categories/c">c#</a>
+      </span>
+      
+      In this series of posts, I will try to answer the questions posted by Scott Hanselman here. This part we will be seeing the first set of questions he has given under Everyone who writes code heading.
+Q) Describe the difference between a Thread and a Process?
+A Thread is a small unit of code in execution. A process is an instance of program which will have multiple threads running. A process can host multiple threads.
+      <a href="https://navaneeth.github.io/post/what-great-net-developers-ought-to-know-net-interview-questions-and-answers-part1/">Read On &rarr;</a>
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
         <a href="https://navaneeth.github.io/post/ado-dot-net-best-practices-reading-data-from-data-reader/">ADO.NET best practices – Reading data from data reader</a>
       </h1>
       <span class="post-date">Jul 11, 2009 &middot; 4 minute read
@@ -96,44 +113,73 @@
       <a class="label" href="https://navaneeth.github.io/categories/programming">programming</a><a class="label" href="https://navaneeth.github.io/categories/.net">.net</a><a class="label" href="https://navaneeth.github.io/categories/c">c#</a>
       </span>
       
-      I have seen many people using DataReader incorrectly. In this post, I will try to explain some good practices that can be followed when reading from a data reader. Consider the following problematic code, SqlDataReader reader = /* ... */; while (reader.Read()) { string userName = reader[&quot;user_name&quot;].ToString(); int age = int.Parse( reader[&quot;age&quot;].ToString() ); /* ... */ } reader.Close(); How many problems can you figure out from the above code? There are many problems with this code, The columns “user_name” and “age” may or may not exist.
+      I have seen many people using DataReader incorrectly. In this post, I will try to explain some good practices that can be followed when reading from a data reader. Consider the following problematic code,
+SqlDataReader reader = /* ... */; while (reader.Read()) { string userName = reader[&quot;user_name&quot;].ToString(); int age = int.Parse( reader[&quot;age&quot;].ToString() ); /* ... */ } reader.Close();  How many problems can you figure out from the above code?
       <a href="https://navaneeth.github.io/post/ado-dot-net-best-practices-reading-data-from-data-reader/">Read On &rarr;</a>
       
     </div>
     
     
+
+<ul class="pagination">
     
-    <ul class="pagination">
-        
-        <li>
-            <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
-        </li>
-        
-        <li
-        >
-        <a href="/page/2/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-        </li>
-        
-        <li
-        ><a href="/">1</a></li>
-        
-        <li
-        ><a href="/page/2/">2</a></li>
-        
-        <li
-        class="active"><a href="/page/3/">3</a></li>
-        
-        <li
-        class="disabled">
-        <a href="" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-        </li>
-        
-        <li>
-            <a href="/page/3/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
-        </li>
-        
-    </ul>
+    <li>
+        <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    </li>
     
+    <li
+    >
+    <a href="/page/2/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    </li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/">1</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    ><a href="/page/2/">2</a></li>
+    
+    
+    
+    
+    
+     
+        
+        
+    
+    
+    <li
+    class="active"><a href="/page/3/">3</a></li>
+    
+    
+    <li
+    class="disabled">
+    <a href="" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+    
+    <li>
+        <a href="/page/3/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    </li>
+    
+</ul>
+
   </div>
 </div>
 

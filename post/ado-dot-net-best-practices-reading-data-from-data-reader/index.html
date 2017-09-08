@@ -61,7 +61,6 @@
 
     <ul class="sidebar-nav">
       <li class="sidebar-nav-item">
-      <a href="https://www.flickr.com/photos/navaneethkn"><i class="fa fa-flickr fa-3x"></i></a>
       <a href="https://github.com/navaneeth/"><i class="fa fa-github-square fa-3x"></i></a>
       
       
@@ -115,7 +114,7 @@ reader.Close();
 
 <p>Following sections will show a safe method to read data from DataReader.</p>
 
-<h2 id="understanding-ordinals:0cd52065e9b2dd1b300f1283c1b80438">Understanding ordinals</h2>
+<h2 id="understanding-ordinals">Understanding ordinals</h2>
 
 <p>Ordinal is the index of a column in the reader. <code>GetOrdinal()</code> method will give you the ordinal for the column name supplied. So the first step in reading data from reader should be to find the ordinal of the columns which we want to read. Before getting the ordinal values, you have to ensure that the reader can read. SqlDataReader provides a HasRows property which can be useful here. Here is how you read the ordinals</p>
 
@@ -174,7 +173,7 @@ if (reader.HasRows)
 
 <p>GetOrdinal() method first does a case-sensitive lookup for the column name. If it fails, case-insensitive search is performed. Thus, using the column name in correct case with GetOrdinal() will be more efficient.</p>
 
-<h2 id="respecting-type-safety:0cd52065e9b2dd1b300f1283c1b80438">Respecting type safety</h2>
+<h2 id="respecting-type-safety">Respecting type safety</h2>
 
 <p>C# is a strongly typed language and each programmer should take full advantage of this. Reading data like, <code>reader[&quot;user_name&quot;]</code> is not a type safe way as it returns a object. Data reader provides methods to read data in a type safe way.</p>
 
@@ -203,7 +202,7 @@ if (reader.HasRows)
 }
 </code></pre>
 
-<h2 id="releasing-resources:0cd52065e9b2dd1b300f1283c1b80438">Releasing resources</h2>
+<h2 id="releasing-resources">Releasing resources</h2>
 
 <p>If any type implements IDisposable, it is like saying “I have something to release explicitly rather than garbage collector to release it“. So it is programmers duty to ensure the calls to Dispose() when using disposable types. C# has “using” statement (stack semantics can be used in C++/CLI) which will ensure calls to Dispose(). Since DataReader is a disposable object, we can write like</p>
 
@@ -228,7 +227,7 @@ if (reader.HasRows)
 
 <p>This ensures that the reader is disposed properly even in exceptional situations.</p>
 
-<h2 id="putting-everything-together:0cd52065e9b2dd1b300f1283c1b80438">Putting everything together</h2>
+<h2 id="putting-everything-together">Putting everything together</h2>
 
 <p>If you put everything together, code will be like</p>
 
