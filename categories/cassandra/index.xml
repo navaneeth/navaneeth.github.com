@@ -7,9 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 08 Sep 2017 11:10:50 +0530</lastBuildDate>
-    
-	<atom:link href="http://blog.nkn.io/categories/cassandra/index.xml" rel="self" type="application/rss+xml" />
-    
+    <atom:link href="http://blog.nkn.io/categories/cassandra/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Rename cassandra keyspace</title>
@@ -17,9 +15,79 @@
       <pubDate>Fri, 08 Sep 2017 11:10:50 +0530</pubDate>
       
       <guid>http://blog.nkn.io/post/rename-cassandra-keyspace/</guid>
-      <description>Cassandra don&amp;rsquo;t allow renaming keyspaces. In reality, need to rename a keyspace rarely happens. It happened to me only once so far. But when you need to do it, there is no easy way to do.
-Cassandra gives copy command which can be used to copy data as CSV and import that into another keyspace. But keyspace and table schema has to be created before using copy command.
-I have created a small utility which will use the copy command provided by cassandra and automate keyspace and table schema creation.</description>
+      <description>&lt;p&gt;Cassandra don&amp;rsquo;t allow renaming keyspaces. In reality, need to rename a keyspace rarely happens. It happened to me only once so far. But when you need to do it, there is no easy way to do.&lt;/p&gt;
+
+&lt;p&gt;Cassandra gives &lt;code&gt;copy&lt;/code&gt; command which can be used to copy data as CSV and import that into another keyspace. But keyspace and table schema has to be created before using &lt;code&gt;copy&lt;/code&gt; command.&lt;/p&gt;
+
+&lt;p&gt;I have created a small utility which will use the &lt;code&gt;copy&lt;/code&gt; command provided by cassandra and automate keyspace and table schema creation.&lt;/p&gt;
+
+&lt;p&gt;This works for small data sets. I haven&amp;rsquo;t tested with really huge tables.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ruby&#34;&gt;require &#39;fileutils&#39;
+require &#39;tmpdir&#39;
+require &#39;optparse&#39;
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner =  &amp;quot;usage: rename_keyspace --from &amp;lt;current-name&amp;gt; --to &amp;lt;new-name&amp;gt;&amp;quot;
+
+  opts.on(&amp;quot;--from=name&amp;quot;, &amp;quot;Current keyspace name&amp;quot;) do |name|
+    options[:from] = name
+  end
+  opts.on(&amp;quot;--to=name&amp;quot;, &amp;quot;New keyspace name&amp;quot;) do |name|
+    options[:to] = name
+  end
+
+  opts.on(&amp;quot;--verbose&amp;quot;, &amp;quot;Verbose output&amp;quot;) do |v|
+    options[:verbose] = v
+  end
+
+end.parse!
+
+if options[:from] == nil or options[:to] == nil
+  puts &amp;quot;from and to expected&amp;quot;
+  exit(1)
+end
+
+dir = Dir.mktmpdir # temp working dir
+
+from = options[:from]
+to = options[:to]
+keyspace_cmd_file = File.join(dir, &amp;quot;target_keyspace.cql&amp;quot;)
+keyspace_cmd =  `cqlsh -e &amp;quot;describe #{from};&amp;quot;`.gsub(&amp;quot;KEYSPACE #{from}&amp;quot;, &amp;quot;KEYSPACE #{to}&amp;quot;).gsub(&amp;quot;#{from}\.&amp;quot;, &amp;quot;#{to}\.&amp;quot;)
+File.write(keyspace_cmd_file, keyspace_cmd)
+
+puts &amp;quot;create keyspace: #{to} and tables&amp;quot;
+output = `cqlsh -f #{keyspace_cmd_file}`
+puts output if options[:verbose]
+
+puts &amp;quot;exporting data from #{options[:from]}&amp;quot;
+tables = `cqlsh -e &amp;quot;use #{options[:from]}; describe tables;&amp;quot;`.split(&amp;quot; &amp;quot;)
+tables.each do |table|
+  full_path = File.join(dir, options[:from], &amp;quot;#{table}.csv&amp;quot;)
+  FileUtils.mkdir_p(File.dirname(full_path))
+  puts &amp;quot;Exporting #{options[:from]}.#{table} &amp;gt; #{full_path}&amp;quot;
+  output = `cqlsh -e &amp;quot;copy  #{options[:from]}.#{table} to &#39;#{full_path}&#39;&amp;quot;`
+  puts output if options[:verbose]
+
+  puts &amp;quot;copy #{from}.#{table} to #{to}.#{table}&amp;quot;
+  output = `cqlsh -e &amp;quot;copy  #{options[:to]}.#{table} from &#39;#{full_path}&#39;&amp;quot;`
+  puts output if options[:verbose]
+end
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here is a &lt;a href=&#34;https://gist.github.com/navaneeth/627e03a36b359c9e2440716d47c0a32d&#34;&gt;Gist&lt;/a&gt; on Github.&lt;/p&gt;
+
+&lt;p&gt;To rename keyspace &lt;code&gt;keyspace1&lt;/code&gt; to &lt;code&gt;keyspace2&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;./ rename_keyspace.rb --from keyspace1 --to keyspace2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This utility will look at the structure of &lt;code&gt;keyspace1&lt;/code&gt; and create &lt;code&gt;keyspace2&lt;/code&gt; with the same structure, replication strategy and table schema. It will move data from all tables to the new keyspace.&lt;/p&gt;
+
+&lt;p&gt;This script won&amp;rsquo;t delete the old keyspace for safety reasons.&lt;/p&gt;
+</description>
     </item>
     
   </channel>

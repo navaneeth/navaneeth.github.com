@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
-  <title> &middot; nkn</title>
+  <title>Bigdata buzz &middot; nkn</title>
 
   
   <link rel="stylesheet" href="http://blog.nkn.io/css/poole.css">
@@ -29,7 +29,7 @@
   
   
 
-  <meta name="description" content="">
+  <meta name="description" content=" ">
   <meta name="keywords" content="">
   
   <script>
@@ -84,11 +84,44 @@
 
 <div class="content container">
   <div class="post">
-    <h1 class="post-title"></h1>
-    <p>Dedicated to the public domain</p>
+    <h1 class="post-title">Bigdata buzz</h1>
+    <span class="post-date">Sep 9, 2017 &middot; 2 minute read
+    
+    <br/>
+    <a class="label" href="http://blog.nkn.io/categories/programming">programming</a><a class="label" href="http://blog.nkn.io/categories/journal">journal</a>
+    </span>
+    <p>Bigdata is the new buzzword. Programmers take pride in working with Bigdata technologies. Unfortunately, most of them don&rsquo;t have any clue about bigdata and the tools they claim to be using.</p>
+
+<p>Last few days, I was interviewing candidates for our team. We work on the so called big data tech. But our data is not yet big and we can get away with simple scripts for now. But we stil use tools like <em>Apache spark</em>, <em>Kafka</em> etc.</p>
+
+<p>The recruitment agency sent us few profiles all claiming to be experts in <em>Hadoop</em>, <em>Hive</em>, <em>Spark</em> etc. The resumes looked really good and we called them for in-office interview.</p>
+
+<p>Surprisingly, none of them knew any of the technologies they mentioned in their resumes. I started with simple map-reduce questions. All of them were familiar with map-reduce concepts. But none applied it in practice.</p>
+
+<p>The problem was simple:- Read a text file using Spark and count the word occurances. Something simple like the following will do the trick</p>
+
+<pre><code class="language-scala">val result = sc.textFile(&quot;data.txt&quot;).flatMap(line =&gt; line.split(&quot; &quot;)).map(word =&gt; (word, 1)).reduceByKey((sum, wordCount) =&gt; sum + wordCount)
+</code></pre>
+
+<p>Surprisingly, no one even reached till the first <code>flatMap</code>.</p>
+
+<p>If you are someone who claim to be a Bigdata programmer the you should</p>
+
+<ul>
+<li>Ensure you understand the basics of Map &amp; Reduce operations</li>
+<li>Don&rsquo;t learn just theory. Keep practicing until you master the subject</li>
+<li>Processing big data is not as fancy as it sounds. It is all about doing boring map and reduce operations</li>
+<li>Half of the requirements for big data are not real big data</li>
+<li>Don&rsquo;t fall in the big data buzz and wrongly claim to be an expert</li>
+</ul>
 
   </div>
+  
 </div>
+
+
+
+
 <script src="http://blog.nkn.io/js/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 </body>
