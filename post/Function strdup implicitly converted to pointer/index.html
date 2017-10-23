@@ -85,7 +85,7 @@
 <div class="content container">
   <div class="post">
     <h1 class="post-title">Function strdup implicitly converted to pointer</h1>
-    <span class="post-date">May 21, 2015 &middot; 2 minute read
+    <span class="post-date">May 21, 2015 &middot; 2 minute read &middot; <a href="http://blog.nkn.io/post/Function%20strdup%20implicitly%20converted%20to%20pointer/#disqus_thread">Comments</a>
     
     <br/>
     <a class="label" href="http://blog.nkn.io/categories/programming">programming</a><a class="label" href="http://blog.nkn.io/categories/c">c</a><a class="label" href="http://blog.nkn.io/categories/debian">debian</a>
@@ -133,11 +133,32 @@ strbuf_get_last_unicode_char(strbuf *word)
 <p>To fix this, I found a portable <code>strdup</code> implementation in the OpenBSD source code. I have used that and disabled the default <code>strdup</code>.</p>
 
   </div>
-  
+  <div id="disqus_thread"></div>
 </div>
 
 
+<script type="text/javascript">
+var disqus_shortname = "lovetocode";
+(function () {
+    var s = document.createElement('script'); s.async = true;
+    s.type = 'text/javascript';
+    s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
 
+
+
+<script type="text/javascript">
+    var disqus_shortname = "lovetocode";
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 <script src="http://blog.nkn.io/js/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>

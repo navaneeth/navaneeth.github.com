@@ -85,26 +85,26 @@
 <div class="content container">
   <div class="post">
     <h1 class="post-title">Hiding menu when clicking outside - AngularJS</h1>
-    <span class="post-date">Sep 28, 2014 &middot; 1 minute read
+    <span class="post-date">Sep 28, 2014 &middot; 1 minute read &middot; <a href="http://blog.nkn.io/post/Hiding%20menu%20when%20clicking%20outside%20-%20AngularJS/#disqus_thread">Comments</a>
     
     <br/>
     <a class="label" href="http://blog.nkn.io/categories/programming">programming</a><a class="label" href="http://blog.nkn.io/categories/angularjs">angularjs</a><a class="label" href="http://blog.nkn.io/categories/web">web</a>
     </span>
     <p>Assume you have a menu which looks like the following:</p>
 
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;right-menu&quot;</span> <span class="na">ng-click</span><span class="o">=</span><span class="s">&quot;toggleMenu($event);&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;img/RightMenuIcon.png&quot;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&quot;&quot;</span> <span class="p">/&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
 
-<div class="right-menu" ng-click="toggleMenu($event);">
-  <img src="img/RightMenuIcon.png" alt="" />
-</div>
-
-<div ng-show="menuOpened" class="menu-dropdown-right">
-  <ul>
-    <li ng-hide="loggedIn" class="class"><a href="#/authenticate">Login</a>
-    </li>
-    <li ng-show="loggedIn"  ng-click="logOut()"><a href="#">Logout</a>
-    </li>
-  </ul>
-</div>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">ng-show</span><span class="o">=</span><span class="s">&quot;menuOpened&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;menu-dropdown-right&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">li</span> <span class="na">ng-hide</span><span class="o">=</span><span class="s">&quot;loggedIn&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;class&quot;</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;#/authenticate&quot;</span><span class="p">&gt;</span>Login<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">li</span> <span class="na">ng-show</span><span class="o">=</span><span class="s">&quot;loggedIn&quot;</span>  <span class="na">ng-click</span><span class="o">=</span><span class="s">&quot;logOut()&quot;</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;#&quot;</span><span class="p">&gt;</span>Logout<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div>
 
 
 <p>When the div gets a click event, angular calls <code>toggleMenu</code> which toggles the <code>menuOpened</code> variable. Changing the value of this variable in turn makes the div show/hide.</p>
@@ -141,11 +141,32 @@
 </code></pre>
 
   </div>
-  
+  <div id="disqus_thread"></div>
 </div>
 
 
+<script type="text/javascript">
+var disqus_shortname = "lovetocode";
+(function () {
+    var s = document.createElement('script'); s.async = true;
+    s.type = 'text/javascript';
+    s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
 
+
+
+<script type="text/javascript">
+    var disqus_shortname = "lovetocode";
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 <script src="http://blog.nkn.io/js/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>

@@ -90,13 +90,13 @@
       <h1 class="post-title">
         <a href="http://blog.nkn.io/post/Hiding%20menu%20when%20clicking%20outside%20-%20AngularJS/">Hiding menu when clicking outside - AngularJS</a>
       </h1>
-      <span class="post-date">Sep 28, 2014 &middot; 1 minute read
+      <span class="post-date">Sep 28, 2014 &middot; 1 minute read &middot; <a href="http://blog.nkn.io/post/Hiding%20menu%20when%20clicking%20outside%20-%20AngularJS/#disqus_thread">Comments</a>
       
       <br/>
       <a class="label" href="http://blog.nkn.io/categories/programming">programming</a><a class="label" href="http://blog.nkn.io/categories/angularjs">angularjs</a><a class="label" href="http://blog.nkn.io/categories/web">web</a>
       </span>
       
-      Assume you have a menu which looks like the following: Login Logout When the div gets a click event, angular calls toggleMenu which toggles the menuOpened variable. Changing the value of this variable in turn makes the div show/hide. To hide the menu when clicking outside of the div, we add a onclick handler to window object which checks the menuOpened variable and updates it if the menu is visible. Here is the code for MenuCtrl and the onclick handler: angularApp.controller('MenuCtrl', ['$scope', '$location', '$rootScope', function($scope, $location, $rootScope) { $scope.menuOpened = false; $scope.toggleMenu = function(event) { $scope.menuOpened = !($scope.menuOpened); // Important part in the implementation // Stopping event propagation means window.onclick won't get called when someone clicks // on the menu div.
+      Assume you have a menu which looks like the following: &lt;div class=&quot;right-menu&quot; ng-click=&quot;toggleMenu($event);&quot;&gt; &lt;img src=&quot;img/RightMenuIcon.png&quot; alt=&quot;&quot; /&gt; &lt;/div&gt; &lt;div ng-show=&quot;menuOpened&quot; class=&quot;menu-dropdown-right&quot;&gt; &lt;ul&gt; &lt;li ng-hide=&quot;loggedIn&quot; class=&quot;class&quot;&gt;&lt;a href=&quot;#/authenticate&quot;&gt;Login&lt;/a&gt; &lt;/li&gt; &lt;li ng-show=&quot;loggedIn&quot; ng-click=&quot;logOut()&quot;&gt;&lt;a href=&quot;#&quot;&gt;Logout&lt;/a&gt; &lt;/li&gt; &lt;/ul&gt; &lt;/div&gt; When the div gets a click event, angular calls toggleMenu which toggles the menuOpened variable. Changing the value of this variable in turn makes the div show/hide. To hide the menu when clicking outside of the div, we add a onclick handler to window object which checks the menuOpened variable and updates it if the menu is visible.
       <a href="http://blog.nkn.io/post/Hiding%20menu%20when%20clicking%20outside%20-%20AngularJS/">Read On &rarr;</a>
       
     </div>
@@ -105,7 +105,7 @@
       <h1 class="post-title">
         <a href="http://blog.nkn.io/post/how-to-get-lintian-warnings-when-using-ubuntu/">how to get lintian warnings when using ubuntu</a>
       </h1>
-      <span class="post-date">Mar 23, 2014 &middot; 1 minute read
+      <span class="post-date">Mar 23, 2014 &middot; 1 minute read &middot; <a href="http://blog.nkn.io/post/how-to-get-lintian-warnings-when-using-ubuntu/#disqus_thread">Comments</a>
       
       <br/>
       
@@ -120,7 +120,7 @@
       <h1 class="post-title">
         <a href="http://blog.nkn.io/post/Channels%20in%20libuv/">Channels in libuv</a>
       </h1>
-      <span class="post-date">Aug 2, 2013 &middot; 3 minute read
+      <span class="post-date">Aug 2, 2013 &middot; 3 minute read &middot; <a href="http://blog.nkn.io/post/Channels%20in%20libuv/#disqus_thread">Comments</a>
       
       <br/>
       <a class="label" href="http://blog.nkn.io/categories/programming">programming</a><a class="label" href="http://blog.nkn.io/categories/c">c</a><a class="label" href="http://blog.nkn.io/categories/golang">golang</a>
@@ -135,7 +135,7 @@
       <h1 class="post-title">
         <a href="http://blog.nkn.io/post/Building%20static%20and%20shared%20libraries%20using%20CMake/">Building static and shared libraries using CMake</a>
       </h1>
-      <span class="post-date">Jul 28, 2013 &middot; 1 minute read
+      <span class="post-date">Jul 28, 2013 &middot; 1 minute read &middot; <a href="http://blog.nkn.io/post/Building%20static%20and%20shared%20libraries%20using%20CMake/#disqus_thread">Comments</a>
       
       <br/>
       <a class="label" href="http://blog.nkn.io/categories/programming">programming</a><a class="label" href="http://blog.nkn.io/categories/cmake">cmake</a>
@@ -150,7 +150,7 @@
       <h1 class="post-title">
         <a href="http://blog.nkn.io/post/how-to-use-individual-lines-pulled-from-stdin-in-the-middle-of-a-command-when-using-xargs/">How to use individual lines pulled from stdin in the middle of a command when using xargs</a>
       </h1>
-      <span class="post-date">Feb 28, 2013 &middot; 1 minute read
+      <span class="post-date">Feb 28, 2013 &middot; 1 minute read &middot; <a href="http://blog.nkn.io/post/how-to-use-individual-lines-pulled-from-stdin-in-the-middle-of-a-command-when-using-xargs/#disqus_thread">Comments</a>
       
       <br/>
       <a class="label" href="http://blog.nkn.io/categories/programming">programming</a><a class="label" href="http://blog.nkn.io/categories/linux">linux</a>
@@ -165,7 +165,7 @@
       <h1 class="post-title">
         <a href="http://blog.nkn.io/post/how-to-upload-files-when-testing-using-selenium-webdriver/">How to upload files when testing using Selenium Webdriver</a>
       </h1>
-      <span class="post-date">Feb 20, 2013 &middot; 1 minute read
+      <span class="post-date">Feb 20, 2013 &middot; 1 minute read &middot; <a href="http://blog.nkn.io/post/how-to-upload-files-when-testing-using-selenium-webdriver/#disqus_thread">Comments</a>
       
       <br/>
       <a class="label" href="http://blog.nkn.io/categories/programming">programming</a><a class="label" href="http://blog.nkn.io/categories/java">java</a><a class="label" href="http://blog.nkn.io/categories/selenium">selenium</a>
@@ -180,7 +180,7 @@
       <h1 class="post-title">
         <a href="http://blog.nkn.io/post/is-thread-dot-sleep-evil/">Is Thread.Sleep() evil?</a>
       </h1>
-      <span class="post-date">Feb 19, 2013 &middot; 2 minute read
+      <span class="post-date">Feb 19, 2013 &middot; 2 minute read &middot; <a href="http://blog.nkn.io/post/is-thread-dot-sleep-evil/#disqus_thread">Comments</a>
       
       <br/>
       <a class="label" href="http://blog.nkn.io/categories/programming">programming</a><a class="label" href="http://blog.nkn.io/categories/c">c#</a><a class="label" href="http://blog.nkn.io/categories/threading">threading</a>
@@ -195,7 +195,7 @@
       <h1 class="post-title">
         <a href="http://blog.nkn.io/post/working-with-native-code-in-csharp-easily-with-cplusplus-cli/">Working with native code easily in C# with the help of C&#43;&#43;/CLI</a>
       </h1>
-      <span class="post-date">Feb 17, 2013 &middot; 6 minute read
+      <span class="post-date">Feb 17, 2013 &middot; 6 minute read &middot; <a href="http://blog.nkn.io/post/working-with-native-code-in-csharp-easily-with-cplusplus-cli/#disqus_thread">Comments</a>
       
       <br/>
       <a class="label" href="http://blog.nkn.io/categories/programming">programming</a><a class="label" href="http://blog.nkn.io/categories/.net">.net</a><a class="label" href="http://blog.nkn.io/categories/c/cli">c&#43;&#43;/cli</a>
@@ -210,7 +210,7 @@
       <h1 class="post-title">
         <a href="http://blog.nkn.io/post/simple-generic-and-dynamically-allocated-array-in-c/">Simple, generic and dynamically allocated array in C</a>
       </h1>
-      <span class="post-date">May 11, 2012 &middot; 2 minute read
+      <span class="post-date">May 11, 2012 &middot; 2 minute read &middot; <a href="http://blog.nkn.io/post/simple-generic-and-dynamically-allocated-array-in-c/#disqus_thread">Comments</a>
       
       <br/>
       <a class="label" href="http://blog.nkn.io/categories/programming">programming</a><a class="label" href="http://blog.nkn.io/categories/datastructures">datastructures</a><a class="label" href="http://blog.nkn.io/categories/c">c</a>
@@ -225,7 +225,7 @@
       <h1 class="post-title">
         <a href="http://blog.nkn.io/post/simple-egg-timer-on-linux-for-pomodoro-technique/">Simple egg timer on Linux for Pomodoro technique</a>
       </h1>
-      <span class="post-date">Dec 19, 2010 &middot; 2 minute read
+      <span class="post-date">Dec 19, 2010 &middot; 2 minute read &middot; <a href="http://blog.nkn.io/post/simple-egg-timer-on-linux-for-pomodoro-technique/#disqus_thread">Comments</a>
       
       <br/>
       <a class="label" href="http://blog.nkn.io/categories/programming">programming</a><a class="label" href="http://blog.nkn.io/categories/linux">linux</a><a class="label" href="http://blog.nkn.io/categories/pomodoro">pomodoro</a><a class="label" href="http://blog.nkn.io/categories/shell">shell</a>
@@ -272,6 +272,16 @@
   </div>
 </div>
 
+
+<script type="text/javascript">
+var disqus_shortname = "lovetocode";
+(function () {
+    var s = document.createElement('script'); s.async = true;
+    s.type = 'text/javascript';
+    s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
 
 <script src="http://blog.nkn.io/js/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
