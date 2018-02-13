@@ -138,6 +138,15 @@
     </item>
     
     <item>
+      <title>Journal</title>
+      <link>http://blog.nkn.io/categories/journal/</link>
+      <pubDate>Sat, 09 Sep 2017 14:40:26 +0530</pubDate>
+      
+      <guid>http://blog.nkn.io/categories/journal/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Linux</title>
       <link>http://blog.nkn.io/categories/linux/</link>
       <pubDate>Thu, 28 Feb 2013 12:59:50 +0530</pubDate>
@@ -167,7 +176,7 @@
     <item>
       <title>Programming</title>
       <link>http://blog.nkn.io/categories/programming/</link>
-      <pubDate>Fri, 08 Sep 2017 11:10:50 +0530</pubDate>
+      <pubDate>Tue, 13 Feb 2018 11:20:36 +0530</pubDate>
       
       <guid>http://blog.nkn.io/categories/programming/</guid>
       <description></description>

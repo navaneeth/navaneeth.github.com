@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
+	<meta name="generator" content="Hugo 0.36" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -61,7 +62,6 @@
 
     <ul class="sidebar-nav">
       <li class="sidebar-nav-item">
-      <a href="https://www.flickr.com/photos/navaneethkn"><i class="fa fa-flickr fa-3x"></i></a>
       <a href="https://github.com/navaneeth/"><i class="fa fa-github-square fa-3x"></i></a>
       
       
@@ -76,8 +76,9 @@
 
     
 
-    <p>Copyright &copy; 2017 <a href="http://blog.nkn.io/license/">License</a><br/>
+    <p>Copyright &copy; 2018 <a href="http://blog.nkn.io/license/">License</a><br/>
        Powered by <a href="http://gohugo.io">Hugo</a> and <a href="https://github.com/zyro/hyde-x">Hyde-X</a></p>
+
   </div>
 </div>
 
@@ -88,16 +89,36 @@
     
     <div class="post">
       <h1 class="post-title">
-        <a href="http://blog.nkn.io/post/Hiding%20menu%20when%20clicking%20outside%20-%20AngularJS/">Hiding menu when clicking outside - AngularJS</a>
+        <a href="http://blog.nkn.io/post/document.ready-handler-not-getting-fired---rails4/">document.ready() handler not getting fired   Rails4</a>
       </h1>
-      <span class="post-date">Sep 28, 2014 &middot; 1 minute read &middot; <a href="http://blog.nkn.io/post/Hiding%20menu%20when%20clicking%20outside%20-%20AngularJS/#disqus_thread">Comments</a>
+      <span class="post-date">Nov 18, 2014 &middot; 1 minute read &middot; <a href="http://blog.nkn.io/post/document.ready-handler-not-getting-fired---rails4/#disqus_thread">Comments</a>
+      
+      <br/>
+      <a class="label" href="http://blog.nkn.io/categories/programming">programming</a><a class="label" href="http://blog.nkn.io/categories/web">web</a><a class="label" href="http://blog.nkn.io/categories/rails">rails</a>
+      </span>
+      
+      Rails4 uses a gem called turbolinks which makes following links on the web application faster. This gem is added to the Gemfile by default when a new rails project is initialized. However, there are few side effects this can cause.
+Consider the following JS, added into app/assets/javascripts/projects.js:
+$(function () { $('#startDate').datetimepicker({ pickTime: false }); });  This looks alright, but won&rsquo;t work as expected.
+When rails navigates to the page following a link, turbolink comes into picture and makes it faster by caching the JS contents.
+      <a href="http://blog.nkn.io/post/document.ready-handler-not-getting-fired---rails4/">Read On &rarr;</a>
+      
+    </div>
+    
+    <div class="post">
+      <h1 class="post-title">
+        <a href="http://blog.nkn.io/post/hiding-menu-when-clicking-outside---angularjs/">Hiding menu when clicking outside - AngularJS</a>
+      </h1>
+      <span class="post-date">Sep 28, 2014 &middot; 1 minute read &middot; <a href="http://blog.nkn.io/post/hiding-menu-when-clicking-outside---angularjs/#disqus_thread">Comments</a>
       
       <br/>
       <a class="label" href="http://blog.nkn.io/categories/programming">programming</a><a class="label" href="http://blog.nkn.io/categories/angularjs">angularjs</a><a class="label" href="http://blog.nkn.io/categories/web">web</a>
       </span>
       
-      Assume you have a menu which looks like the following: &lt;div class=&quot;right-menu&quot; ng-click=&quot;toggleMenu($event);&quot;&gt; &lt;img src=&quot;img/RightMenuIcon.png&quot; alt=&quot;&quot; /&gt; &lt;/div&gt; &lt;div ng-show=&quot;menuOpened&quot; class=&quot;menu-dropdown-right&quot;&gt; &lt;ul&gt; &lt;li ng-hide=&quot;loggedIn&quot; class=&quot;class&quot;&gt;&lt;a href=&quot;#/authenticate&quot;&gt;Login&lt;/a&gt; &lt;/li&gt; &lt;li ng-show=&quot;loggedIn&quot; ng-click=&quot;logOut()&quot;&gt;&lt;a href=&quot;#&quot;&gt;Logout&lt;/a&gt; &lt;/li&gt; &lt;/ul&gt; &lt;/div&gt; When the div gets a click event, angular calls toggleMenu which toggles the menuOpened variable. Changing the value of this variable in turn makes the div show/hide. To hide the menu when clicking outside of the div, we add a onclick handler to window object which checks the menuOpened variable and updates it if the menu is visible.
-      <a href="http://blog.nkn.io/post/Hiding%20menu%20when%20clicking%20outside%20-%20AngularJS/">Read On &rarr;</a>
+      Assume you have a menu which looks like the following:
+&lt;div class=&#34;right-menu&#34; ng-click=&#34;toggleMenu($event);&#34;&gt; &lt;img src=&#34;img/RightMenuIcon.png&#34; alt=&#34;&#34; /&gt; &lt;/div&gt; &lt;div ng-show=&#34;menuOpened&#34; class=&#34;menu-dropdown-right&#34;&gt; &lt;ul&gt; &lt;li ng-hide=&#34;loggedIn&#34; class=&#34;class&#34;&gt;&lt;a href=&#34;#/authenticate&#34;&gt;Login&lt;/a&gt; &lt;/li&gt; &lt;li ng-show=&#34;loggedIn&#34; ng-click=&#34;logOut()&#34;&gt;&lt;a href=&#34;#&#34;&gt;Logout&lt;/a&gt; &lt;/li&gt; &lt;/ul&gt; &lt;/div&gt; When the div gets a click event, angular calls toggleMenu which toggles the menuOpened variable. Changing the value of this variable in turn makes the div show/hide.
+To hide the menu when clicking outside of the div, we add a onclick handler to window object which checks the menuOpened variable and updates it if the menu is visible.
+      <a href="http://blog.nkn.io/post/hiding-menu-when-clicking-outside---angularjs/">Read On &rarr;</a>
       
     </div>
     
@@ -111,38 +132,41 @@
       
       </span>
       
-      Recently, I started to package libvarnam for Debian. I followed the debian packaging guidelines and successfully created a package. I am using Ubuntu instead of Debian to do the packaging. Since Ubuntu is based on Debian, packaging also has the same procedure. Debian requires all the packages to be lintian clean. Lintian is a command line utility which checks for errors and standards violations in the package files. My package was lintian clean and I have uploaded it into the debian mentors page seeking for sponsors.
+      Recently, I started to package libvarnam for Debian. I followed the debian packaging guidelines and successfully created a package. I am using Ubuntu instead of Debian to do the packaging. Since Ubuntu is based on Debian, packaging also has the same procedure.
+Debian requires all the packages to be lintian clean. Lintian is a command line utility which checks for errors and standards violations in the package files. My package was lintian clean and I have uploaded it into the debian mentors page seeking for sponsors.
       <a href="http://blog.nkn.io/post/how-to-get-lintian-warnings-when-using-ubuntu/">Read On &rarr;</a>
       
     </div>
     
     <div class="post">
       <h1 class="post-title">
-        <a href="http://blog.nkn.io/post/Channels%20in%20libuv/">Channels in libuv</a>
+        <a href="http://blog.nkn.io/post/channels-in-libuv/">Channels in libuv</a>
       </h1>
-      <span class="post-date">Aug 2, 2013 &middot; 3 minute read &middot; <a href="http://blog.nkn.io/post/Channels%20in%20libuv/#disqus_thread">Comments</a>
+      <span class="post-date">Aug 2, 2013 &middot; 3 minute read &middot; <a href="http://blog.nkn.io/post/channels-in-libuv/#disqus_thread">Comments</a>
       
       <br/>
       <a class="label" href="http://blog.nkn.io/categories/programming">programming</a><a class="label" href="http://blog.nkn.io/categories/c">c</a><a class="label" href="http://blog.nkn.io/categories/golang">golang</a>
       </span>
       
-      go programming language provides a very powerful synchronization mechanism called channels. Channels simplifies communication between threads and makes it very easy to send and receive data from go routines. I always missed such functionalities when using libuv. libuv has uv async_send, but it can be used only to wakeup the event loop. In this post, we will implement channels in C using libuv. The idea is to implement a channel so that user can use it without worrying about manually doing the synchronization.
-      <a href="http://blog.nkn.io/post/Channels%20in%20libuv/">Read On &rarr;</a>
+      go programming language provides a very powerful synchronization mechanism called channels. Channels simplifies communication between threads and makes it very easy to send and receive data from go routines.
+I always missed such functionalities when using libuv. libuv has uv async_send, but it can be used only to wakeup the event loop. In this post, we will implement channels in C using libuv. The idea is to implement a channel so that user can use it without worrying about manually doing the synchronization.
+      <a href="http://blog.nkn.io/post/channels-in-libuv/">Read On &rarr;</a>
       
     </div>
     
     <div class="post">
       <h1 class="post-title">
-        <a href="http://blog.nkn.io/post/Building%20static%20and%20shared%20libraries%20using%20CMake/">Building static and shared libraries using CMake</a>
+        <a href="http://blog.nkn.io/post/building-static-and-shared-libraries-using-cmake/">Building static and shared libraries using CMake</a>
       </h1>
-      <span class="post-date">Jul 28, 2013 &middot; 1 minute read &middot; <a href="http://blog.nkn.io/post/Building%20static%20and%20shared%20libraries%20using%20CMake/#disqus_thread">Comments</a>
+      <span class="post-date">Jul 28, 2013 &middot; 1 minute read &middot; <a href="http://blog.nkn.io/post/building-static-and-shared-libraries-using-cmake/#disqus_thread">Comments</a>
       
       <br/>
       <a class="label" href="http://blog.nkn.io/categories/programming">programming</a><a class="label" href="http://blog.nkn.io/categories/cmake">cmake</a>
       </span>
       
-      Recently in libvarnam, I had to build a static and shared library from the same source files. This was much harder before CMake 2.8. From CMake 2.8.8, CMake has support for Object library which made it very simple. Basic idea is to use add_library with OBJECT type. CMake will compile all the source files provided in this target and makes the object files for it. It won&rsquo;t create a temporary static library with all these object files.
-      <a href="http://blog.nkn.io/post/Building%20static%20and%20shared%20libraries%20using%20CMake/">Read On &rarr;</a>
+      Recently in libvarnam, I had to build a static and shared library from the same source files. This was much harder before CMake 2.8. From CMake 2.8.8, CMake has support for Object library which made it very simple.
+Basic idea is to use add_library with OBJECT type. CMake will compile all the source files provided in this target and makes the object files for it. It won&rsquo;t create a temporary static library with all these object files.
+      <a href="http://blog.nkn.io/post/building-static-and-shared-libraries-using-cmake/">Read On &rarr;</a>
       
     </div>
     
@@ -156,7 +180,10 @@
       <a class="label" href="http://blog.nkn.io/categories/programming">programming</a><a class="label" href="http://blog.nkn.io/categories/linux">linux</a>
       </span>
       
-      xargs is very powerful commandline utility. Here is what Wikipedia says about xargs xargs is a command on Unix and most Unix-like operating systems used to build and execute command lines from standard input Most common use of xargs would be to do something like, find . -type f -print0 | xargs -0 rm Let us assume that you have a file with list of files to be downloaded from a website.
+      xargs is very powerful commandline utility. Here is what Wikipedia says about xargs
+ xargs is a command on Unix and most Unix-like operating systems used to build and execute command lines from standard input
+ Most common use of xargs would be to do something like,
+find . -type f -print0 | xargs -0 rm  Let us assume that you have a file with list of files to be downloaded from a website.
       <a href="http://blog.nkn.io/post/how-to-use-individual-lines-pulled-from-stdin-in-the-middle-of-a-command-when-using-xargs/">Read On &rarr;</a>
       
     </div>
@@ -171,7 +198,8 @@
       <a class="label" href="http://blog.nkn.io/categories/programming">programming</a><a class="label" href="http://blog.nkn.io/categories/java">java</a><a class="label" href="http://blog.nkn.io/categories/selenium">selenium</a>
       </span>
       
-      You can use the following code to set a file path to the file upload control. WebElement file = driver.findElement(By.id(&quot;control_id&quot;)); file.sendKeys(&quot;/full/path/to/file&quot;); You need to pass full path to the sendKeys() for it to work. Otherwise sendKeys() fails silently.
+      You can use the following code to set a file path to the file upload control.
+WebElement file = driver.findElement(By.id(&quot;control_id&quot;)); file.sendKeys(&quot;/full/path/to/file&quot;);  You need to pass full path to the sendKeys() for it to work. Otherwise sendKeys() fails silently.
       
       
     </div>
@@ -186,7 +214,9 @@
       <a class="label" href="http://blog.nkn.io/categories/programming">programming</a><a class="label" href="http://blog.nkn.io/categories/c">c#</a><a class="label" href="http://blog.nkn.io/categories/threading">threading</a>
       </span>
       
-      If you search for this topic, you will find lots of information and many of them claiming Thread.Sleep() is evil. However, I think this evilness is mostly dependent on which context Thread.Sleep() is used. You might have seen code like the below one. while (!exit) { DoWork(); Thread.Sleep(10000); } This code example does some work and sleeps for 1 minute before does the job again. This simple example has some potential issues.
+      If you search for this topic, you will find lots of information and many of them claiming Thread.Sleep() is evil. However, I think this evilness is mostly dependent on which context Thread.Sleep() is used.
+You might have seen code like the below one.
+while (!exit) { DoWork(); Thread.Sleep(10000); }  This code example does some work and sleeps for 1 minute before does the job again. This simple example has some potential issues.
       <a href="http://blog.nkn.io/post/is-thread-dot-sleep-evil/">Read On &rarr;</a>
       
     </div>
@@ -198,10 +228,12 @@
       <span class="post-date">Feb 17, 2013 &middot; 6 minute read &middot; <a href="http://blog.nkn.io/post/working-with-native-code-in-csharp-easily-with-cplusplus-cli/#disqus_thread">Comments</a>
       
       <br/>
-      <a class="label" href="http://blog.nkn.io/categories/programming">programming</a><a class="label" href="http://blog.nkn.io/categories/.net">.net</a><a class="label" href="http://blog.nkn.io/categories/c/cli">c&#43;&#43;/cli</a>
+      <a class="label" href="http://blog.nkn.io/categories/programming">programming</a><a class="label" href="http://blog.nkn.io/categories/.net">.net</a><a class="label" href="http://blog.nkn.io/categories/c&#43;&#43;/cli">c&#43;&#43;/cli</a>
       </span>
       
-      .NET comes with pretty good interoperability options which would enable unmanaged code to be used from a managed environment. In C#, to call a function which is available in a DLL, PInvoke (Platform invocation service) can be used. Here is what MSDN says. Platform Invocation Services (PInvoke) allows managed code to call unmanaged functions that are implemented in a DLL. This is very helpful when you need to call some system functions from your C# application.
+      .NET comes with pretty good interoperability options which would enable unmanaged code to be used from a managed environment. In C#, to call a function which is available in a DLL, PInvoke (Platform invocation service) can be used. Here is what MSDN says.
+ Platform Invocation Services (PInvoke) allows managed code to call unmanaged functions that are implemented in a DLL.
+ This is very helpful when you need to call some system functions from your C# application.
       <a href="http://blog.nkn.io/post/working-with-native-code-in-csharp-easily-with-cplusplus-cli/">Read On &rarr;</a>
       
     </div>
@@ -221,54 +253,67 @@
       
     </div>
     
-    <div class="post">
-      <h1 class="post-title">
-        <a href="http://blog.nkn.io/post/simple-egg-timer-on-linux-for-pomodoro-technique/">Simple egg timer on Linux for Pomodoro technique</a>
-      </h1>
-      <span class="post-date">Dec 19, 2010 &middot; 2 minute read &middot; <a href="http://blog.nkn.io/post/simple-egg-timer-on-linux-for-pomodoro-technique/#disqus_thread">Comments</a>
-      
-      <br/>
-      <a class="label" href="http://blog.nkn.io/categories/programming">programming</a><a class="label" href="http://blog.nkn.io/categories/linux">linux</a><a class="label" href="http://blog.nkn.io/categories/pomodoro">pomodoro</a><a class="label" href="http://blog.nkn.io/categories/shell">shell</a>
-      </span>
-      
-      Recently I have started evaluating the Pomodoro Technique which I found quite interesting. I am still evaluating the technique and not yet concluded on whether I should continue using it. To implement pomodoro technique, you need a kitchen timer or egg timer. Since I use pomodoro for my programming work, I obviously don’t want to use a physical timer. I couldn’t find a decent timer for linux especially one that works well with Xfce.
-      <a href="http://blog.nkn.io/post/simple-egg-timer-on-linux-for-pomodoro-technique/">Read On &rarr;</a>
-      
-    </div>
+    
+
+<ul class="pagination">
+    
+    <li>
+        <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    </li>
+    
+    <li
+    >
+    <a href="/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    </li>
     
     
     
-    <ul class="pagination">
-        
-        <li>
-            <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
-        </li>
-        
-        <li
-        >
-        <a href="/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-        </li>
-        
-        <li
-        ><a href="/">1</a></li>
-        
-        <li
-        class="active"><a href="/page/2/">2</a></li>
-        
-        <li
-        ><a href="/page/3/">3</a></li>
-        
-        <li
-        >
-        <a href="/page/3/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-        </li>
-        
-        <li>
-            <a href="/page/3/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
-        </li>
-        
-    </ul>
     
+    
+    
+        
+        
+    
+    
+    <li
+    ><a href="/">1</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li
+    class="active"><a href="/page/2/">2</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li
+    ><a href="/page/3/">3</a></li>
+    
+    
+    <li
+    >
+    <a href="/page/3/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+    
+    <li>
+        <a href="/page/3/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    </li>
+    
+</ul>
+
   </div>
 </div>
 

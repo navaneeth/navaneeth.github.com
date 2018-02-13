@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
-  <title>Datastructures &middot; nkn</title>
+  <title>Command line epoch converter &middot; nkn</title>
 
   
   <link rel="stylesheet" href="http://blog.nkn.io/css/poole.css">
@@ -27,9 +27,9 @@
   
   
   
-  <link href="http://blog.nkn.io/categories/datastructures/index.xml" rel="alternate" type="application/rss+xml" title="{love to code} &middot; nkn" />
+  
 
-  <meta name="description" content="">
+  <meta name="description" content="Command line epoch converter">
   <meta name="keywords" content="">
   
   <script>
@@ -83,24 +83,67 @@
 
 
 <div class="content container">
-  <ul class="posts">
-  
-    <li><a href="http://blog.nkn.io/post/simple-generic-and-dynamically-allocated-array-in-c/">Simple, generic and dynamically allocated array in C</a>
+  <div class="post">
+    <h1 class="post-title">Command line epoch converter</h1>
+    <span class="post-date">Feb 13, 2018 &middot; 1 minute read &middot; <a href="http://blog.nkn.io/post/command-line-epoch-converter/#disqus_thread">Comments</a>
     
-    &middot;
-    <a class="label" href="http://blog.nkn.io/categories/programming">programming</a><a class="label" href="http://blog.nkn.io/categories/datastructures">datastructures</a><a class="label" href="http://blog.nkn.io/categories/c">c</a>
+    <br/>
+    <a class="label" href="http://blog.nkn.io/categories/programming">programming</a>
     </span>
-    &middot; <time>May 11, 2012</time></li>
-  
-    <li><a href="http://blog.nkn.io/post/circular-linked-list-an-implementation-using-c-number/">Circular linked list – An implementation using C#</a>
-    
-    &middot;
-    <a class="label" href="http://blog.nkn.io/categories/programming">programming</a><a class="label" href="http://blog.nkn.io/categories/datastructures">datastructures</a><a class="label" href="http://blog.nkn.io/categories/c">c#</a>
-    </span>
-    &middot; <time>Aug 18, 2009</time></li>
-  
-  </ul>
+    <p>In a recent project, I had to work with lots of <code>epoch</code> timestamps. Every JSON value, db column, contains epoch value. To convert back and forth, we used online utilities like epochconverter. But all of the are a pain to use for obvious reasons.</p>
+
+<p>Here is a simple command line utility which will simplify your life with epoch values.</p>
+
+<p>To install:</p>
+
+<pre><code>go get gitlab.com/navaneethkn/epoch
+</code></pre>
+
+<p>Usage:</p>
+
+<pre><code>$ epoch
+1518501586685673000
+
+$ epoch -format sec
+1518501655
+
+$ epoch 1518501586685673000
+2018-02-13 11:29am (IST)
+
+$ epoch &quot;2018-02-12 11:29am (IST)&quot;
+1518415140000000000
+</code></pre>
+
+<p>Happy programming!</p>
+
+  </div>
+  <div id="disqus_thread"></div>
 </div>
+
+
+<script type="text/javascript">
+var disqus_shortname = "lovetocode";
+(function () {
+    var s = document.createElement('script'); s.async = true;
+    s.type = 'text/javascript';
+    s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+
+
+
+<script type="text/javascript">
+    var disqus_shortname = "lovetocode";
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
 <script src="http://blog.nkn.io/js/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 </body>

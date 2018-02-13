@@ -7,7 +7,9 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 09 Sep 2017 14:40:26 +0530</lastBuildDate>
-    <atom:link href="http://blog.nkn.io/categories/journal/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://blog.nkn.io/categories/journal/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Bigdata buzz</title>
@@ -15,31 +17,8 @@
       <pubDate>Sat, 09 Sep 2017 14:40:26 +0530</pubDate>
       
       <guid>http://blog.nkn.io/post/bigdata-buzz/</guid>
-      <description>&lt;p&gt;Bigdata is the new buzzword. Programmers take pride in working with Bigdata technologies. Unfortunately, most of them don&amp;rsquo;t have any clue about bigdata and the tools they claim to be using.&lt;/p&gt;
-
-&lt;p&gt;Last few days, I was interviewing candidates for our team. We work on the so called big data tech. But our data is not yet big and we can get away with simple scripts for now. But we stil use tools like &lt;em&gt;Apache spark&lt;/em&gt;, &lt;em&gt;Kafka&lt;/em&gt; etc.&lt;/p&gt;
-
-&lt;p&gt;The recruitment agency sent us few profiles all claiming to be experts in &lt;em&gt;Hadoop&lt;/em&gt;, &lt;em&gt;Hive&lt;/em&gt;, &lt;em&gt;Spark&lt;/em&gt; etc. The resumes looked really good and we called them for in-office interview.&lt;/p&gt;
-
-&lt;p&gt;Surprisingly, none of them knew any of the technologies they mentioned in their resumes. I started with simple map-reduce questions. All of them were familiar with map-reduce concepts. But none applied it in practice.&lt;/p&gt;
-
-&lt;p&gt;The problem was simple:- Read a text file using Spark and count the word occurances. Something simple like the following will do the trick&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val result = sc.textFile(&amp;quot;data.txt&amp;quot;).flatMap(line =&amp;gt; line.split(&amp;quot; &amp;quot;)).map(word =&amp;gt; (word, 1)).reduceByKey((sum, wordCount) =&amp;gt; sum + wordCount)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Surprisingly, no one even reached till the first &lt;code&gt;flatMap&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;If you are someone who claim to be a Bigdata programmer the you should&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Ensure you understand the basics of Map &amp;amp; Reduce operations&lt;/li&gt;
-&lt;li&gt;Don&amp;rsquo;t learn just theory. Keep practicing until you master the subject&lt;/li&gt;
-&lt;li&gt;Processing big data is not as fancy as it sounds. It is all about doing boring map and reduce operations&lt;/li&gt;
-&lt;li&gt;Half of the requirements for big data are not real big data&lt;/li&gt;
-&lt;li&gt;Don&amp;rsquo;t fall in the big data buzz and wrongly claim to be an expert&lt;/li&gt;
-&lt;/ul&gt;
-</description>
+      <description>Bigdata is the new buzzword. Programmers take pride in working with Bigdata technologies. Unfortunately, most of them don&amp;rsquo;t have any clue about bigdata and the tools they claim to be using.
+Last few days, I was interviewing candidates for our team. We work on the so called big data tech. But our data is not yet big and we can get away with simple scripts for now. But we stil use tools like Apache spark, Kafka etc.</description>
     </item>
     
   </channel>
