@@ -6,11 +6,7 @@
     <description>Recent content in c on {love to code}</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 21 May 2015 10:50:48 +0530</lastBuildDate>
-    
-	<atom:link href="https://navaneeth.github.io/categories/c/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 21 May 2015 10:50:48 +0530</lastBuildDate><atom:link href="https://navaneeth.github.io/categories/c/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Function strdup implicitly converted to pointer</title>
       <link>https://navaneeth.github.io/post/function-strdup-implicitly-converted-to-pointer/</link>

@@ -6,11 +6,7 @@
     <description>Recent content in angularjs on {love to code}</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 28 Sep 2014 11:29:28 +0530</lastBuildDate>
-    
-	<atom:link href="https://navaneeth.github.io/categories/angularjs/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 28 Sep 2014 11:29:28 +0530</lastBuildDate><atom:link href="https://navaneeth.github.io/categories/angularjs/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hiding menu when clicking outside - AngularJS</title>
       <link>https://navaneeth.github.io/post/hiding-menu-when-clicking-outside-angularjs/</link>

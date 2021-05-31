@@ -5,11 +5,7 @@
     <link>https://navaneeth.github.io/categories/c&#43;&#43;/cli/</link>
     <description>Recent content in c&#43;&#43;/cli on {love to code}</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    
-	<atom:link href="https://navaneeth.github.io/categories/c++/cli/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <language>en-us</language><atom:link href="https://navaneeth.github.io/categories/c++/cli/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Working with native code easily in C# with the help of C&#43;&#43;/CLI</title>
       <link>https://navaneeth.github.io/post/working-with-native-code-in-csharp-easily-with-cplusplus-cli/</link>

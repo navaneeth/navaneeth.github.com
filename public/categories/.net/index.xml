@@ -6,11 +6,7 @@
     <description>Recent content in .net on {love to code}</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 17 Feb 2013 12:59:50 +0530</lastBuildDate>
-    
-	<atom:link href="https://navaneeth.github.io/categories/.net/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 17 Feb 2013 12:59:50 +0530</lastBuildDate><atom:link href="https://navaneeth.github.io/categories/.net/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Working with native code easily in C# with the help of C&#43;&#43;/CLI</title>
       <link>https://navaneeth.github.io/post/working-with-native-code-in-csharp-easily-with-cplusplus-cli/</link>
