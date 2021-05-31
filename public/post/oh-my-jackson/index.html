@@ -75,7 +75,7 @@
 
     
 
-    <p>Copyright &copy; 2020 <a href="https://navaneeth.github.io/license/">License</a><br/>
+    <p>Copyright &copy; 2021 <a href="https://navaneeth.github.io/license/">License</a><br/>
        Powered by <a href="http://gohugo.io">Hugo</a> and <a href="https://github.com/zyro/hyde-x">Hyde-X</a></p>
 
   </div>
@@ -91,21 +91,14 @@
     <a class="label" href="https://navaneeth.github.io/categories/programming">programming</a><a class="label" href="https://navaneeth.github.io/categories/android">android</a><a class="label" href="https://navaneeth.github.io/categories/java">java</a>
     </span>
     <p><a href="https://github.com/FasterXML/jackson">Jackson</a> just made my day!</p>
-
 <p>Today, I had to make some changes to one of our API. The change was minor so I have added additional fields into my JSON response. I have also kept the old fields just to make the existing clients happy.</p>
-
 <p>During testing, I figured out that the change breaks existing clients. I was surprised! The error was,</p>
-
 <blockquote>
 <p>org.codehaus.jackson.map.exc.UnrecognizedPropertyException: Unrecognized field &ldquo;image&rdquo; (Class Promotion), not marked as ignorable</p>
 </blockquote>
-
 <p>Alright; I thought. Android developer must be a very strict guy and failing when the response structure has additional fields.</p>
-
 <p>But he was not doing anything explicit to make the parsing strict.</p>
-
 <p>It looks like, Jackson&rsquo;s by default parsing mode is strict and it fails when there are any extra fields. Stupid! I have never seen any JSON parser doing this. I have used Ruby, C#, Golang and everywhere no library will have this option turned on by default.</p>
-
 <p>Now this caused additional pain and I had to introduce another version of the API. We have also configured Jackson not to do strict parsing.</p>
 
   </div>

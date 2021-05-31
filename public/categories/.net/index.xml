@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>.net on {love to code}</title>
@@ -40,7 +40,7 @@ A Thread is a small unit of code in execution. A process is an instance of progr
       
       <guid>https://navaneeth.github.io/post/ado-dot-net-best-practices-reading-data-from-data-reader/</guid>
       <description>I have seen many people using DataReader incorrectly. In this post, I will try to explain some good practices that can be followed when reading from a data reader. Consider the following problematic code,
-SqlDataReader reader = /* ... */; while (reader.Read()) { string userName = reader[&amp;quot;user_name&amp;quot;].ToString(); int age = int.Parse( reader[&amp;quot;age&amp;quot;].ToString() ); /* ... */ } reader.Close();  How many problems can you figure out from the above code?</description>
+SqlDataReader reader = /* ... */; while (reader.Read()) { string userName = reader[&amp;#34;user_name&amp;#34;].ToString(); int age = int.Parse( reader[&amp;#34;age&amp;#34;].ToString() ); /* ... */ } reader.Close(); How many problems can you figure out from the above code? There are many problems with this code,</description>
     </item>
     
   </channel>

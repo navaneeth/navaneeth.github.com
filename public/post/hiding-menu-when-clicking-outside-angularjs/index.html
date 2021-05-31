@@ -75,7 +75,7 @@
 
     
 
-    <p>Copyright &copy; 2020 <a href="https://navaneeth.github.io/license/">License</a><br/>
+    <p>Copyright &copy; 2021 <a href="https://navaneeth.github.io/license/">License</a><br/>
        Powered by <a href="http://gohugo.io">Hugo</a> and <a href="https://github.com/zyro/hyde-x">Hyde-X</a></p>
 
   </div>
@@ -91,7 +91,6 @@
     <a class="label" href="https://navaneeth.github.io/categories/programming">programming</a><a class="label" href="https://navaneeth.github.io/categories/angularjs">angularjs</a><a class="label" href="https://navaneeth.github.io/categories/web">web</a>
     </span>
     <p>Assume you have a menu which looks like the following:</p>
-
 <div class="highlight"><pre class="chroma"><code class="language-html" data-lang="html"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;right-menu&#34;</span> <span class="na">ng-click</span><span class="o">=</span><span class="s">&#34;toggleMenu($event);&#34;</span><span class="p">&gt;</span>
   <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;img/RightMenuIcon.png&#34;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&#34;&#34;</span> <span class="p">/&gt;</span>
 <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
@@ -104,40 +103,35 @@
     <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
   <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span></code></pre></div>
-
 <p>When the div gets a click event, angular calls <code>toggleMenu</code> which toggles the <code>menuOpened</code> variable. Changing the value of this variable in turn makes the div show/hide.</p>
-
 <p>To hide the menu when clicking outside of the div, we add a <code>onclick</code> handler to <code>window</code> object which checks the <code>menuOpened</code> variable and updates it if the menu is visible.</p>
-
 <p>Here is the code for <code>MenuCtrl</code> and the <code>onclick</code> handler:</p>
+<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">angularApp</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="s1">&#39;MenuCtrl&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;$scope&#39;</span><span class="p">,</span> <span class="s1">&#39;$location&#39;</span><span class="p">,</span> <span class="s1">&#39;$rootScope&#39;</span><span class="p">,</span>
 
-<pre><code class="language-js">angularApp.controller('MenuCtrl', ['$scope', '$location', '$rootScope',
+  <span class="kd">function</span><span class="p">(</span><span class="nx">$scope</span><span class="p">,</span> <span class="nx">$location</span><span class="p">,</span> <span class="nx">$rootScope</span><span class="p">)</span> <span class="p">{</span>
 
-  function($scope, $location, $rootScope) {
+		<span class="nx">$scope</span><span class="p">.</span><span class="nx">menuOpened</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
 
-		$scope.menuOpened = false;
+		<span class="nx">$scope</span><span class="p">.</span><span class="nx">toggleMenu</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nx">$scope</span><span class="p">.</span><span class="nx">menuOpened</span> <span class="o">=</span> <span class="o">!</span><span class="p">(</span><span class="nx">$scope</span><span class="p">.</span><span class="nx">menuOpened</span><span class="p">);</span>
 
-		$scope.toggleMenu = function(event) {
-			$scope.menuOpened = !($scope.menuOpened);
+      <span class="c1">// Important part in the implementation
+</span><span class="c1"></span>      <span class="c1">// Stopping event propagation means window.onclick won&#39;t get called when someone clicks
+</span><span class="c1"></span>      <span class="c1">// on the menu div. Without this, menu will be hidden immediately
+</span><span class="c1"></span>			<span class="nx">event</span><span class="p">.</span><span class="nx">stopPropagation</span><span class="p">();</span>
+		<span class="p">};</span>
 
-      // Important part in the implementation
-      // Stopping event propagation means window.onclick won't get called when someone clicks
-      // on the menu div. Without this, menu will be hidden immediately
-			event.stopPropagation();
-		};
+		<span class="nb">window</span><span class="p">.</span><span class="nx">onclick</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="nx">$scope</span><span class="p">.</span><span class="nx">menuOpened</span><span class="p">)</span> <span class="p">{</span>
+				<span class="nx">$scope</span><span class="p">.</span><span class="nx">menuOpened</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
 
-		window.onclick = function() {
-			if ($scope.menuOpened) {
-				$scope.menuOpened = false;
-
-        // You should let angular know about the update that you have made, so that it can refresh the UI
-				$scope.$apply();
-			}
-		};
-	}
-]);
-</code></pre>
-
+        <span class="c1">// You should let angular know about the update that you have made, so that it can refresh the UI
+</span><span class="c1"></span>				<span class="nx">$scope</span><span class="p">.</span><span class="nx">$apply</span><span class="p">();</span>
+			<span class="p">}</span>
+		<span class="p">};</span>
+	<span class="p">}</span>
+<span class="p">]);</span>
+</code></pre></div>
   </div>
   
 </div>

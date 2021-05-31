@@ -75,7 +75,7 @@
 
     
 
-    <p>Copyright &copy; 2020 <a href="https://navaneeth.github.io/license/">License</a><br/>
+    <p>Copyright &copy; 2021 <a href="https://navaneeth.github.io/license/">License</a><br/>
        Powered by <a href="http://gohugo.io">Hugo</a> and <a href="https://github.com/zyro/hyde-x">Hyde-X</a></p>
 
   </div>
@@ -91,45 +91,41 @@
     <a class="label" href="https://navaneeth.github.io/categories/programming">programming</a><a class="label" href="https://navaneeth.github.io/categories/c">c</a><a class="label" href="https://navaneeth.github.io/categories/debian">debian</a>
     </span>
     <p>I was trying to make a debian package for <a href="http://varnamproject.com">libvarnam</a>. Lot of work went into making the package ready. Debian has very strict rules about how the packaging should be done. Debian also marks few errors as fatal and which may require a code change to fix it. One of the errors I faced was the following:</p>
-
 <blockquote>
 <p>Our automated build log filter detected the problem(s) above that will
 likely cause your package to segfault on architectures where the size of
 a pointer is greater than the size of an integer, such as ia64 and amd64.</p>
-
+</blockquote>
+<blockquote>
 <p>This is often due to a missing function prototype definition.</p>
-
+</blockquote>
+<blockquote>
 <p>Since use of implicitly converted pointers is always fatal to the application
 on ia64, they are errors. Please correct them for your next upload.</p>
-
+</blockquote>
+<blockquote>
 <p>More information can be found at: <a href="http://wiki.debian.org/ImplicitPointerConversions">http://wiki.debian.org/ImplicitPointerConversions</a></p>
 </blockquote>
-
 <p>The above error failed the build.</p>
-
 <p>The relevant code where the failure happened looks like the following:</p>
+<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">char</span><span class="o">*</span>
+<span class="nf">strbuf_get_last_unicode_char</span><span class="p">(</span><span class="n">strbuf</span> <span class="o">*</span><span class="n">word</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">varray</span> <span class="o">*</span><span class="n">characters</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+  <span class="kt">char</span> <span class="o">*</span><span class="n">lastUnicodeChar</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+  <span class="n">characters</span> <span class="o">=</span> <span class="n">strbuf_chars</span><span class="p">(</span><span class="n">word</span><span class="p">);</span>
 
-<pre><code class="language-c">char*
-strbuf_get_last_unicode_char(strbuf *word)
-{
-  varray *characters = NULL;
-  char *lastUnicodeChar = NULL;
-  characters = strbuf_chars(word);
+  <span class="k">if</span> <span class="p">(</span><span class="n">varray_is_empty</span> <span class="p">(</span><span class="n">characters</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">varray_free</span> <span class="p">(</span><span class="n">characters</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  if (varray_is_empty (characters)) {
-    varray_free (characters, NULL);
-    return NULL;
-  }
-
-  lastUnicodeChar = strdup ((const char*) varray_get(characters, varray_length(characters) - 1)); /* -&gt; Error here */
-  varray_free(characters, &amp;free);
-  /*ending should be freed in the calling function*/
-  return lastUnicodeChar;
-}
-</code></pre>
-
-<p><code>strdup</code> is not a ANSI C function, hence it is not portable and not available with all compilers. This has caused the function prototype to be not found. When a function prototype is missing, gcc by default return an integer value. De-referencing the returned pointer will cause a segfault.</p>
-
+  <span class="n">lastUnicodeChar</span> <span class="o">=</span> <span class="n">strdup</span> <span class="p">((</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span> <span class="n">varray_get</span><span class="p">(</span><span class="n">characters</span><span class="p">,</span> <span class="n">varray_length</span><span class="p">(</span><span class="n">characters</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">));</span> <span class="cm">/* -&gt; Error here */</span>
+  <span class="n">varray_free</span><span class="p">(</span><span class="n">characters</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">free</span><span class="p">);</span>
+  <span class="cm">/*ending should be freed in the calling function*/</span>
+  <span class="k">return</span> <span class="n">lastUnicodeChar</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p><code>strdup</code> is not a ANSI C function, hence it is not portable and not available with all compilers. This has caused the function prototype to be not found. When a function prototype is missing, gcc by default return an integer value. De-referencing the returned pointer will cause a segfault.</p>
 <p>To fix this, I found a portable <code>strdup</code> implementation in the OpenBSD source code. I have used that and disabled the default <code>strdup</code>.</p>
 
   </div>

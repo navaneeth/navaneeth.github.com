@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>datastructures on {love to code}</title>
@@ -26,8 +26,8 @@
       <pubDate>Tue, 18 Aug 2009 12:59:50 +0530</pubDate>
       
       <guid>https://navaneeth.github.io/post/circular-linked-list-an-implementation-using-c-number/</guid>
-      <description>In this post, I will explain about creating a circular doubly linked list using C#. .NET framework provides a doubly linked list implementation in System.Collections.Generic.LinkedList class . But this class is not providing the behavior of a circular linked list and it is very tough to extend for supporting circular linked list requirements.
-In a normal doubly linked list, each node will have a link to its previous and next nodes.</description>
+      <description>In this post, I will explain about creating a circular doubly linked list using C#. .NET framework provides a doubly linked list implementation in System.Collections.Generic.LinkedListclass . But this class is not providing the behavior of a circular linked list and it is very tough to extend for supporting circular linked list requirements.
+In a normal doubly linked list, each node will have a link to its previous and next nodes. In a circular doubly linked list, tail node’s next node will be head and head node’s previous node will be tail.</description>
     </item>
     
   </channel>

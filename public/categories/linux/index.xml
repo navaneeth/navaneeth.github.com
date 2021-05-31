@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>linux on {love to code}</title>
@@ -20,7 +20,7 @@
       <description>xargs is very powerful commandline utility. Here is what Wikipedia says about xargs
  xargs is a command on Unix and most Unix-like operating systems used to build and execute command lines from standard input
  Most common use of xargs would be to do something like,
-find . -type f -print0 | xargs -0 rm  Let us assume that you have a file with list of files to be downloaded from a website.</description>
+find . -type f -print0 | xargs -0 rm Let us assume that you have a file with list of files to be downloaded from a website.</description>
     </item>
     
     <item>

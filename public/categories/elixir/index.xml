@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>elixir on {love to code}</title>
@@ -18,7 +18,6 @@
       
       <guid>https://navaneeth.github.io/post/accessing-nested-keys-from-a-map-in-elixir/</guid>
       <description>&lt;p&gt;Erlang VM is a powerful pattern matching system. Pattern matching comes very handy when you want to access nested fields in a map.&lt;/p&gt;
-
 &lt;p&gt;Recently at work, I had to parse a large JSON and extract value of a key. This post shows how you can use pattern matching to extract deeply nested values from a JSON.&lt;/p&gt;</description>
     </item>
     

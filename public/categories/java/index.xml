@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>java on {love to code}</title>
@@ -30,7 +30,7 @@ During testing, I figured out that the change breaks existing clients. I was sur
       
       <guid>https://navaneeth.github.io/post/how-to-upload-files-when-testing-using-selenium-webdriver/</guid>
       <description>You can use the following code to set a file path to the file upload control.
-WebElement file = driver.findElement(By.id(&amp;quot;control_id&amp;quot;)); file.sendKeys(&amp;quot;/full/path/to/file&amp;quot;);  You need to pass full path to the sendKeys() for it to work. Otherwise sendKeys() fails silently.</description>
+WebElement file = driver.findElement(By.id(&amp;#34;control_id&amp;#34;)); file.sendKeys(&amp;#34;/full/path/to/file&amp;#34;); You need to pass full path to the sendKeys() for it to work. Otherwise sendKeys() fails silently.</description>
     </item>
     
   </channel>

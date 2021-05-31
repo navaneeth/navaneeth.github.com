@@ -75,7 +75,7 @@
 
     
 
-    <p>Copyright &copy; 2020 <a href="https://navaneeth.github.io/license/">License</a><br/>
+    <p>Copyright &copy; 2021 <a href="https://navaneeth.github.io/license/">License</a><br/>
        Powered by <a href="http://gohugo.io">Hugo</a> and <a href="https://github.com/zyro/hyde-x">Hyde-X</a></p>
 
   </div>
@@ -91,89 +91,84 @@
     <a class="label" href="https://navaneeth.github.io/categories/programming">programming</a><a class="label" href="https://navaneeth.github.io/categories/datastructures">datastructures</a><a class="label" href="https://navaneeth.github.io/categories/c">c</a>
     </span>
     <p>C is a very good language. I have been using for quite some time for my opensource project. The flexibility C offers is really good. But sometimes, lack of simple datastructures like a dynamically growing array will slow down the programmer. There are tons of implementation available online, but most of them are overcomplicated, got lot of dependencies or tough to understand and incorporate with your application. In this post, I present a simple array which grows dynamically, reuses the memory, supports any pointer type and easy to copy to your code base.</p>
-
 <p>Here is the code.</p>
+<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c">
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">varray_t</span>
+<span class="p">{</span>
+   <span class="kt">void</span> <span class="o">**</span><span class="n">memory</span><span class="p">;</span>
+   <span class="n">size_t</span> <span class="n">allocated</span><span class="p">;</span>
+   <span class="n">size_t</span> <span class="n">used</span><span class="p">;</span>
+   <span class="kt">int</span> <span class="n">index</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">varray</span><span class="p">;</span>
 
-<pre><code class="language-c">
-typedef struct varray_t
-{
-   void **memory;
-   size_t allocated;
-   size_t used;
-   int index;
-} varray;
+<span class="kt">void</span>
+<span class="nf">varray_init</span><span class="p">(</span><span class="n">varray</span> <span class="o">**</span><span class="n">array</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="o">*</span><span class="n">array</span> <span class="o">=</span> <span class="p">(</span><span class="n">varray</span><span class="o">*</span><span class="p">)</span> <span class="n">malloc</span> <span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">varray</span><span class="p">));</span>
+   <span class="p">(</span><span class="o">*</span><span class="n">array</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">memory</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+   <span class="p">(</span><span class="o">*</span><span class="n">array</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">allocated</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+   <span class="p">(</span><span class="o">*</span><span class="n">array</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">used</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+   <span class="p">(</span><span class="o">*</span><span class="n">array</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">index</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
 
-void
-varray_init(varray **array)
-{
-   *array = (varray*) malloc (sizeof(varray));
-   (*array)-&gt;memory = NULL;
-   (*array)-&gt;allocated = 0;
-   (*array)-&gt;used = 0;
-   (*array)-&gt;index = -1;
-}
+<span class="kt">void</span>
+<span class="nf">varray_push</span><span class="p">(</span><span class="n">varray</span> <span class="o">*</span><span class="n">array</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">data</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="n">size_t</span> <span class="n">toallocate</span><span class="p">;</span>
+   <span class="n">size_t</span> <span class="n">size</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">);</span>
+   <span class="k">if</span> <span class="p">((</span><span class="n">array</span><span class="o">-&gt;</span><span class="n">allocated</span> <span class="o">-</span> <span class="n">array</span><span class="o">-&gt;</span><span class="n">used</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">toallocate</span> <span class="o">=</span> <span class="n">array</span><span class="o">-&gt;</span><span class="n">allocated</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="nl">size</span> <span class="p">:</span> <span class="p">(</span><span class="n">array</span><span class="o">-&gt;</span><span class="n">allocated</span> <span class="o">*</span> <span class="mi">2</span><span class="p">);</span>
+      <span class="n">array</span><span class="o">-&gt;</span><span class="n">memory</span> <span class="o">=</span> <span class="n">realloc</span><span class="p">(</span><span class="n">array</span><span class="o">-&gt;</span><span class="n">memory</span><span class="p">,</span> <span class="n">toallocate</span><span class="p">);</span>
+      <span class="n">array</span><span class="o">-&gt;</span><span class="n">allocated</span> <span class="o">=</span> <span class="n">toallocate</span><span class="p">;</span>
+   <span class="p">}</span>
 
-void
-varray_push(varray *array, void *data)
-{
-   size_t toallocate;
-   size_t size = sizeof(void*);
-   if ((array-&gt;allocated - array-&gt;used) &lt; size) {
-      toallocate = array-&gt;allocated == 0 ? size : (array-&gt;allocated * 2);
-      array-&gt;memory = realloc(array-&gt;memory, toallocate);
-      array-&gt;allocated = toallocate;
-   }
+   <span class="n">array</span><span class="o">-&gt;</span><span class="n">memory</span><span class="p">[</span><span class="o">++</span><span class="n">array</span><span class="o">-&gt;</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">;</span>
+   <span class="n">array</span><span class="o">-&gt;</span><span class="n">used</span> <span class="o">=</span> <span class="n">array</span><span class="o">-&gt;</span><span class="n">used</span> <span class="o">+</span> <span class="n">size</span><span class="p">;</span>
+<span class="p">}</span>
 
-   array-&gt;memory[++array-&gt;index] = data;
-   array-&gt;used = array-&gt;used + size;
-}
+<span class="kt">int</span>
+<span class="nf">varray_length</span><span class="p">(</span><span class="n">varray</span> <span class="o">*</span><span class="n">array</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="k">return</span> <span class="n">array</span><span class="o">-&gt;</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
 
-int
-varray_length(varray *array)
-{
-   return array-&gt;index + 1;
-}
+<span class="kt">void</span>
+<span class="nf">varray_clear</span><span class="p">(</span><span class="n">varray</span> <span class="o">*</span><span class="n">array</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+   <span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">varray_length</span><span class="p">(</span><span class="n">array</span><span class="p">);</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+   <span class="p">{</span>
+      <span class="n">array</span><span class="o">-&gt;</span><span class="n">memory</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+   <span class="p">}</span>
+   <span class="n">array</span><span class="o">-&gt;</span><span class="n">used</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+   <span class="n">array</span><span class="o">-&gt;</span><span class="n">index</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
 
-void
-varray_clear(varray *array)
-{
-   int i;
-   for(i = 0; i &lt; varray_length(array); i++)
-   {
-      array-&gt;memory[i] = NULL;
-   }
-   array-&gt;used = 0;
-   array-&gt;index = -1;
-}
+<span class="kt">void</span>
+<span class="nf">varray_free</span><span class="p">(</span><span class="n">varray</span> <span class="o">*</span><span class="n">array</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="n">free</span><span class="p">(</span><span class="n">array</span><span class="o">-&gt;</span><span class="n">memory</span><span class="p">);</span>
+   <span class="n">free</span><span class="p">(</span><span class="n">array</span><span class="p">);</span>
+<span class="p">}</span>
 
-void
-varray_free(varray *array)
-{
-   free(array-&gt;memory);
-   free(array);
-}
+<span class="kt">void</span><span class="o">*</span>
+<span class="nf">varray_get</span><span class="p">(</span><span class="n">varray</span> <span class="o">*</span><span class="n">array</span><span class="p">,</span> <span class="kt">int</span> <span class="n">index</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">index</span> <span class="o">&gt;</span> <span class="n">array</span><span class="o">-&gt;</span><span class="n">index</span><span class="p">)</span>
+      <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
 
-void*
-varray_get(varray *array, int index)
-{
-   if (index &lt; 0 || index &gt; array-&gt;index)
-      return NULL;
+   <span class="k">return</span> <span class="n">array</span><span class="o">-&gt;</span><span class="n">memory</span><span class="p">[</span><span class="n">index</span><span class="p">];</span>
+<span class="p">}</span>
 
-   return array-&gt;memory[index];
-}
+<span class="kt">void</span>
+<span class="nf">varray_insert</span><span class="p">(</span><span class="n">varray</span> <span class="o">*</span><span class="n">array</span><span class="p">,</span> <span class="kt">int</span> <span class="n">index</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">data</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">index</span> <span class="o">&gt;</span> <span class="n">array</span><span class="o">-&gt;</span><span class="n">index</span><span class="p">)</span>
+      <span class="k">return</span><span class="p">;</span>
 
-void
-varray_insert(varray *array, int index, void *data)
-{
-   if (index &lt; 0 || index &gt; array-&gt;index)
-      return;
-
-   array-&gt;memory[index] = data;
-}
-</code></pre>
-
-<p>This array doesn’t take ownership of the data it contains. Ownership has to be managed separately. When adding a new item, array grows in constant propotion yielding inserts in amortized constant time. I have omitted error checking for malloc and realloc for simplicity.</p>
-
+   <span class="n">array</span><span class="o">-&gt;</span><span class="n">memory</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>This array doesn’t take ownership of the data it contains. Ownership has to be managed separately. When adding a new item, array grows in constant propotion yielding inserts in amortized constant time. I have omitted error checking for malloc and realloc for simplicity.</p>
 <p>Hope you enjoy the post.</p>
 
   </div>

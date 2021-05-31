@@ -75,7 +75,7 @@
 
     
 
-    <p>Copyright &copy; 2020 <a href="https://navaneeth.github.io/license/">License</a><br/>
+    <p>Copyright &copy; 2021 <a href="https://navaneeth.github.io/license/">License</a><br/>
        Powered by <a href="http://gohugo.io">Hugo</a> and <a href="https://github.com/zyro/hyde-x">Hyde-X</a></p>
 
   </div>
@@ -91,11 +91,8 @@
     <a class="label" href="https://navaneeth.github.io/categories/programming">programming</a><a class="label" href="https://navaneeth.github.io/categories/elixir">elixir</a>
     </span>
     <p>Erlang VM is a powerful pattern matching system. Pattern matching comes very handy when you want to access nested fields in a map.</p>
-
 <p>Recently at work, I had to parse a large JSON and extract value of a key. This post shows how you can use pattern matching to extract deeply nested values from a JSON.</p>
-
 <p>Here is a sample JSON</p>
-
 <pre><code>&quot;apiGroups&quot;: {
     &quot;affiliate&quot;: {
       &quot;name&quot;: &quot;affiliate&quot;,
@@ -115,12 +112,8 @@
       }
     }
   }
-</code></pre>
-
-<p>From this, I have to extract the value for the key <code>get</code>.</p>
-
+</code></pre><p>From this, I have to extract the value for the key <code>get</code>.</p>
 <p>Here is how you can pattern match and extract the value:</p>
-
 <pre><code>  defp get_product_url(category) do
     case HTTPotion.get(&quot;https://affiliate-api.flipkart.net/affiliate/api/.....&quot;) do
       %HTTPotion.Response{body: body, status_code: 200} -&gt;
@@ -142,12 +135,8 @@
         Logger.error reason
     end
   end
-</code></pre>
-
-<p>Did you notice the <code>^category</code>? In this case, we are using value of <code>category</code> as the key. <code>^</code> symbol tells Elixir to expand the variable.</p>
-
+</code></pre><p>Did you notice the <code>^category</code>? In this case, we are using value of <code>category</code> as the key. <code>^</code> symbol tells Elixir to expand the variable.</p>
 <p>Caveat: Using this style, you will get cryptic error message which just says right hand side values can&rsquo;t be matched with left hand side in case of wrong data format. Thus, use this carefully in situations where you are sure about the data format.</p>
-
 <p>Pretty neat!</p>
   </div>
   

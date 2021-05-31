@@ -75,7 +75,7 @@
 
     
 
-    <p>Copyright &copy; 2020 <a href="https://navaneeth.github.io/license/">License</a><br/>
+    <p>Copyright &copy; 2021 <a href="https://navaneeth.github.io/license/">License</a><br/>
        Powered by <a href="http://gohugo.io">Hugo</a> and <a href="https://github.com/zyro/hyde-x">Hyde-X</a></p>
 
   </div>
@@ -91,29 +91,18 @@
     <a class="label" href="https://navaneeth.github.io/categories/programming">programming</a><a class="label" href="https://navaneeth.github.io/categories/linux">linux</a>
     </span>
     <p><code>xargs</code> is very powerful commandline utility. Here is what Wikipedia says about <code>xargs</code></p>
-
 <blockquote>
 <p>xargs is a command on Unix and most Unix-like operating systems used to build and execute command lines from standard input</p>
 </blockquote>
-
 <p>Most common use of <code>xargs</code> would be to do something like,</p>
-
-<pre><code class="language-bash">find . -type f -print0 | xargs -0 rm
-</code></pre>
-
-<p>Let us assume that you have a file with list of files to be downloaded from a website. Something like,</p>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">find . -type f -print0 <span class="p">|</span> xargs -0 rm
+</code></pre></div><p>Let us assume that you have a file with list of files to be downloaded from a website. Something like,</p>
 <pre><code>one.zip
 two.zip
 three.zip
-</code></pre>
-
-<p>With <code>wget</code> and <code>xargs</code> all these files can be downloaded easily with just one command.</p>
-
-<pre><code class="language-bash">cat filenames.txt | xargs -I filename wget http://download.com/filename
-</code></pre>
-
-<p><code>-I</code> flag takes a replacement string and <code>xargs</code> will then replace <code>filename</code> with the value obtained from <code>stdin</code>.</p>
+</code></pre><p>With <code>wget</code> and <code>xargs</code> all these files can be downloaded easily with just one command.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">cat filenames.txt <span class="p">|</span> xargs -I filename wget http://download.com/filename
+</code></pre></div><p><code>-I</code> flag takes a replacement string and <code>xargs</code> will then replace <code>filename</code> with the value obtained from <code>stdin</code>.</p>
 
   </div>
   

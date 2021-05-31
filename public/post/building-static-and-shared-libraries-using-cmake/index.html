@@ -75,7 +75,7 @@
 
     
 
-    <p>Copyright &copy; 2020 <a href="https://navaneeth.github.io/license/">License</a><br/>
+    <p>Copyright &copy; 2021 <a href="https://navaneeth.github.io/license/">License</a><br/>
        Powered by <a href="http://gohugo.io">Hugo</a> and <a href="https://github.com/zyro/hyde-x">Hyde-X</a></p>
 
   </div>
@@ -91,15 +91,11 @@
     <a class="label" href="https://navaneeth.github.io/categories/programming">programming</a><a class="label" href="https://navaneeth.github.io/categories/cmake">cmake</a>
     </span>
     <p>Recently in <a href="https://github.com/navaneeth/libvarnam">libvarnam</a>, I had to build a static and shared library from the same source files. This was much harder before CMake 2.8. From CMake 2.8.8, CMake has support for <code>Object library</code> which made it very simple.</p>
-
 <p>Basic idea is to use <code>add_library</code> with <code>OBJECT</code> type. CMake will compile all the source files provided in this target and makes the object files for it. It won&rsquo;t create a temporary static library with all these object files. These object files can later be referred in the target which builds the library. In my CMakeLists.txt, I have the following.</p>
-
-<pre><code class="language-c">add_library (core OBJECT ${SOURCES})
-add_library (static STATIC $&lt;TARGET_OBJECTS:core&gt;)
-add_library (shared SHARED $&lt;TARGET_OBJECTS:core&gt;)
-</code></pre>
-
-<p>The above will build static and shared library from the same set of object files. This improves compilation time considerably as source files will be compiled only once and used in multiple targets.</p>
+<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="n">add_library</span> <span class="p">(</span><span class="n">core</span> <span class="n">OBJECT</span> <span class="err">$</span><span class="p">{</span><span class="n">SOURCES</span><span class="p">})</span>
+<span class="n">add_library</span> <span class="p">(</span><span class="k">static</span> <span class="n">STATIC</span> <span class="err">$</span><span class="o">&lt;</span><span class="nl">TARGET_OBJECTS</span><span class="p">:</span><span class="n">core</span><span class="o">&gt;</span><span class="p">)</span>
+<span class="n">add_library</span> <span class="p">(</span><span class="n">shared</span> <span class="n">SHARED</span> <span class="err">$</span><span class="o">&lt;</span><span class="nl">TARGET_OBJECTS</span><span class="p">:</span><span class="n">core</span><span class="o">&gt;</span><span class="p">)</span>
+</code></pre></div><p>The above will build static and shared library from the same set of object files. This improves compilation time considerably as source files will be compiled only once and used in multiple targets.</p>
 
   </div>
   

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>{love to code}</title>
@@ -39,7 +39,6 @@ This July (26th Jun 2017 to 5th July 2017), Anju and I took the courage and went
       
       <guid>https://navaneeth.github.io/post/accessing-nested-keys-from-a-map-in-elixir/</guid>
       <description>&lt;p&gt;Erlang VM is a powerful pattern matching system. Pattern matching comes very handy when you want to access nested fields in a map.&lt;/p&gt;
-
 &lt;p&gt;Recently at work, I had to parse a large JSON and extract value of a key. This post shows how you can use pattern matching to extract deeply nested values from a JSON.&lt;/p&gt;</description>
     </item>
     
@@ -92,7 +91,7 @@ We started with the development, post a week of ideation and technical spikes, a
       <guid>https://navaneeth.github.io/post/document.ready-handler-not-getting-fired-rails4/</guid>
       <description>Rails4 uses a gem called turbolinks which makes following links on the web application faster. This gem is added to the Gemfile by default when a new rails project is initialized. However, there are few side effects this can cause.
 Consider the following JS, added into app/assets/javascripts/projects.js:
-$(function () { $(&#39;#startDate&#39;).datetimepicker({ pickTime: false }); });  This looks alright, but won&amp;rsquo;t work as expected.
+$(function () { $(&amp;#39;#startDate&amp;#39;).datetimepicker({ pickTime: false }); }); This looks alright, but won&amp;rsquo;t work as expected.
 When rails navigates to the page following a link, turbolink comes into picture and makes it faster by caching the JS contents.</description>
     </item>
     
@@ -146,7 +145,7 @@ Basic idea is to use add_library with OBJECT type. CMake will compile all the so
       <description>xargs is very powerful commandline utility. Here is what Wikipedia says about xargs
  xargs is a command on Unix and most Unix-like operating systems used to build and execute command lines from standard input
  Most common use of xargs would be to do something like,
-find . -type f -print0 | xargs -0 rm  Let us assume that you have a file with list of files to be downloaded from a website.</description>
+find . -type f -print0 | xargs -0 rm Let us assume that you have a file with list of files to be downloaded from a website.</description>
     </item>
     
     <item>
@@ -156,7 +155,7 @@ find . -type f -print0 | xargs -0 rm  Let us assume that you have a file with li
       
       <guid>https://navaneeth.github.io/post/how-to-upload-files-when-testing-using-selenium-webdriver/</guid>
       <description>You can use the following code to set a file path to the file upload control.
-WebElement file = driver.findElement(By.id(&amp;quot;control_id&amp;quot;)); file.sendKeys(&amp;quot;/full/path/to/file&amp;quot;);  You need to pass full path to the sendKeys() for it to work. Otherwise sendKeys() fails silently.</description>
+WebElement file = driver.findElement(By.id(&amp;#34;control_id&amp;#34;)); file.sendKeys(&amp;#34;/full/path/to/file&amp;#34;); You need to pass full path to the sendKeys() for it to work. Otherwise sendKeys() fails silently.</description>
     </item>
     
     <item>
@@ -167,7 +166,7 @@ WebElement file = driver.findElement(By.id(&amp;quot;control_id&amp;quot;)); fil
       <guid>https://navaneeth.github.io/post/is-thread-dot-sleep-evil/</guid>
       <description>If you search for this topic, you will find lots of information and many of them claiming Thread.Sleep() is evil. However, I think this evilness is mostly dependent on which context Thread.Sleep() is used.
 You might have seen code like the below one.
-while (!exit) { DoWork(); Thread.Sleep(10000); }  This code example does some work and sleeps for 1 minute before does the job again. This simple example has some potential issues.</description>
+while (!exit) { DoWork(); Thread.Sleep(10000); } This code example does some work and sleeps for 1 minute before does the job again. This simple example has some potential issues.</description>
     </item>
     
     <item>
@@ -206,8 +205,8 @@ To implement pomodoro technique, you need a kitchen timer or egg timer. Since I 
       <pubDate>Tue, 18 Aug 2009 12:59:50 +0530</pubDate>
       
       <guid>https://navaneeth.github.io/post/circular-linked-list-an-implementation-using-c-number/</guid>
-      <description>In this post, I will explain about creating a circular doubly linked list using C#. .NET framework provides a doubly linked list implementation in System.Collections.Generic.LinkedList class . But this class is not providing the behavior of a circular linked list and it is very tough to extend for supporting circular linked list requirements.
-In a normal doubly linked list, each node will have a link to its previous and next nodes.</description>
+      <description>In this post, I will explain about creating a circular doubly linked list using C#. .NET framework provides a doubly linked list implementation in System.Collections.Generic.LinkedListclass . But this class is not providing the behavior of a circular linked list and it is very tough to extend for supporting circular linked list requirements.
+In a normal doubly linked list, each node will have a link to its previous and next nodes. In a circular doubly linked list, tail node’s next node will be head and head node’s previous node will be tail.</description>
     </item>
     
     <item>
@@ -228,7 +227,7 @@ A Thread is a small unit of code in execution. A process is an instance of progr
       
       <guid>https://navaneeth.github.io/post/ado-dot-net-best-practices-reading-data-from-data-reader/</guid>
       <description>I have seen many people using DataReader incorrectly. In this post, I will try to explain some good practices that can be followed when reading from a data reader. Consider the following problematic code,
-SqlDataReader reader = /* ... */; while (reader.Read()) { string userName = reader[&amp;quot;user_name&amp;quot;].ToString(); int age = int.Parse( reader[&amp;quot;age&amp;quot;].ToString() ); /* ... */ } reader.Close();  How many problems can you figure out from the above code?</description>
+SqlDataReader reader = /* ... */; while (reader.Read()) { string userName = reader[&amp;#34;user_name&amp;#34;].ToString(); int age = int.Parse( reader[&amp;#34;age&amp;#34;].ToString() ); /* ... */ } reader.Close(); How many problems can you figure out from the above code? There are many problems with this code,</description>
     </item>
     
     <item>
