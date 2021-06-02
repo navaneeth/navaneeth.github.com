@@ -1,0 +1,104 @@
+<!doctype html><html xmlns=http://www.w3.org/1999/xhtml xml:lang=en-us lang=en-us><head><link href=https://gmpg.org/xfn/11 rel=profile><meta charset=utf-8><meta name=generator content="Hugo 0.83.1"><meta name=viewport content="width=device-width,initial-scale=1"><title>Channels in libuv &#183; {love to code}</title><meta name=description content><link type=text/css rel=stylesheet href=https://navaneeth.github.io/css/print.css media=print><link type=text/css rel=stylesheet href=https://navaneeth.github.io/css/poole.css><link type=text/css rel=stylesheet href=https://navaneeth.github.io/css/syntax.css><link type=text/css rel=stylesheet href=https://navaneeth.github.io/css/hyde.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700"><link rel=apple-touch-icon-precomposed sizes=144x144 href=/apple-touch-icon-144-precomposed.png><link rel="shortcut icon" href=/favicon.png></head><body><aside class=sidebar><div class="container sidebar-sticky"><div class=sidebar-about><a href=https://navaneeth.github.io/><h1>{love to code}</h1></a><p class=lead></p></div><nav><ul class=sidebar-nav><li><a href=https://navaneeth.github.io/>Home</a></li><li><a href=https://github.com/navaneeth/>Github</a></li><li><a href=https://twitter.com/navaneeth>Twitter</a></li></ul></nav><p>&copy; 2021. All rights reserved.</p></div></aside><main class="content container"><div class=post><h1>Channels in libuv</h1><time datetime=2013-08-02T12:59:50+0530 class=post-date>Fri, Aug 2, 2013</time><p><code>go</code> programming language provides a very powerful synchronization mechanism called <a href=http://golang.org/doc/effective_go.html#channels>channels</a>. Channels simplifies communication between threads and makes it very easy to send and receive data from go routines.</p><p>I always missed such functionalities when using <code>libuv</code>. <code>libuv</code> has <code>uv async_send</code>, but it can be used only to wakeup the event loop. In this post, we will implement channels in <code>C</code> using <code>libuv</code>. The idea is to implement a channel so that user can use it without worrying about manually doing the synchronization.</p><h1 id=implementation>Implementation</h1><p>A channel will have a queue, a mutex to synchronize the sending and receiving and a condition variable to signal receivers when data is available. When <code>uv_chan_send</code> is called, it takes the data and puts it into a internal queue and signal all receivers about the data. <code>uv_chan_receive</code> will acquire a lock, dequeue the data and unlock the lock.</p><p><em>uv-channel.h</em>:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>typedef</span> <span style=color:#66d9ef>struct</span> uv_chan_s uv_chan_t;
+
+<span style=color:#66d9ef>struct</span> uv_chan_s {
+  uv_mutex_t mutex;
+  uv_cond_t cond;
+  <span style=color:#66d9ef>void</span><span style=color:#f92672>*</span> q[<span style=color:#ae81ff>2</span>];
+};
+
+<span style=color:#66d9ef>int</span> <span style=color:#a6e22e>uv_chan_init</span>(uv_chan_t<span style=color:#f92672>*</span> chan);
+<span style=color:#66d9ef>void</span> <span style=color:#a6e22e>uv_chan_send</span>(uv_chan_t<span style=color:#f92672>*</span> chan, <span style=color:#66d9ef>void</span><span style=color:#f92672>*</span> data);
+<span style=color:#66d9ef>void</span><span style=color:#f92672>*</span> <span style=color:#a6e22e>uv_chan_receive</span>(uv_chan_t<span style=color:#f92672>*</span> chan);
+<span style=color:#66d9ef>void</span> <span style=color:#a6e22e>uv_chan_destroy</span>(uv_chan_t<span style=color:#f92672>*</span> chan);
+</code></pre></div><p><em>uv-channel.c</em>:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>typedef</span> <span style=color:#66d9ef>struct</span> {
+  <span style=color:#66d9ef>void</span><span style=color:#f92672>*</span> data;
+  uv_req_type type;
+  <span style=color:#66d9ef>void</span><span style=color:#f92672>*</span> active_queue[<span style=color:#ae81ff>2</span>];
+} uv__chan_item_t;
+
+<span style=color:#66d9ef>int</span> <span style=color:#a6e22e>uv_chan_init</span>(uv_chan_t<span style=color:#f92672>*</span> chan) {
+  <span style=color:#66d9ef>int</span> r <span style=color:#f92672>=</span> uv_mutex_init (<span style=color:#f92672>&amp;</span>chan<span style=color:#f92672>-&gt;</span>mutex);
+  <span style=color:#66d9ef>if</span> (r <span style=color:#f92672>==</span> <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>)
+    <span style=color:#66d9ef>return</span> r;
+
+  QUEUE_INIT(<span style=color:#f92672>&amp;</span>chan<span style=color:#f92672>-&gt;</span>q);
+
+  <span style=color:#66d9ef>return</span> uv_cond_init (<span style=color:#f92672>&amp;</span>chan<span style=color:#f92672>-&gt;</span>cond);
+}
+
+<span style=color:#66d9ef>void</span> <span style=color:#a6e22e>uv_chan_send</span>(uv_chan_t<span style=color:#f92672>*</span> chan, <span style=color:#66d9ef>void</span><span style=color:#f92672>*</span> data) {
+  uv__chan_item_t<span style=color:#f92672>*</span> item <span style=color:#f92672>=</span> malloc(<span style=color:#66d9ef>sizeof</span>(uv__chan_item_t));
+  item<span style=color:#f92672>-&gt;</span>data <span style=color:#f92672>=</span> data;
+
+  uv_mutex_lock (<span style=color:#f92672>&amp;</span>chan<span style=color:#f92672>-&gt;</span>mutex);
+  QUEUE_INSERT_TAIL(<span style=color:#f92672>&amp;</span>chan<span style=color:#f92672>-&gt;</span>q, <span style=color:#f92672>&amp;</span>item<span style=color:#f92672>-&gt;</span>active_queue);
+  uv_cond_signal (<span style=color:#f92672>&amp;</span>chan<span style=color:#f92672>-&gt;</span>cond);
+  uv_mutex_unlock (<span style=color:#f92672>&amp;</span>chan<span style=color:#f92672>-&gt;</span>mutex);
+}
+
+<span style=color:#66d9ef>void</span><span style=color:#f92672>*</span> <span style=color:#a6e22e>uv_chan_receive</span>(uv_chan_t<span style=color:#f92672>*</span> chan) {
+  uv__chan_item_t<span style=color:#f92672>*</span> item;
+  QUEUE<span style=color:#f92672>*</span> head;
+  <span style=color:#66d9ef>void</span><span style=color:#f92672>*</span> data <span style=color:#f92672>=</span> NULL;
+
+  uv_mutex_lock (<span style=color:#f92672>&amp;</span>chan<span style=color:#f92672>-&gt;</span>mutex);
+  <span style=color:#66d9ef>while</span> (QUEUE_EMPTY(<span style=color:#f92672>&amp;</span>chan<span style=color:#f92672>-&gt;</span>q)) {
+    uv_cond_wait (<span style=color:#f92672>&amp;</span>chan<span style=color:#f92672>-&gt;</span>cond, <span style=color:#f92672>&amp;</span>chan<span style=color:#f92672>-&gt;</span>mutex);
+  }
+
+  head <span style=color:#f92672>=</span> QUEUE_HEAD (<span style=color:#f92672>&amp;</span>chan<span style=color:#f92672>-&gt;</span>q);
+  item <span style=color:#f92672>=</span> QUEUE_DATA (head, uv__chan_item_t, active_queue);
+  data <span style=color:#f92672>=</span> item<span style=color:#f92672>-&gt;</span>data;
+  QUEUE_REMOVE (head);
+  free (item);
+  uv_mutex_unlock (<span style=color:#f92672>&amp;</span>chan<span style=color:#f92672>-&gt;</span>mutex);
+  <span style=color:#66d9ef>return</span> data;
+}
+
+<span style=color:#66d9ef>void</span> <span style=color:#a6e22e>uv_chan_destroy</span>(uv_chan_t<span style=color:#f92672>*</span> chan) {
+  uv_cond_destroy (<span style=color:#f92672>&amp;</span>chan<span style=color:#f92672>-&gt;</span>cond);
+  uv_mutex_destroy (<span style=color:#f92672>&amp;</span>chan<span style=color:#f92672>-&gt;</span>mutex);
+}
+</code></pre></div><h1 id=example>Example</h1><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#75715e>#include</span> <span style=color:#75715e>&#34;uv.h&#34;</span><span style=color:#75715e>
+</span><span style=color:#75715e>#include</span> <span style=color:#75715e>&lt;stdio.h&gt;</span><span style=color:#75715e>
+</span><span style=color:#75715e>#include</span> <span style=color:#75715e>&lt;stdlib.h&gt;</span><span style=color:#75715e>
+</span><span style=color:#75715e>#include</span> <span style=color:#75715e>&lt;string.h&gt;</span><span style=color:#75715e>
+</span><span style=color:#75715e></span>
+<span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>worker</span>(<span style=color:#66d9ef>void</span><span style=color:#f92672>*</span> arg) {
+  <span style=color:#66d9ef>int</span> i;
+  <span style=color:#66d9ef>char</span><span style=color:#f92672>*</span> string;
+  uv_chan_t<span style=color:#f92672>*</span> chan <span style=color:#f92672>=</span> arg;
+
+  <span style=color:#66d9ef>for</span> (i <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; i <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>10</span>; i<span style=color:#f92672>++</span>) {
+    string <span style=color:#f92672>=</span> malloc(<span style=color:#66d9ef>sizeof</span>(<span style=color:#66d9ef>char</span>) <span style=color:#f92672>*</span> <span style=color:#ae81ff>2</span>);
+    sprintf(string, <span style=color:#e6db74>&#34;%d&#34;</span>, i);
+    uv_chan_send (chan, string);
+    uv_sleep (<span style=color:#ae81ff>10</span>);
+  }
+  uv_chan_send (chan, NULL);
+}
+
+<span style=color:#66d9ef>int</span> <span style=color:#a6e22e>main</span>(<span style=color:#66d9ef>int</span> argc, <span style=color:#66d9ef>char</span><span style=color:#f92672>**</span> argv) {
+  <span style=color:#66d9ef>int</span> threads_exited <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+  <span style=color:#66d9ef>char</span><span style=color:#f92672>*</span> message;
+  uv_chan_t chan;
+  uv_thread_t thread1, thread2;
+
+  uv_chan_init (<span style=color:#f92672>&amp;</span>chan);
+  uv_thread_create(<span style=color:#f92672>&amp;</span>thread1, worker, <span style=color:#f92672>&amp;</span>chan);
+  uv_thread_create(<span style=color:#f92672>&amp;</span>thread2, worker, <span style=color:#f92672>&amp;</span>chan);
+
+  <span style=color:#66d9ef>while</span> (threads_exited <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>2</span>) {
+    message <span style=color:#f92672>=</span> uv_chan_receive(<span style=color:#f92672>&amp;</span>chan);
+    <span style=color:#66d9ef>if</span> (message <span style=color:#f92672>==</span> NULL)
+      <span style=color:#f92672>++</span>threads_exited;
+    <span style=color:#66d9ef>else</span> {
+      printf(<span style=color:#e6db74>&#34;Message : %</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>, message);
+      free(message);
+    }
+  }
+
+  uv_chan_destroy (<span style=color:#f92672>&amp;</span>chan);
+  <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0</span>;
+}
+</code></pre></div><p>In this example, I am executing two threads and each will execute the <code>worker</code> function. <code>worker</code> function will get an instance of the channel. Each worker will push some data into the channel and main thread receives all the data. Worker thread signals end of messages by passing a <code>NULL</code> value to the channel. <code>uv_chan_receive</code> blocks until the channel gets some data.</p><p>Note: you need to allocate/deep copy the data before sending to the channel. Otherwise, worker would have overwritten the data before receiver gets it.</p><h1 id=future-work>Future work</h1><p>Some ideas which would be nice to have:</p><ul><li>Implement a timeout on <code>uv_chan_receive</code>.</li><li>Provide a deep copy callback on the channel, so that data can be send to the channel without copying and channel will take care of deep copying by invoking the specified callback.</li></ul><p>Happy programming!</p></div></main></body></html>

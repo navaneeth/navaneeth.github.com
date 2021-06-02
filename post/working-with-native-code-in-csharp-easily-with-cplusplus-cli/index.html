@@ -1,0 +1,218 @@
+<!doctype html><html xmlns=http://www.w3.org/1999/xhtml xml:lang=en-us lang=en-us><head><link href=https://gmpg.org/xfn/11 rel=profile><meta charset=utf-8><meta name=generator content="Hugo 0.83.1"><meta name=viewport content="width=device-width,initial-scale=1"><title>Working with native code easily in C# with the help of C++/CLI &#183; {love to code}</title><meta name=description content><link type=text/css rel=stylesheet href=https://navaneeth.github.io/css/print.css media=print><link type=text/css rel=stylesheet href=https://navaneeth.github.io/css/poole.css><link type=text/css rel=stylesheet href=https://navaneeth.github.io/css/syntax.css><link type=text/css rel=stylesheet href=https://navaneeth.github.io/css/hyde.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700"><link rel=apple-touch-icon-precomposed sizes=144x144 href=/apple-touch-icon-144-precomposed.png><link rel="shortcut icon" href=/favicon.png></head><body><aside class=sidebar><div class="container sidebar-sticky"><div class=sidebar-about><a href=https://navaneeth.github.io/><h1>{love to code}</h1></a><p class=lead></p></div><nav><ul class=sidebar-nav><li><a href=https://navaneeth.github.io/>Home</a></li><li><a href=https://github.com/navaneeth/>Github</a></li><li><a href=https://twitter.com/navaneeth>Twitter</a></li></ul></nav><p>&copy; 2021. All rights reserved.</p></div></aside><main class="content container"><div class=post><h1>Working with native code easily in C# with the help of C++/CLI</h1><time datetime=2013-02-17T12:59:50+0530 class=post-date>Sun, Feb 17, 2013</time><p>.NET comes with pretty good interoperability options which would enable unmanaged code to be used from a managed environment. In C#, to call a function which is available in a DLL, <code>PInvoke</code> (Platform invocation service) can be used. Here is what MSDN says.</p><blockquote><p>Platform Invocation Services (PInvoke) allows managed code to call unmanaged functions that are implemented in a DLL.</p></blockquote><p>This is very helpful when you need to call some system functions from your C# application. Now let us assume that you have lot of code which is written in C or C++. You are writing a brand new application in C# which internally uses the C/C++ code available. Since C/C++ code is categorised as unmanaged code, you can&rsquo;t directly use them in C#. At C# side, wrapper classes and functions has to be written to interop properly with the native code. As I said earlier, if you just need to use a single function, it is easy to do directly from C# using <code>PInvoke</code>. But when you need almost all the functionalities/API to be available as a managed object, <code>PInvoke</code> would be a pain to use. Let us take an example from <a href="http://msdn.microsoft.com/en-us/library/aa288468%28v=vs.71%29.aspx">MSDN</a></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>typedef</span> <span style=color:#66d9ef>struct</span> tagLOGFONT
+{
+   LONG lfHeight;
+   LONG lfWidth;
+   LONG lfEscapement;
+   LONG lfOrientation;
+   LONG lfWeight;
+   BYTE lfItalic;
+   BYTE lfUnderline;
+   BYTE lfStrikeOut;
+   BYTE lfCharSet;
+   BYTE lfOutPrecision;
+   BYTE lfClipPrecision;
+   BYTE lfQuality;
+   BYTE lfPitchAndFamily;
+   TCHAR lfFaceName[LF_FACESIZE];
+} LOGFONT;
+</code></pre></div><p>In C#, this can be represented as</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=color:#75715e>// logfont.cs
+</span><span style=color:#75715e>// compile with: /target:module
+</span><span style=color:#75715e></span><span style=color:#66d9ef>using</span> System;
+<span style=color:#66d9ef>using</span> System.Runtime.InteropServices;
+<span style=color:#a6e22e>
+</span><span style=color:#a6e22e>[StructLayout(LayoutKind.Sequential)]</span>
+<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>LOGFONT</span>
+{
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>const</span> <span style=color:#66d9ef>int</span> LF_FACESIZE = <span style=color:#ae81ff>32</span>;
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>int</span> lfHeight;
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>int</span> lfWidth;
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>int</span> lfEscapement;
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>int</span> lfOrientation;
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>int</span> lfWeight;
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>byte</span> lfItalic;
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>byte</span> lfUnderline;
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>byte</span> lfStrikeOut;
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>byte</span> lfCharSet;
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>byte</span> lfOutPrecision;
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>byte</span> lfClipPrecision;
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>byte</span> lfQuality;
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>byte</span> lfPitchAndFamily;
+<span style=color:#a6e22e>
+</span><span style=color:#a6e22e>    [MarshalAs(UnmanagedType.ByValTStr, SizeConst=LF_FACESIZE)]</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>string</span> lfFaceName;
+}
+</code></pre></div><p>Look at the C# example. It is not as clean as the structure definition at the C side. It contains attributes which specify the structure alignment, then marshaling etc. When the structure contains references to other structures, things gets complicated.</p><p>For C or C++ programmers, it is always convenient to declare the struct as they normally do. That&rsquo;s the beauty of <code>C++/CLI</code> which allows you to combine managed and unmanaged code together and makes interoperability very straightforward.</p><p>In this post, we will take <code>SQLite</code> as an example and write a managed class which can be consumed from C#. We will wrap SQLite code using <code>C++/CLI</code> and consume from C#. SQLite has a huge API and we won&rsquo;t be covering all of them. We will cover APIs which will allow to open a DB connection and execute a simple query.</p><p>Note: SQLite is chosen as an example. The correct way to wrap SQLite is adhering to ADO.NET standards and providing a API by extending IDBConnection. But for this post, we will ignore this and provide a custom simple API.</p><h2 id=sqlite-api>SQLite API</h2><p>We will wrap the following functions</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>int</span> <span style=color:#a6e22e>sqlite3_open</span>(<span style=color:#66d9ef>const</span> <span style=color:#66d9ef>char</span> <span style=color:#f92672>*</span>filename, sqlite3 <span style=color:#f92672>**</span>ppDb);
+<span style=color:#66d9ef>int</span> <span style=color:#a6e22e>sqlite3_exec</span>(
+  sqlite3<span style=color:#f92672>*</span>,                                  <span style=color:#75715e>/* An open database */</span>
+  <span style=color:#66d9ef>const</span> <span style=color:#66d9ef>char</span> <span style=color:#f92672>*</span>sql,                           <span style=color:#75715e>/* SQL to be evaluated */</span>
+  <span style=color:#66d9ef>int</span> (<span style=color:#f92672>*</span>callback)(<span style=color:#66d9ef>void</span><span style=color:#f92672>*</span>,<span style=color:#66d9ef>int</span>,<span style=color:#66d9ef>char</span><span style=color:#f92672>**</span>,<span style=color:#66d9ef>char</span><span style=color:#f92672>**</span>),  <span style=color:#75715e>/* Callback function */</span>
+  <span style=color:#66d9ef>void</span> <span style=color:#f92672>*</span>,                                    <span style=color:#75715e>/* 1st argument to callback */</span>
+  <span style=color:#66d9ef>char</span> <span style=color:#f92672>**</span>errmsg                              <span style=color:#75715e>/* Error msg written here */</span>
+);
+</code></pre></div><p>Our managed API will look like,</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp>SQLite db = <span style=color:#66d9ef>new</span> SQLite(filePath);
+db.Execute(sql, callback);
+</code></pre></div><p><code>callback</code> can be assigned to a function which takes 2 parameters of type <code>List&lt;String></code>. It will contain column names and values respectively.</p><h2 id=wrapper-class-in-ccli>Wrapper class in C++/CLI</h2><p>We will have a Visual studio solution with 3 projects.</p><ul><li>Static library which contains SQLite source code. This will be compiled as C and produces a static library.</li><li>C++/CLI library project which adds the first project as a reference.</li><li>A C# console application for testing. This project will have a reference to the assembly generated by C++/CLI project.</li></ul><p><img src=/images/posts/20130217/solution_explorer.png alt="Solution explorer"></p><p>In C++/CLI, we start off by creating the following class.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c++ data-lang=c++><span style=color:#75715e>// SQLiteWrapper.h
+</span><span style=color:#75715e></span>
+<span style=color:#75715e>#pragma once
+</span><span style=color:#75715e></span>
+<span style=color:#75715e>#include</span> <span style=color:#75715e>&#34;sqlite3.h&#34;</span><span style=color:#75715e>
+</span><span style=color:#75715e></span>
+<span style=color:#66d9ef>using</span> <span style=color:#66d9ef>namespace</span> System;
+<span style=color:#66d9ef>using</span> <span style=color:#66d9ef>namespace</span> System<span style=color:#f92672>::</span>Collections<span style=color:#f92672>::</span>Generic;
+
+<span style=color:#66d9ef>namespace</span> SQLiteWrapper {
+
+    <span style=color:#75715e>// Main class that wraps the native API
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>public</span> ref <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>SQLite</span> <span style=color:#f92672>:</span> IDisposable
+    {
+    <span style=color:#66d9ef>public</span><span style=color:#f92672>:</span>
+        SQLite(String<span style=color:#f92672>^</span> filePath);
+        <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>Execute</span>(String<span style=color:#f92672>^</span> sql, Action<span style=color:#f92672>&lt;</span>List<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>^&gt;^</span>, List<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>^&gt;^&gt;^</span> callback);
+        <span style=color:#f92672>~</span>SQLite();
+
+    <span style=color:#66d9ef>private</span><span style=color:#f92672>:</span>
+        sqlite3<span style=color:#f92672>*</span> db;
+    };
+
+    <span style=color:#66d9ef>public</span> ref <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>SQLiteError</span> <span style=color:#f92672>:</span> Exception
+    {
+    <span style=color:#66d9ef>public</span><span style=color:#f92672>:</span>
+        SQLiteError(String<span style=color:#f92672>^</span> errorMessage);
+    };
+
+    <span style=color:#66d9ef>private</span> ref <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>SQLiteDataCarrier</span>
+    {
+    <span style=color:#66d9ef>public</span><span style=color:#f92672>:</span>
+        SQLiteDataCarrier(List<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>^&gt;^</span> columnNames, List<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>^&gt;^</span> columnValues)
+        {
+            <span style=color:#66d9ef>this</span><span style=color:#f92672>-&gt;</span>columnNames <span style=color:#f92672>=</span> columnNames;
+            <span style=color:#66d9ef>this</span><span style=color:#f92672>-&gt;</span>columnValues <span style=color:#f92672>=</span> columnValues;
+        }
+
+        property List<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>^&gt;^</span> ColumnNames
+        {
+            List<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>^&gt;^</span> get()
+            {
+                <span style=color:#66d9ef>return</span> columnNames;
+            }
+        }
+
+        property List<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>^&gt;^</span> ColumnValues
+        {
+            List<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>^&gt;^</span> get()
+            {
+                <span style=color:#66d9ef>return</span> columnValues;
+            }
+        }
+
+    <span style=color:#66d9ef>private</span><span style=color:#f92672>:</span>
+        List<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>^&gt;^</span> columnNames;
+        List<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>^&gt;^</span> columnValues;
+    };
+}
+</code></pre></div><p>This class holds an instance to <code>sqlite3</code> structure which is the core of SQLite library. Even though the class is a managed class, C++/CLI allows you to hold a pointer which points to <code>sqlite3</code>.</p><p>Our constructor can be implemented like,</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c++ data-lang=c++><span style=color:#75715e>// Constructor for managed class SQLite
+</span><span style=color:#75715e></span>SQLite<span style=color:#f92672>::</span>SQLite(String<span style=color:#f92672>^</span> filePath)
+{
+    IntPtr p <span style=color:#f92672>=</span> Marshal<span style=color:#f92672>::</span>StringToHGlobalAnsi(filePath);
+    <span style=color:#66d9ef>const</span> <span style=color:#66d9ef>char</span><span style=color:#f92672>*</span> _filePath <span style=color:#f92672>=</span> <span style=color:#66d9ef>static_cast</span><span style=color:#f92672>&lt;</span><span style=color:#66d9ef>const</span> <span style=color:#66d9ef>char</span><span style=color:#f92672>*&gt;</span>(p.ToPointer());
+
+    <span style=color:#66d9ef>try</span>
+    {
+        sqlite3<span style=color:#f92672>*</span> d;
+        <span style=color:#66d9ef>int</span> status <span style=color:#f92672>=</span> sqlite3_open(_filePath, <span style=color:#f92672>&amp;</span>d);
+        <span style=color:#66d9ef>if</span> (status)
+            <span style=color:#66d9ef>throw</span> gcnew SQLiteError(<span style=color:#e6db74>&#34;Unable to open database&#34;</span>);
+
+
+        <span style=color:#75715e>// Holding the DB pointer as a field
+</span><span style=color:#75715e></span>        <span style=color:#75715e>// This is a pointer to native struct, but it can be stored in managed class!
+</span><span style=color:#75715e></span>        db <span style=color:#f92672>=</span> d;
+    }
+    finally
+    {
+        Marshal<span style=color:#f92672>::</span>FreeHGlobal(p);
+
+    }
+}
+</code></pre></div><p>This code shows how well C++/CLI allows you to mix types from both managed and unmanaged world. It is beautiful!</p><p>All this constructor does is to initialize <code>sqlite3</code> instance and update the <code>db</code> pointer with correct reference.</p><p>Here is how <code>Execute()</code> method is implemented.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c++ data-lang=c++><span style=color:#75715e>// Callback function called by SQLite.
+</span><span style=color:#75715e>// This function shows how native and managed objects can work together!
+</span><span style=color:#75715e></span><span style=color:#66d9ef>static</span> <span style=color:#66d9ef>int</span> <span style=color:#a6e22e>_callback</span>(<span style=color:#66d9ef>void</span> <span style=color:#f92672>*</span>userData, <span style=color:#66d9ef>int</span> argc, <span style=color:#66d9ef>char</span> <span style=color:#f92672>**</span>argv, <span style=color:#66d9ef>char</span> <span style=color:#f92672>**</span>azColName)
+{
+    IntPtr pointer(userData);
+    GCHandle handle <span style=color:#f92672>=</span> GCHandle<span style=color:#f92672>::</span>FromIntPtr(pointer);
+    SQLiteDataCarrier<span style=color:#f92672>^</span> carrier <span style=color:#f92672>=</span> (SQLiteDataCarrier<span style=color:#f92672>^</span>) handle.Target;
+
+    <span style=color:#66d9ef>for</span>(<span style=color:#66d9ef>int</span> i <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; i <span style=color:#f92672>&lt;</span> argc; i<span style=color:#f92672>++</span>)
+    {
+        <span style=color:#66d9ef>const</span> <span style=color:#66d9ef>char</span><span style=color:#f92672>*</span> columnName <span style=color:#f92672>=</span> azColName[i];
+        <span style=color:#66d9ef>const</span> <span style=color:#66d9ef>char</span><span style=color:#f92672>*</span> columnValue <span style=color:#f92672>=</span> argv[i];
+
+        carrier<span style=color:#f92672>-&gt;</span>ColumnNames<span style=color:#f92672>-&gt;</span>Add(gcnew String(columnName));
+        carrier<span style=color:#f92672>-&gt;</span>ColumnValues<span style=color:#f92672>-&gt;</span>Add(gcnew String(columnValue));
+    }
+
+    <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0</span>;
+}
+
+
+<span style=color:#66d9ef>void</span> SQLite<span style=color:#f92672>::</span>Execute(String<span style=color:#f92672>^</span> sql, Action<span style=color:#f92672>&lt;</span>List<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>^&gt;^</span>, List<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>^&gt;^&gt;^</span> callback)
+{
+    IntPtr p <span style=color:#f92672>=</span> Marshal<span style=color:#f92672>::</span>StringToHGlobalAnsi(sql);
+    <span style=color:#66d9ef>const</span> <span style=color:#66d9ef>char</span><span style=color:#f92672>*</span> _sql <span style=color:#f92672>=</span> <span style=color:#66d9ef>static_cast</span><span style=color:#f92672>&lt;</span><span style=color:#66d9ef>const</span> <span style=color:#66d9ef>char</span><span style=color:#f92672>*&gt;</span>(p.ToPointer());
+
+    <span style=color:#75715e>// Output will be stored in these lists
+</span><span style=color:#75715e></span>    List<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>^&gt;^</span> columnNames <span style=color:#f92672>=</span> gcnew List<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>^&gt;</span>();
+    List<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>^&gt;^</span> columnValues <span style=color:#f92672>=</span> gcnew List<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>^&gt;</span>();
+
+    <span style=color:#75715e>// A simple class to aggregate columnNames and columnValues so that it can be passed to SQLite and SQLite will give it back in the callback function
+</span><span style=color:#75715e></span>    SQLiteDataCarrier<span style=color:#f92672>^</span> carrier <span style=color:#f92672>=</span> gcnew SQLiteDataCarrier(columnNames, columnValues);
+
+    <span style=color:#75715e>// Converting carrier to void*
+</span><span style=color:#75715e></span>    GCHandle handle <span style=color:#f92672>=</span> GCHandle<span style=color:#f92672>::</span>Alloc(carrier);
+    IntPtr pointer <span style=color:#f92672>=</span> GCHandle<span style=color:#f92672>::</span>ToIntPtr(handle);
+
+    <span style=color:#66d9ef>char</span> <span style=color:#f92672>*</span>zErrMsg <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+    <span style=color:#66d9ef>int</span> status <span style=color:#f92672>=</span> sqlite3_exec(db, _sql, _callback, pointer.ToPointer(), <span style=color:#f92672>&amp;</span>zErrMsg);
+    <span style=color:#66d9ef>if</span> (status <span style=color:#f92672>!=</span> SQLITE_OK)
+    {
+        String<span style=color:#f92672>^</span> message <span style=color:#f92672>=</span> gcnew String(sqlite3_errmsg(db));
+        <span style=color:#66d9ef>throw</span> gcnew <span style=color:#a6e22e>SQLiteError</span>(message);
+    }
+
+    callback<span style=color:#f92672>-&gt;</span>Invoke(columnNames, columnValues);
+
+    handle.Free();
+    Marshal<span style=color:#f92672>::</span>FreeHGlobal(p);
+}
+</code></pre></div><p>To add results into the list, we are passing both lists to the <code>sqlite3_exec()</code> function so that SQLite will pass that back to the <code>_callback</code> function. This is very powerful because we just passed a managed object into a native function call. Then in a native function, we obtained the managed instance and modified properties on it.</p><p>Once the querying is done, database has to be closed. We do that in the destructor.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c++ data-lang=c++><span style=color:#75715e>// In C++/CLI destructor will be implemented using Dispose() pattern
+</span><span style=color:#75715e></span>SQLite<span style=color:#f92672>::~</span>SQLite()
+{
+    sqlite3_close(db);
+}
+</code></pre></div><h2 id=using-from-c>Using from C#</h2><p>Usage from C# now becomes pretty straightforward.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-csharp data-lang=csharp><span style=color:#66d9ef>namespace</span> ConsoleApplication1
+{
+    <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Program</span>
+    {
+        <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> Main(<span style=color:#66d9ef>string</span>[] args)
+        {
+            SQLite db = <span style=color:#66d9ef>new</span> SQLite(<span style=color:#e6db74>&#34;C:\\Users\\navaneeth\\Desktop\\test\\example.db&#34;</span>);
+            <span style=color:#66d9ef>string</span> sql = <span style=color:#e6db74>&#34;create table if not exists foos (name text);\n&#34;</span> +
+                <span style=color:#e6db74>&#34;insert into foos values (&#39;sample1&#39;);&#34;</span> +
+                <span style=color:#e6db74>&#34;insert into foos values (&#39;sample2&#39;);&#34;</span> +
+                <span style=color:#e6db74>&#34;select * from foos;&#34;</span>;
+            db.Execute(sql, (columnNames, columnValues) =&gt; {
+                <span style=color:#66d9ef>foreach</span> (<span style=color:#66d9ef>var</span> name <span style=color:#66d9ef>in</span> columnNames)
+                {
+                    Console.WriteLine(name);
+                }
+                <span style=color:#66d9ef>foreach</span> (<span style=color:#66d9ef>var</span> <span style=color:#66d9ef>value</span> <span style=color:#66d9ef>in</span> columnValues)
+                {
+                    Console.WriteLine(<span style=color:#66d9ef>value</span>);
+                }
+            });
+            db.Dispose();
+            Console.Read();
+        }
+    }
+}
+</code></pre></div><p>You can download the code <a href=https://dl.dropbox.com/u/52296034/blog/SQLiteWrapper.zip>here</a>. Happy programming!</p></div></main></body></html>

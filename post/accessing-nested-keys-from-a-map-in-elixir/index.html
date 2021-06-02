@@ -1,0 +1,41 @@
+<!doctype html><html xmlns=http://www.w3.org/1999/xhtml xml:lang=en-us lang=en-us><head><link href=https://gmpg.org/xfn/11 rel=profile><meta charset=utf-8><meta name=generator content="Hugo 0.83.1"><meta name=viewport content="width=device-width,initial-scale=1"><title>Accessing nested keys from a map in Elixir &#183; {love to code}</title><meta name=description content><link type=text/css rel=stylesheet href=https://navaneeth.github.io/css/print.css media=print><link type=text/css rel=stylesheet href=https://navaneeth.github.io/css/poole.css><link type=text/css rel=stylesheet href=https://navaneeth.github.io/css/syntax.css><link type=text/css rel=stylesheet href=https://navaneeth.github.io/css/hyde.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700"><link rel=apple-touch-icon-precomposed sizes=144x144 href=/apple-touch-icon-144-precomposed.png><link rel="shortcut icon" href=/favicon.png></head><body><aside class=sidebar><div class="container sidebar-sticky"><div class=sidebar-about><a href=https://navaneeth.github.io/><h1>{love to code}</h1></a><p class=lead></p></div><nav><ul class=sidebar-nav><li><a href=https://navaneeth.github.io/>Home</a></li><li><a href=https://github.com/navaneeth/>Github</a></li><li><a href=https://twitter.com/navaneeth>Twitter</a></li></ul></nav><p>&copy; 2021. All rights reserved.</p></div></aside><main class="content container"><div class=post><h1>Accessing nested keys from a map in Elixir</h1><time datetime=2016-06-14T19:01:04+0530 class=post-date>Tue, Jun 14, 2016</time><p>Erlang VM is a powerful pattern matching system. Pattern matching comes very handy when you want to access nested fields in a map.</p><p>Recently at work, I had to parse a large JSON and extract value of a key. This post shows how you can use pattern matching to extract deeply nested values from a JSON.</p><p>Here is a sample JSON</p><pre><code>&quot;apiGroups&quot;: {
+    &quot;affiliate&quot;: {
+      &quot;name&quot;: &quot;affiliate&quot;,
+      &quot;apiListings&quot;: {
+        &quot;televisions&quot;: {
+          &quot;availableVariants&quot;: {
+            &quot;v1.1.0&quot;: {
+              &quot;resourceName&quot;: &quot;televisions&quot;,
+              &quot;get&quot;: &quot;https://affiliate-api.flipkart.net/affiliate/1.0/feeds/16/category/ckf-czl.json?expiresAt=1465939211609&amp;sig=6ef13e817f5e7a3e974407e766e82ddc&quot;,
+              &quot;deltaGet&quot;: &quot;https://affiliate-api.flipkart.net/affiliate/1.0/deltaFeeds/16/category/ckf-czl.json?expiresAt=1465939211609&amp;sig=6ef13e817f5e7a3e974407e766e82ddc&quot;,
+              &quot;post&quot;: null,
+              &quot;put&quot;: null,
+              &quot;delete&quot;: null
+            },
+          }
+        }
+      }
+    }
+  }
+</code></pre><p>From this, I have to extract the value for the key <code>get</code>.</p><p>Here is how you can pattern match and extract the value:</p><pre><code>  defp get_product_url(category) do
+    case HTTPotion.get(&quot;https://affiliate-api.flipkart.net/affiliate/api/.....&quot;) do
+      %HTTPotion.Response{body: body, status_code: 200} -&gt;
+        %{&quot;apiGroups&quot; =&gt;
+          %{&quot;affiliate&quot; =&gt;
+            %{&quot;apiListings&quot; =&gt;
+              %{^category =&gt;
+                %{&quot;availableVariants&quot; =&gt;
+                  %{&quot;v1.1.0&quot; =&gt;
+                    %{&quot;get&quot; =&gt; product_url}
+                  }
+                }
+              }
+            }
+          }
+        } = Poison.decode!(body)
+        product_url
+      %HTTPotion.ErrorResponse{message: reason} -&gt;
+        Logger.error reason
+    end
+  end
+</code></pre><p>Did you notice the <code>^category</code>? In this case, we are using value of <code>category</code> as the key. <code>^</code> symbol tells Elixir to expand the variable.</p><p>Caveat: Using this style, you will get cryptic error message which just says right hand side values can&rsquo;t be matched with left hand side in case of wrong data format. Thus, use this carefully in situations where you are sure about the data format.</p><p>Pretty neat!</p></div></main></body></html>

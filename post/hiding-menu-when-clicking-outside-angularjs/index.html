@@ -1,0 +1,37 @@
+<!doctype html><html xmlns=http://www.w3.org/1999/xhtml xml:lang=en-us lang=en-us><head><link href=https://gmpg.org/xfn/11 rel=profile><meta charset=utf-8><meta name=generator content="Hugo 0.83.1"><meta name=viewport content="width=device-width,initial-scale=1"><title>Hiding menu when clicking outside - AngularJS &#183; {love to code}</title><meta name=description content><link type=text/css rel=stylesheet href=https://navaneeth.github.io/css/print.css media=print><link type=text/css rel=stylesheet href=https://navaneeth.github.io/css/poole.css><link type=text/css rel=stylesheet href=https://navaneeth.github.io/css/syntax.css><link type=text/css rel=stylesheet href=https://navaneeth.github.io/css/hyde.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700"><link rel=apple-touch-icon-precomposed sizes=144x144 href=/apple-touch-icon-144-precomposed.png><link rel="shortcut icon" href=/favicon.png></head><body><aside class=sidebar><div class="container sidebar-sticky"><div class=sidebar-about><a href=https://navaneeth.github.io/><h1>{love to code}</h1></a><p class=lead></p></div><nav><ul class=sidebar-nav><li><a href=https://navaneeth.github.io/>Home</a></li><li><a href=https://github.com/navaneeth/>Github</a></li><li><a href=https://twitter.com/navaneeth>Twitter</a></li></ul></nav><p>&copy; 2021. All rights reserved.</p></div></aside><main class="content container"><div class=post><h1>Hiding menu when clicking outside - AngularJS</h1><time datetime=2014-09-28T11:29:28+0530 class=post-date>Sun, Sep 28, 2014</time><p>Assume you have a menu which looks like the following:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>div</span> <span style=color:#a6e22e>class</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;right-menu&#34;</span> <span style=color:#a6e22e>ng-click</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;toggleMenu($event);&#34;</span>&gt;
+  &lt;<span style=color:#f92672>img</span> <span style=color:#a6e22e>src</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;img/RightMenuIcon.png&#34;</span> <span style=color:#a6e22e>alt</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;&#34;</span> /&gt;
+&lt;/<span style=color:#f92672>div</span>&gt;
+
+&lt;<span style=color:#f92672>div</span> <span style=color:#a6e22e>ng-show</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;menuOpened&#34;</span> <span style=color:#a6e22e>class</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;menu-dropdown-right&#34;</span>&gt;
+  &lt;<span style=color:#f92672>ul</span>&gt;
+    &lt;<span style=color:#f92672>li</span> <span style=color:#a6e22e>ng-hide</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;loggedIn&#34;</span> <span style=color:#a6e22e>class</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;class&#34;</span>&gt;&lt;<span style=color:#f92672>a</span> <span style=color:#a6e22e>href</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;#/authenticate&#34;</span>&gt;Login&lt;/<span style=color:#f92672>a</span>&gt;
+    &lt;/<span style=color:#f92672>li</span>&gt;
+    &lt;<span style=color:#f92672>li</span> <span style=color:#a6e22e>ng-show</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;loggedIn&#34;</span>  <span style=color:#a6e22e>ng-click</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;logOut()&#34;</span>&gt;&lt;<span style=color:#f92672>a</span> <span style=color:#a6e22e>href</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;#&#34;</span>&gt;Logout&lt;/<span style=color:#f92672>a</span>&gt;
+    &lt;/<span style=color:#f92672>li</span>&gt;
+  &lt;/<span style=color:#f92672>ul</span>&gt;
+&lt;/<span style=color:#f92672>div</span>&gt;</code></pre></div><p>When the div gets a click event, angular calls <code>toggleMenu</code> which toggles the <code>menuOpened</code> variable. Changing the value of this variable in turn makes the div show/hide.</p><p>To hide the menu when clicking outside of the div, we add a <code>onclick</code> handler to <code>window</code> object which checks the <code>menuOpened</code> variable and updates it if the menu is visible.</p><p>Here is the code for <code>MenuCtrl</code> and the <code>onclick</code> handler:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=color:#a6e22e>angularApp</span>.<span style=color:#a6e22e>controller</span>(<span style=color:#e6db74>&#39;MenuCtrl&#39;</span>, [<span style=color:#e6db74>&#39;$scope&#39;</span>, <span style=color:#e6db74>&#39;$location&#39;</span>, <span style=color:#e6db74>&#39;$rootScope&#39;</span>,
+
+  <span style=color:#66d9ef>function</span>(<span style=color:#a6e22e>$scope</span>, <span style=color:#a6e22e>$location</span>, <span style=color:#a6e22e>$rootScope</span>) {
+
+		<span style=color:#a6e22e>$scope</span>.<span style=color:#a6e22e>menuOpened</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>false</span>;
+
+		<span style=color:#a6e22e>$scope</span>.<span style=color:#a6e22e>toggleMenu</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>function</span>(<span style=color:#a6e22e>event</span>) {
+			<span style=color:#a6e22e>$scope</span>.<span style=color:#a6e22e>menuOpened</span> <span style=color:#f92672>=</span> <span style=color:#f92672>!</span>(<span style=color:#a6e22e>$scope</span>.<span style=color:#a6e22e>menuOpened</span>);
+
+      <span style=color:#75715e>// Important part in the implementation
+</span><span style=color:#75715e></span>      <span style=color:#75715e>// Stopping event propagation means window.onclick won&#39;t get called when someone clicks
+</span><span style=color:#75715e></span>      <span style=color:#75715e>// on the menu div. Without this, menu will be hidden immediately
+</span><span style=color:#75715e></span>			<span style=color:#a6e22e>event</span>.<span style=color:#a6e22e>stopPropagation</span>();
+		};
+
+		window.<span style=color:#a6e22e>onclick</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>function</span>() {
+			<span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>$scope</span>.<span style=color:#a6e22e>menuOpened</span>) {
+				<span style=color:#a6e22e>$scope</span>.<span style=color:#a6e22e>menuOpened</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>false</span>;
+
+        <span style=color:#75715e>// You should let angular know about the update that you have made, so that it can refresh the UI
+</span><span style=color:#75715e></span>				<span style=color:#a6e22e>$scope</span>.<span style=color:#a6e22e>$apply</span>();
+			}
+		};
+	}
+]);
+</code></pre></div></div></main></body></html>
